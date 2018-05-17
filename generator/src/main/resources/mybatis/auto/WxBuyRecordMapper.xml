@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yisutech.corp.domain.repository.mapper.WxBuyRecordMapper">
+  <resultMap id="BaseResultMap" type="com.yisutech.corp.domain.repository.pojo.WxBuyRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="union_id" jdbcType="VARCHAR" property="unionId" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="prod_id" jdbcType="INTEGER" property="prodId" />
+    <result column="prod_sn" jdbcType="VARCHAR" property="prodSn" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="face_amout" jdbcType="INTEGER" property="faceAmout" />
+    <result column="face_unit" jdbcType="VARCHAR" property="faceUnit" />
+    <result column="buy_type" jdbcType="VARCHAR" property="buyType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, union_id, open_id, prod_id, prod_sn, gmt_create, face_amout, face_unit, buy_type
+  </sql>
+  <select id="selectByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxBuyRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from wx_buy_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wx_buy_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wx_buy_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxBuyRecordExample">
+    delete from wx_buy_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yisutech.corp.domain.repository.pojo.WxBuyRecord">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into wx_buy_record (union_id, open_id, prod_id, 
+      prod_sn, gmt_create, face_amout, 
+      face_unit, buy_type)
+    values (#{unionId,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, #{prodId,jdbcType=INTEGER}, 
+      #{prodSn,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{faceAmout,jdbcType=INTEGER}, 
+      #{faceUnit,jdbcType=VARCHAR}, #{buyType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yisutech.corp.domain.repository.pojo.WxBuyRecord">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into wx_buy_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="unionId != null">
+        union_id,
+      </if>
+      <if test="openId != null">
+        open_id,
+      </if>
+      <if test="prodId != null">
+        prod_id,
+      </if>
+      <if test="prodSn != null">
+        prod_sn,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="faceAmout != null">
+        face_amout,
+      </if>
+      <if test="faceUnit != null">
+        face_unit,
+      </if>
+      <if test="buyType != null">
+        buy_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="unionId != null">
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="prodId != null">
+        #{prodId,jdbcType=INTEGER},
+      </if>
+      <if test="prodSn != null">
+        #{prodSn,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="faceAmout != null">
+        #{faceAmout,jdbcType=INTEGER},
+      </if>
+      <if test="faceUnit != null">
+        #{faceUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="buyType != null">
+        #{buyType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxBuyRecordExample" resultType="java.lang.Long">
+    select count(*) from wx_buy_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update wx_buy_record
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.unionId != null">
+        union_id = #{record.unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openId != null">
+        open_id = #{record.openId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prodId != null">
+        prod_id = #{record.prodId,jdbcType=INTEGER},
+      </if>
+      <if test="record.prodSn != null">
+        prod_sn = #{record.prodSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gmtCreate != null">
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.faceAmout != null">
+        face_amout = #{record.faceAmout,jdbcType=INTEGER},
+      </if>
+      <if test="record.faceUnit != null">
+        face_unit = #{record.faceUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buyType != null">
+        buy_type = #{record.buyType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update wx_buy_record
+    set id = #{record.id,jdbcType=INTEGER},
+      union_id = #{record.unionId,jdbcType=VARCHAR},
+      open_id = #{record.openId,jdbcType=VARCHAR},
+      prod_id = #{record.prodId,jdbcType=INTEGER},
+      prod_sn = #{record.prodSn,jdbcType=VARCHAR},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      face_amout = #{record.faceAmout,jdbcType=INTEGER},
+      face_unit = #{record.faceUnit,jdbcType=VARCHAR},
+      buy_type = #{record.buyType,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yisutech.corp.domain.repository.pojo.WxBuyRecord">
+    update wx_buy_record
+    <set>
+      <if test="unionId != null">
+        union_id = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="prodId != null">
+        prod_id = #{prodId,jdbcType=INTEGER},
+      </if>
+      <if test="prodSn != null">
+        prod_sn = #{prodSn,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="faceAmout != null">
+        face_amout = #{faceAmout,jdbcType=INTEGER},
+      </if>
+      <if test="faceUnit != null">
+        face_unit = #{faceUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="buyType != null">
+        buy_type = #{buyType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yisutech.corp.domain.repository.pojo.WxBuyRecord">
+    update wx_buy_record
+    set union_id = #{unionId,jdbcType=VARCHAR},
+      open_id = #{openId,jdbcType=VARCHAR},
+      prod_id = #{prodId,jdbcType=INTEGER},
+      prod_sn = #{prodSn,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      face_amout = #{faceAmout,jdbcType=INTEGER},
+      face_unit = #{faceUnit,jdbcType=VARCHAR},
+      buy_type = #{buyType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
