@@ -2,7 +2,9 @@ package com.yisutech.corp.home.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,6 +26,18 @@ public class HomeController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
         return modelAndView;
+    }
+
+    @RequestMapping("/parseToken")
+    @ResponseBody
+    public Object parseToken(@RequestParam String token) {
+        if (StringUtils.isEmpty(token)) {
+            throw new RuntimeException("token is null");
+        }
+        JSONObject json = new JSONObject();
+        json.put("ret", 0);
+        json.put("success", false);
+        return json;
     }
 
     @RequestMapping("getToken")
