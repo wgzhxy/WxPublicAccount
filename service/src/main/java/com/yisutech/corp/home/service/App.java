@@ -1,4 +1,4 @@
-package com.yisutech.corp.service;
+package com.yisutech.corp.home.service;
 
 /**
  * Hello world!
