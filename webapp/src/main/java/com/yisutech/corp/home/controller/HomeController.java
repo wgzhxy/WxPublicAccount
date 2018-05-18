@@ -36,10 +36,11 @@ public class HomeController {
 
     @RequestMapping("/parseToken")
     @ResponseBody
-    public String parseToken(@RequestParam String signature, @RequestParam String timestamp, @RequestParam String nonce,
-                             @RequestParam String echostr) {
+    public String parseToken(@RequestParam(required = false) String signature, @RequestParam(required = false) String timestamp,
+                             @RequestParam(required = false) String nonce, @RequestParam(required = false) String echostr) {
+
         if (StringUtils.isEmpty(signature) || StringUtils.isEmpty(timestamp) || StringUtils.isEmpty(nonce)) {
-            throw new RuntimeException("token is null");
+            return "params is error";
         }
 
         // 字典排序
