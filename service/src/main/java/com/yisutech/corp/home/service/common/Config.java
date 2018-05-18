@@ -14,10 +14,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class Config {
 
-    @Value("${wx.appId}")
+    @Value("${wx.test.appId}")
     public String WxAppId;
 
-    @Value("${wx.appSecret}")
+    @Value("${wx.test.appSecret}")
     public String WxAppSecret;
 
     public String WxCgiUrl = "https://api.weixin.qq.com/cgi-bin";

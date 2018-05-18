@@ -5,7 +5,6 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.config.SocketConfig;
-import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -99,14 +98,13 @@ public class HttpUtils {
      * @param charset 返回内容编码
      * @return
      */
-    public static String postReq(String url, String body, Charset charset) {
+    public static String postReq(String url, String body, ContentType contentType, Charset charset) {
         CloseableHttpResponse response = null;
         try {
             String mineType = "text/plain";
-            ContentType contentType = ContentType.create(mineType, charset);
 
             HttpPost httpPost = new HttpPost(url);
-            httpPost.setEntity(new StringEntity(body, ContentType.TEXT_PLAIN));
+            httpPost.setEntity(new StringEntity(body, contentType));
 
             response = defaultClient.execute(httpPost);
             return EntityUtils.toString(response.getEntity(), charset);

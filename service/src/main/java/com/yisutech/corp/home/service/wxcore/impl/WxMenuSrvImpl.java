@@ -8,6 +8,7 @@ import com.yisutech.corp.home.service.wxcore.WxMenuSrv;
 import com.yisutech.corp.home.tools.HttpUtils;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.entity.ContentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,7 @@ public class WxMenuSrvImpl implements WxMenuSrv {
         Map<String, Object> params = Maps.newHashMap();
         params.putIfAbsent("body", menuJson);
 
-        String respJson = HttpUtils.postReq(url.toString(), menuJson, Charsets.UTF_8);
+        String respJson = HttpUtils.postReq(url.toString(), menuJson, ContentType.APPLICATION_JSON, Charsets.UTF_8);
         if (StringUtils.isBlank(respJson)) {
             return false;
         }
