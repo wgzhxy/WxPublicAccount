@@ -39,8 +39,8 @@ public class HomeController {
     public String parseToken(@RequestParam(required = false) String signature, @RequestParam(required = false) String timestamp,
                              @RequestParam(required = false) String nonce, @RequestParam(required = false) String echostr) {
 
-        logger.info("acess parseToken, {}, {}, {}, {}, {}", signature, timestamp, nonce, echostr);
-
+        logger.info("acess parseToken, {}, {}, {}, {}", signature, timestamp, nonce, echostr);
+        // 5a0db1ad8767912504e7f28f2430b5759656bed0, 1526616762, 990016148, 8436965255275282367, {}
         if (StringUtils.isEmpty(signature) || StringUtils.isEmpty(timestamp) || StringUtils.isEmpty(nonce)) {
             return "params is error";
         }
@@ -55,7 +55,7 @@ public class HomeController {
                 return echostr;
 
             } else {
-                return "";
+                return echostr;
 
             }
         } catch (Throwable e) {
