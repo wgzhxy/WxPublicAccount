@@ -29,6 +29,7 @@
         <module>service</module>
         <module>webapp</module>
         <module>generator</module>
+        <module>tools</module>
     </modules>
 
     <dependencies>
