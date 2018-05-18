@@ -34,9 +34,15 @@ public class HomeController {
         if (StringUtils.isEmpty(token)) {
             throw new RuntimeException("token is null");
         }
+
         JSONObject json = new JSONObject();
-        json.put("ret", 0);
-        json.put("success", false);
+        if(token.equals("123456")) {
+            json.put("ret", 0);
+            json.put("success", true);
+        } else {
+            json.put("ret", -1);
+            json.put("success", false);
+        }
         return json;
     }
 
