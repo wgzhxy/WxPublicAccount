@@ -19,7 +19,7 @@ public class WxMenuSrvImplTest {
 
     @Test
     public void createMenu() throws Exception {
-        String menuJson = "{\"button\":[{\"type\":\"click\",\"name\":\"企业简介\",\"key\":\"V1001_CORP_DESC\"},{\"type\":\"click\",\"name\":\"积分商城\",\"key\":\"V1001_JF_MALL\"},{\"name\":\"会员\",\"sub_button\":[{\"type\":\"view\",\"name\":\"会员信息\",\"url\":\"http://www.yisutech.com/\"},{\"type\":\"click\",\"name\":\"绑定手机号\",\"key\":\"V1001_GOOD\"},{\"type\":\"click\",\"name\":\"绑定手机号\",\"key\":\"V1001_GOOD\"}]}]}";
+        String menuJson = "{\"button\":[{\"type\":\"view\",\"name\":\"企业简介\",\"url\":\"http://www.yisutech.com/corp/corpHome.html\"},{\"type\":\"view\",\"name\":\"积分商城\",\"key\":\"http://www.yisutech.com/jf/jfHome.html\"},{\"name\":\"会员\",\"sub_button\":[{\"type\":\"view\",\"name\":\"会员信息\",\"url\":\"http://www.yisutech.com/user/userInfo.html\"},{\"type\":\"view\",\"name\":\"绑定手机号\",\"key\":\"http://www.yisutech.com/user/register.html\"},{\"type\":\"click\",\"name\":\"我的商品\",\"key\":\"V1001_GOOD\"}]}]}";
         Assert.assertTrue(wxMenuSrv.createMenu(menuJson));
 
     }
