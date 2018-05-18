@@ -60,16 +60,6 @@
             <artifactId>guava</artifactId>
         </dependency>
 
-        <!-- log4j -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-
         <!-- 热部署模块 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
