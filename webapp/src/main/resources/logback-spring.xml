@@ -4,7 +4,7 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <property name="APP_NAME" value="WxPublicAccount"/>
-    <property name="LOG_PATH" value="${logging.path}"/>
+    <property name="LOG_PATH" value="logs"/>
     <property name="LOG_FILE" value="publicAccount.log"/>
 
     <appender name="APPLICATION" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -47,7 +47,7 @@
         <appender-ref ref="dataopsEngine"/>
     </logger>
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="APPLICATION"/>
     </root>
