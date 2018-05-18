@@ -38,12 +38,12 @@ public class WxBaseSupportSrvImpl implements WxBaseSupportSrv {
     public String getAccessToken(final String appId, final String secret) {
 
         if (StringUtils.isBlank(appId) || StringUtils.isBlank(secret)) {
-            return "";
+            return null;
         }
 
         StringBuilder url = new StringBuilder(config.WxCgiUrl);
 
-        url.append("token?").append("grant_type=client_credential").append("&")
+        url.append("/token?").append("grant_type=client_credential").append("&")
                 .append("appid=").append(appId).append("&")
                 .append("secret=").append(secret);
 
@@ -53,12 +53,20 @@ public class WxBaseSupportSrvImpl implements WxBaseSupportSrv {
 
         } catch (Throwable e) {
             LOG.error("getAccessToken_error", e);
+            return null;
         }
         if (StringUtils.isBlank(respStr)) {
-            return "";
+            return null;
         }
 
         JSONObject json = JSONObject.parseObject(respStr);
-        return json == null ? "" : json.getString("access_token");
+        String accessToken = (json == null ? "" : json.getString("access_token"));
+
+        if (StringUtils.isBlank(accessToken)) {
+            LOG.error("getAccessToken_error, {}, {}, {}", appId, secret, respStr);
+            return null;
+        } else {
+            return accessToken;
+        }
     }
 }
