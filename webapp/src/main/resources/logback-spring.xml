@@ -4,11 +4,11 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <property name="APP_NAME" value="WxPublicAccount"/>
-    <property name="LOG_PATH" value="/Users/guangzhong.wgz/antWorkSpace/WxPublicAccount/logs/"/>
+    <property name="LOG_PATH" value="${logging.path}"/>
     <property name="LOG_FILE" value="publicAccount.log"/>
 
     <appender name="APPLICATION" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}${LOG_FILE}</file>
+        <file>${LOG_PATH}/${LOG_FILE}</file>
         <encoder>
             <Pattern>%d{HH:mm:ss.SSS} %-5level %class %line #end %msg %n</Pattern>
             <charset>utf-8</charset>
@@ -22,7 +22,7 @@
     </appender>
 
     <appender name="dataopsEngine" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}dataopsEngine.log</file>
+        <file>${LOG_PATH}/dataopsEngine.log</file>
         <encoder>
             <Pattern>%d{HH:mm:ss.SSS} %-5level %class %line #end %msg %n</Pattern>
             <charset>utf-8</charset>
