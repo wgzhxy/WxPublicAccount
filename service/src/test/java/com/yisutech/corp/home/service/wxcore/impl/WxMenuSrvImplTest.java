@@ -19,7 +19,7 @@ public class WxMenuSrvImplTest {
 
     @Test
     public void createMenu() throws Exception {
-        String menuJson = "{\"button\":[{\"type\":\"click\",\"name\":\"企业简介\",\"key\":\"V1001_TODAY_VIEW\"},{\"type\":\"click\",\"name\":\"今日歌曲\",\"key\":\"V1001_TODAY_MUSIC\"},{\"name\":\"菜单\",\"sub_button\":[{\"type\":\"view\",\"name\":\"搜索\",\"url\":\"http://www.soso.com/\"},{\"type\":\"click\",\"name\":\"赞一下我们\",\"key\":\"V1001_GOOD\"}]}]}";
+        String menuJson = "{\"button\":[{\"type\":\"click\",\"name\":\"企业简介\",\"key\":\"V1001_CORP_DESC\"},{\"type\":\"click\",\"name\":\"积分商城\",\"key\":\"V1001_JF_MALL\"},{\"name\":\"会员\",\"sub_button\":[{\"type\":\"view\",\"name\":\"会员信息\",\"url\":\"http://www.yisutech.com/\"},{\"type\":\"click\",\"name\":\"绑定手机号\",\"key\":\"V1001_GOOD\"},{\"type\":\"click\",\"name\":\"绑定手机号\",\"key\":\"V1001_GOOD\"}]}]}";
         Assert.assertTrue(wxMenuSrv.createMenu(menuJson));
 
     }
