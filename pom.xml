@@ -49,6 +49,22 @@
     <dependencyManagement>
         <dependencies>
             <!-- 本地模块依赖 -->
+            <dependency>
+                <groupId>com.yisutech.corp.home</groupId>
+                <artifactId>tools</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>lombok</artifactId>
+                        <groupId>org.projectlombok</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.yisutech.corp.home</groupId>
+                <artifactId>service</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
 
             <dependency>
                 <groupId>mysql</groupId>

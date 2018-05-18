@@ -1,6 +1,9 @@
 package com.yisutech.corp.home.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yisutech.corp.home.tools.SHA1;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,29 +24,41 @@ import java.util.UUID;
 @Controller
 public class HomeController {
 
+
+    private Logger logger = LoggerFactory.getLogger(HomeController.class);
+
     @RequestMapping("/")
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("home");
+        modelAndView.setViewName("index");
         return modelAndView;
     }
 
     @RequestMapping("/parseToken")
     @ResponseBody
-    public Object parseToken(@RequestParam String token) {
-        if (StringUtils.isEmpty(token)) {
+    public String parseToken(@RequestParam String signature, @RequestParam String timestamp, @RequestParam String nonce,
+                             @RequestParam String echostr) {
+        if (StringUtils.isEmpty(signature) || StringUtils.isEmpty(timestamp) || StringUtils.isEmpty(nonce)) {
             throw new RuntimeException("token is null");
         }
 
-        JSONObject json = new JSONObject();
-        if(token.equals("123456")) {
-            json.put("ret", 0);
-            json.put("success", true);
-        } else {
-            json.put("ret", -1);
-            json.put("success", false);
+        // 字典排序
+        String token = "123456";
+        String encrypt = "axcTaPHGMGDWLpCd1CldOQWdLDjL33RfXrU55rziAZ1";
+
+        try {
+            String sign = SHA1.getSHA1(token, timestamp, nonce, encrypt);
+            if (sign.equals(signature)) {
+                return echostr;
+
+            } else {
+                return "";
+
+            }
+        } catch (Throwable e) {
+            logger.error("parseToken_error", e);
         }
-        return json;
+        return "";
     }
 
     @RequestMapping("getToken")
