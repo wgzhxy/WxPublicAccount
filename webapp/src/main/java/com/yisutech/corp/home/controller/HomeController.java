@@ -2,6 +2,9 @@ package com.yisutech.corp.home.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yisutech.corp.home.tools.SHA1;
+import org.apache.commons.codec.Charsets;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -11,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
 import java.util.UUID;
 
 /**
@@ -24,7 +30,6 @@ import java.util.UUID;
 @Controller
 public class HomeController {
 
-
     private Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     @RequestMapping("/")
@@ -36,13 +41,27 @@ public class HomeController {
 
     @RequestMapping("/parseToken")
     @ResponseBody
-    public String parseToken(@RequestParam(required = false) String signature, @RequestParam(required = false) String timestamp,
-                             @RequestParam(required = false) String nonce, @RequestParam(required = false) String echostr) {
+    public String parseToken(HttpServletRequest req, HttpServletResponse resp,
+                             @RequestParam(required = false) String signature,
+                             @RequestParam(required = false) String timestamp,
+                             @RequestParam(required = false) String nonce,
+                             @RequestParam(required = false) String echostr) {
 
         logger.info("acess parseToken, {}, {}, {}, {}", signature, timestamp, nonce, echostr);
-        // 5a0db1ad8767912504e7f28f2430b5759656bed0, 1526616762, 990016148, 8436965255275282367, {}
         if (StringUtils.isEmpty(signature) || StringUtils.isEmpty(timestamp) || StringUtils.isEmpty(nonce)) {
             return "params is error";
+        }
+
+        try {
+            InputStream inputStream = req.getInputStream();
+            if(inputStream != null) {
+                byte[] data = IOUtils.toByteArray(inputStream);
+                String xmlStr = new String(data, Charsets.UTF_8);
+                logger.info(xmlStr);
+            }
+
+        } catch (Throwable e) {
+            logger.error("parseToken_error", e);
         }
 
         // 字典排序
