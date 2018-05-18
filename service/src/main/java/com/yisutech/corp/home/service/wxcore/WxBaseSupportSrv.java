@@ -27,5 +27,5 @@ public interface WxBaseSupportSrv {
      * @param secret
      * @return token
      */
-    String getAccessToken(String appId, String secret);
+    String getAccessToken(final String appId, final String secret);
 }

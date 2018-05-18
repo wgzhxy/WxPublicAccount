@@ -20,5 +20,5 @@ public class Config {
     @Value("${wx.test.appSecret}")
     public String WxAppSecret;
 
-    public String WxCgiUrl = "https://api.weixin.qq.com/cgi-bin";
+    public String WxCgiUrl = "https://api.weixin.qq.com/cgi-bin/";
 }
