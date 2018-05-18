@@ -11,4 +11,5 @@ package com.yisutech.corp.home.service.wxcore;
  * @create 2018-05-18 下午2:08
  **/
 public interface WxMessageSrv {
+
 }
