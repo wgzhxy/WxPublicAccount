@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * 版权：Copyright by www.yisutech.com
- * 文件名：com.yisutech.corp.home.service.wxcore.dto.WxMessage
+ * 文件名：WxMessage
  * 描述：
  *
  * @author guangzhong.wgz

@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * 版权：Copyright by www.yisutech.com
- * 文件名：com.yisutech.corp.home.service.wxcore.dto.WxMessageText
+ * 文件名：WxMessageText
  * 描述：
  *
  * @author guangzhong.wgz
@@ -28,4 +28,8 @@ public class WxMessageEvent extends WxMessage {
      * 地理位置精度
      */
     float precision;
+    /**
+     * 二维码的ticket，可用来换取二维码图片
+     */
+    String ticket;
 }

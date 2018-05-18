@@ -30,6 +30,7 @@
         <module>webapp</module>
         <module>generator</module>
         <module>tools</module>
+        <module>thirdparty</module>
     </modules>
 
     <dependencies>
