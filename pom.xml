@@ -83,6 +83,11 @@
             </dependency>
             <dependency>
                 <groupId>com.yisutech.corp.home</groupId>
+                <artifactId>domain</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.yisutech.corp.home</groupId>
                 <artifactId>service</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>

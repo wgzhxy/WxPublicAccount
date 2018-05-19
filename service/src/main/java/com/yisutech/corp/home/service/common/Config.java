@@ -24,9 +24,11 @@ public class Config {
 
     public String WxOpenUrl = "https://open.weixin.qq.com";
 
+    public String WxOpenState = "45897634";
+
     public String accessToken = "";
 
-    public String mobile_tmeplateCode = "SMS_135042847";
+    public String mobile_tmeplateCode = "SMS_135037780";
 
     public String mobile_sign_name = "贵州贵人";
 }

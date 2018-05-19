@@ -3,6 +3,7 @@ package com.yisutech.corp.domain.repository.pojo;
 import java.util.Date;
 
 public class WxExchangeRecord {
+
     private Integer id;
 
     private String unionId;

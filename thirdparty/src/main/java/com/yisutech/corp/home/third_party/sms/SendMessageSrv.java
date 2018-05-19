@@ -49,6 +49,9 @@ public class SendMessageSrv {
         if (StringUtils.isEmpty(templateCode)) {
             return false;
         }
+        if(params == null || params.size() == 0) {
+            return false;
+        }
 
         //设置超时时间-可自行调整
         System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
