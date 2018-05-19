@@ -40,7 +40,7 @@ public class SendMessageSrv {
      * @param outId        outId为提供给业务方扩展字段，最终在短信回执消息中将此值带回给调用者
      * @return
      */
-    public static boolean sendSms(String corpTag, String mobiles, String templateCode, Map<String, Object> params, String outId) {
+    public boolean sendSms(String corpTag, String mobiles, String templateCode, Map<String, Object> params, String outId) {
 
         // 参数检查
         if (StringUtils.isEmpty(mobiles)) {
@@ -49,7 +49,7 @@ public class SendMessageSrv {
         if (StringUtils.isEmpty(templateCode)) {
             return false;
         }
-        if(params == null || params.size() == 0) {
+        if (params == null || params.size() == 0) {
             return false;
         }
 

@@ -1,5 +1,6 @@
 package com.yisutech.corp.home.service.user.impl;
 
+import com.google.common.collect.Maps;
 import com.yisutech.corp.domain.repository.mapper.WxUserMapper;
 import com.yisutech.corp.domain.repository.pojo.WxUser;
 import com.yisutech.corp.domain.repository.pojo.WxUserExample;
@@ -7,6 +8,7 @@ import com.yisutech.corp.home.service.common.Config;
 import com.yisutech.corp.home.service.user.UserSrv;
 import com.yisutech.corp.home.service.wxcore.WxUserSrv;
 import com.yisutech.corp.home.service.wxcore.dto.WxUserInfo;
+import com.yisutech.corp.home.third_party.sms.SendMessageSrv;
 import com.yisutech.corp.home.tools.DateUtil;
 import com.yisutech.corp.home.tools.result.Result;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 版权：Copyright by www.yisutech.com
@@ -32,6 +35,8 @@ public class UserSrvImpl implements UserSrv {
     private WxUserSrv wxUserSrv;
     @Resource
     private WxUserMapper wxUserMapper;
+    @Resource
+    private SendMessageSrv sendMessageSrv;
 
     @Override
     public Result<Boolean> userRegister(String code, String mobile, String state) {
@@ -103,11 +108,21 @@ public class UserSrvImpl implements UserSrv {
         example.createCriteria().andOpenIdEqualTo(wxUserInfo.getOpenId());
         List<WxUser> wxUsers = wxUserMapper.selectByExample(example);
 
-        if(wxUsers == null || wxUsers.size() == 0) {
+        if (wxUsers == null || wxUsers.size() == 0) {
             return null;
         }
 
         // 对象转换
         return wxUsers.get(0);
+    }
+
+    @Override
+    public boolean sendVerifyCode(String mobile) {
+        String corpTag = "";
+        String mobiles = mobile;
+        String templateCode = "";
+        Map<String, Object> params = Maps.newHashMap();
+        String outId = "";
+       return sendMessageSrv.sendSms(corpTag, mobiles, templateCode, params, outId);
     }
 }

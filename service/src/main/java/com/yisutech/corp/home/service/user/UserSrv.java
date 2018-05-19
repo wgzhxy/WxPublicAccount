@@ -1,7 +1,6 @@
 package com.yisutech.corp.home.service.user;
 
 import com.yisutech.corp.domain.repository.pojo.WxUser;
-import com.yisutech.corp.home.service.wxcore.dto.WxUserInfo;
 import com.yisutech.corp.home.tools.result.Result;
 
 /**
@@ -29,4 +28,10 @@ public interface UserSrv {
      */
     WxUser getUserInfo(String code);
 
+    /**
+     * 发送验证码
+     *
+     * @param mobile
+     */
+    boolean sendVerifyCode(String mobile);
 }
