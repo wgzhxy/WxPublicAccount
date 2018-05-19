@@ -7,6 +7,7 @@ import com.yisutech.corp.home.service.wxcore.dto.WxUserInfo;
 import com.yisutech.corp.home.tools.HttpUtils;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
@@ -18,6 +19,7 @@ import javax.annotation.Resource;
  * @author guangzhong.wgz
  * @create 2018-05-19 上午8:50
  **/
+@Service
 public class WxUserSrvImpl implements WxUserSrv {
 
     @Resource

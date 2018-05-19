@@ -47,7 +47,23 @@
         </dependency>
         <dependency>
             <groupId>com.yisutech.corp.home</groupId>
+            <artifactId>domain</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>lombok</artifactId>
+                    <groupId>org.projectlombok</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.yisutech.corp.home</groupId>
             <artifactId>service</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>lombok</artifactId>
+                    <groupId>org.projectlombok</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- fastjson -->
