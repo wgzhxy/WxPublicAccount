@@ -21,6 +21,11 @@
             <groupId>com.yisutech.corp.home</groupId>
             <artifactId>tools</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.yisutech.corp.home</groupId>
+            <artifactId>third-party</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
         <!-- 工具包 -->
         <dependency>

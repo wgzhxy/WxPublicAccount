@@ -67,6 +67,11 @@
             <!-- 本地模块依赖 -->
             <dependency>
                 <groupId>com.yisutech.corp.home</groupId>
+                <artifactId>third-party</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.yisutech.corp.home</groupId>
                 <artifactId>tools</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
                 <exclusions>
@@ -173,7 +178,6 @@
                 <artifactId>shiro-spring-boot-starter</artifactId>
                 <version>1.4.0</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 
