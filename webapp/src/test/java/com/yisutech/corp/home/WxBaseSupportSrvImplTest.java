@@ -1,6 +1,5 @@
-package com.yisutech.corp.home.service.wxcore.impl;
+package com.yisutech.corp.home;
 
-import com.yisutech.corp.home.service.StarterApplication;
 import com.yisutech.corp.home.service.wxcore.WxBaseSupportSrv;
 import org.junit.Assert;
 import org.junit.Test;

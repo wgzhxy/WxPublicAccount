@@ -97,6 +97,28 @@
             <artifactId>druid</artifactId>
         </dependency>
 
+        <!-- 短信验证码 -->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>3.3.1</version>
+            <scope>system</scope>
+            <optional>true</optional>
+            <systemPath>
+                ${project.basedir}/src/main/resources/BOOT-INF/lib/aliyun-java-sdk-core-3.3.1.jar
+            </systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+            <version>1.0.0</version>
+            <scope>system</scope>
+            <optional>true</optional>
+            <systemPath>
+                ${project.basedir}/src/main/resources/BOOT-INF/lib/aliyun-java-sdk-dysmsapi-1.0.0.jar
+            </systemPath>
+        </dependency>
+
     </dependencies>
 
     <build>
