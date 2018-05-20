@@ -117,12 +117,16 @@ public class UserSrvImpl implements UserSrv {
     }
 
     @Override
-    public boolean sendVerifyCode(String mobile) {
+    public boolean sendVerifyCode(String mobile, String code) {
+
         String corpTag = "";
+        String outId = "";
         String mobiles = mobile;
         String templateCode = "";
+
         Map<String, Object> params = Maps.newHashMap();
-        String outId = "";
-       return sendMessageSrv.sendSms(corpTag, mobiles, templateCode, params, outId);
+        params.putIfAbsent("code", code);
+
+        return sendMessageSrv.sendSms(corpTag, mobiles, templateCode, params, outId);
     }
 }
