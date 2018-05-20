@@ -29,6 +29,16 @@ public class GRjfController {
     public ModelAndView jfHome(Model model) {
 
         List<WxExchangeProduct> products = jfMallSrv.queryExchangeProducts();
+
+        if (products == null || products.size() == 0) {
+            for (int i = 0; i < 5; i++) {
+                WxExchangeProduct wxExchangeProduct = new WxExchangeProduct();
+                wxExchangeProduct.setTitle("大米, 灵芝，牛奶" + i);
+                wxExchangeProduct.setDescription("优质的大米，美丽的灵芝，营养的牛奶，看看显示的儿果是怎么样的" + i);
+                products.add(wxExchangeProduct);
+            }
+        }
+
         model.addAttribute("productList", products);
 
         ModelAndView modelAndView = new ModelAndView();

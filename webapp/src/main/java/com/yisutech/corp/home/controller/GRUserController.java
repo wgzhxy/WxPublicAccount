@@ -45,6 +45,15 @@ public class GRUserController {
         return modelAndView;
     }
 
+    @RequestMapping("/myProducts")
+    public ModelAndView myProducts(Model model) {
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/user/myProduct");
+
+        return modelAndView;
+    }
+
     @RequestMapping("/userInfo")
     public ModelAndView userInfo(Model model,
                                  @RequestParam(required = false) String code,

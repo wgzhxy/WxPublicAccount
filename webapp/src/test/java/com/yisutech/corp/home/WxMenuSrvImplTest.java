@@ -18,15 +18,7 @@ public class WxMenuSrvImplTest {
 
     @Test
     public void createMenu() throws Exception {
-        String menuJson = "{\"button\":[{\"type\":\"view\",\"name\":\"企业简介\",\"url\":\"http://yisutech.s1.natapp.cc/corp/corpHome.html\"}," +
-                "{\"type\":\"view\",\"name\":\"积分商城\",\"url\":\"http://yisutech.s1.natapp.cc/jf/jfHome.html\"}," +
-                "{\"name\":\"会员\",\"sub_button\":[{\"type\":\"view\",\"name\":\"会员信息\"," +
-                "\"url\":\"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc4d8005e75ad417f&" +
-                "redirect_uri=http%3a%2f%2fyisutech.s1.natapp.cc%2fuser%2fuserInfo.html&response_type=code&" +
-                "scope=snsapi_userinfo&state=123456#wechat_redirect\"},{\"type\":\"view\",\"name\":\"绑定手机号\"," +
-                "\"url\":\"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc4d8005e75ad417f&redirect_uri=" +
-                "http%3a%2f%2fyisutech.s1.natapp.cc%2fuser%2fregister.html&response_type=code&scope=snsapi_userinfo&state=123456#wechat_redirect\"}," +
-                "{\"type\":\"click\",\"name\":\"我的商品\",\"key\":\"V1001_GOOD\"}]}]}";
+        String menuJson = "{\"button\":[{\"type\":\"view\",\"name\":\"企业简介\",\"url\":\"http://yisutech.s1.natapp.cc/corp/corpHome.html\"},{\"type\":\"view\",\"name\":\"积分商城\",\"url\":\"http://yisutech.s1.natapp.cc/jf/jfHome.html\"},{\"name\":\"会员\",\"sub_button\":[{\"type\":\"view\",\"name\":\"会员注册\",\"url\":\"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc4d8005e75ad417f&redirect_uri=http%3a%2f%2fyisutech.s1.natapp.cc%2fuser%2fregister.html&response_type=code&scope=snsapi_userinfo&state=123456#wechat_redirect\"},{\"type\":\"view\",\"name\":\"会员信息\",\"url\":\"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc4d8005e75ad417f&redirect_uri=http%3a%2f%2fyisutech.s1.natapp.cc%2fuser%2fuserInfo.html&response_type=code&scope=snsapi_userinfo&state=123456#wechat_redirect\"},{\"type\":\"view\",\"name\":\"我的礼品\",\"url\":\"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc4d8005e75ad417f&redirect_uri=http%3a%2f%2fyisutech.s1.natapp.cc%2fuser%2fmyProducts.html&response_type=code&scope=snsapi_userinfo&state=123456#wechat_redirect\"}]}]}";
         Assert.assertTrue(wxMenuSrv.createMenu(menuJson));
 
     }
