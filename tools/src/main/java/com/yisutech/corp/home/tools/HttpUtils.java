@@ -14,11 +14,13 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSession;
+import javax.net.ssl.*;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import java.util.Map;
 
 /**
@@ -43,8 +45,18 @@ public class HttpUtils {
                 return true;
             }
         };
-        defaultClient = HttpClientBuilder.create().setMaxConnTotal(500).setMaxConnPerRoute(50)
-                .setDefaultSocketConfig(sctConf).setDefaultRequestConfig(reqConf).setSSLHostnameVerifier(hv).build();
+
+        try {
+            defaultClient = HttpClientBuilder.create()
+                    .setMaxConnTotal(500)
+                    .setMaxConnPerRoute(50)
+                    .setDefaultSocketConfig(sctConf).setDefaultRequestConfig(reqConf)
+                    .setSSLContext(createIgnoreVerifySSL())
+                    .setSSLHostnameVerifier(hv)
+                    .build();
+        } catch (Throwable e) {
+
+        }
     }
 
     /**
@@ -155,5 +167,40 @@ public class HttpUtils {
             }
         }
         return "";
+    }
+
+    /**
+     * 绕过验证
+     *
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws KeyManagementException
+     */
+    static SSLContext createIgnoreVerifySSL() throws NoSuchAlgorithmException, KeyManagementException {
+
+        SSLContext sc = SSLContext.getInstance("SSLv3");
+
+        // 实现一个X509TrustManager接口，用于绕过验证，不用修改里面的方法
+        X509TrustManager trustManager = new X509TrustManager() {
+            @Override
+            public void checkClientTrusted(
+                    java.security.cert.X509Certificate[] paramArrayOfX509Certificate,
+                    String paramString) throws CertificateException {
+            }
+
+            @Override
+            public void checkServerTrusted(
+                    java.security.cert.X509Certificate[] paramArrayOfX509Certificate,
+                    String paramString) throws CertificateException {
+            }
+
+            @Override
+            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                return null;
+            }
+        };
+
+        sc.init(null, new TrustManager[]{trustManager}, null);
+        return sc;
     }
 }

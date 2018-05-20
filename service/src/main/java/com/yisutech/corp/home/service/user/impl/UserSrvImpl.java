@@ -39,11 +39,13 @@ public class UserSrvImpl implements UserSrv {
     private SendMessageSrv sendMessageSrv;
 
     @Override
-    public Result<Boolean> userRegister(String code, String mobile, String state) {
+    public Result<Boolean> userRegister(String name, String mobile, String address, String verifyCode, String code, String state) {
 
+        // 手机号
         if (!config.WxOpenState.equals(state)) {
             return new Result<>(false, "params_error", "state is error");
         }
+
         // 获取accessToken, refreshToken
         WxUserInfo wxUserInfo = wxUserSrv.getOauth2Token(code, state);
         if (wxUserInfo == null || StringUtils.isBlank(wxUserInfo.getOpenId())) {
@@ -54,21 +56,24 @@ public class UserSrvImpl implements UserSrv {
         String lang = "zh_CN";
         WxUserInfo userDetailInfo = wxUserSrv.getUserInfo(wxUserInfo.getAccessToken(), config.WxAppId, lang);
 
-        // 保存用户信息
+        // 手机号是否已经注册
         WxUserExample example = new WxUserExample();
-        example.createCriteria().andUnionIdEqualTo(userDetailInfo.getOpenId());
+        example.createCriteria().andOpenIdEqualTo(userDetailInfo.getOpenId());
         List<WxUser> wxUsers = wxUserMapper.selectByExample(example);
 
-
+        // 保存用户信息
         WxUser wxUser;
         if (wxUsers != null && wxUsers.size() > 0) { // 更新用户信息
             wxUser = wxUsers.get(0);
             wxUser.setAvartorUrl(userDetailInfo.getHeadImgUrl());
             wxUser.setOpenId(userDetailInfo.getOpenId());
             wxUser.setMobile(mobile);
+            wxUser.setAddress(address);
+            wxUser.setName(name);
             wxUser.setNick(userDetailInfo.getNickname());
             wxUser.setGmtModify(DateUtil.getNowTime());
             wxUserMapper.updateByPrimaryKey(wxUser);
+
         } else { // 写入用户信息
             wxUser = new WxUser();
             wxUser.setUnionId(userDetailInfo.getUnionId());
@@ -79,6 +84,8 @@ public class UserSrvImpl implements UserSrv {
             wxUser.setSecurity(config.WxAppSecret);
             wxUser.setNick(userDetailInfo.getNickname());
             wxUser.setCity(userDetailInfo.getCity());
+            wxUser.setAddress(address);
+            wxUser.setName(name);
             wxUser.setProvince(userDetailInfo.getProvince());
             wxUser.setCountry(userDetailInfo.getCountry());
             wxUser.setSex(userDetailInfo.getSex());

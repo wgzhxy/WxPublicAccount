@@ -92,7 +92,7 @@
                             url: 'http://www.yisutech.com:7001/user/saveUser.do',
                             data: {
                                 state: '123456', // getQueryString("state")
-                                code: '061WOEGg1ZjXoy0Wt0Dg1CAqGg1WOEGv', // getQueryString("code")
+                                code: '071rypG80j2JbH1szsH80Kg1G80rypGM', // getQueryString("code")
                                 name: $("#name").val(),
                                 mobile: $("#mobile").val(),
                                 verifyCode: $("#verifyCode").val(),
@@ -129,18 +129,17 @@
                 weui.topTips('请填写手机号');
                 return;
             }
-            var loading = weui.loading('短信发送中...');
             $.ajax({
                 type: 'get',
                 dataType: 'json',
                 url: 'http://www.yisutech.com:7001/user/verifyCode.do',
                 data: {
                     mobile: $("#mobile").val(),
-                    code: '061WOEGg1ZjXoy0Wt0Dg1CAqGg1WOEGv'
+                    code: '071rypG80j2JbH1szsH80Kg1G80rypGM'
                 },
                 success: function (data) {
                     if (data && data.success == false) {
-                        weui.alert(data.msgInfo);
+                        weui.topTips(data.msgInfo);
                     } else {
                         weui.topTips('发送成功', 1000);
                     }
@@ -151,9 +150,6 @@
                     weui.alert(data.msgInfo);
                 }
             });
-            setTimeout(function () {
-                loading.hide();
-            }, 1000);
         });
     </script>
 </form>

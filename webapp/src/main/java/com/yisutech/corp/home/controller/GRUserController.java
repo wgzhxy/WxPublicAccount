@@ -65,7 +65,7 @@ public class GRUserController {
         if (StringUtils.isBlank(mobile)) {
             return new Result<>(false, "mobile_is_null", "手机号为空");
         }
-        return userSrv.userRegister(code, mobile, state);
+        return userSrv.userRegister(name, mobile, address, verifyCode, code, state);
     }
 
     @RequestMapping("/verifyCode")
@@ -76,12 +76,18 @@ public class GRUserController {
         if (StringUtils.isBlank(code)) {
             return new Result<>(false, "code_is_null", "手户凭证不能为空");
         }
+
         if (StringUtils.isBlank(mobile)) {
             return new Result<>(false, "mobile_is_null", "手机号不能为空");
         }
+
         String randCode = String.valueOf(Math.random() * 10000).substring(0, 4);
         boolean status = userSrv.sendVerifyCode(mobile, randCode);
 
-        return new Result<>(status);
+        if (status) {
+            return new Result<>(true);
+        } else {
+            return new Result<>(false, "send_fail", "发送短信失败");
+        }
     }
 }
