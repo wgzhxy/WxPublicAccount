@@ -1,6 +1,8 @@
 package com.yisutech.corp.home.controller;
 
 import com.yisutech.corp.home.service.user.UserSrv;
+import com.yisutech.corp.home.service.wxcore.WxUserSrv;
+import com.yisutech.corp.home.service.wxcore.dto.WxUserInfo;
 import com.yisutech.corp.home.tools.result.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,8 @@ public class GRUserController {
 
     @Resource
     private UserSrv userSrv;
+    @Resource
+    private WxUserSrv wxUserSrv;
 
     @RequestMapping("/register")
     public ModelAndView register(Model model) {
@@ -37,13 +41,13 @@ public class GRUserController {
     }
 
     @RequestMapping("/userInfo")
-    public ModelAndView userInfo(Model model) {
+    public ModelAndView userInfo(Model model,
+                                 @RequestParam(required = false) String code,
+                                 @RequestParam(required = false) String state) {
 
-        model.addAttribute("user", "好孩子");
-
+        model.addAttribute("user", userSrv.getUserInfo(code));
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/user/userInfo");
-
         return modelAndView;
     }
 
