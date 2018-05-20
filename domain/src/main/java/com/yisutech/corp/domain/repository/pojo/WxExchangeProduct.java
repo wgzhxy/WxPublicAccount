@@ -19,7 +19,7 @@ public class WxExchangeProduct {
 
     private String prodPic;
 
-    private String describe;
+    private String description;
 
     private Date gmtCreate;
 
@@ -91,12 +91,12 @@ public class WxExchangeProduct {
         this.prodPic = prodPic;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getGmtCreate() {

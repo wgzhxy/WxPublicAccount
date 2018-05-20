@@ -10,7 +10,7 @@
     <result column="valid_time" jdbcType="TIMESTAMP" property="validTime" />
     <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
     <result column="prod_pic" jdbcType="VARCHAR" property="prodPic" />
-    <result column="describe" jdbcType="VARCHAR" property="describe" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
     <result column="need_score" jdbcType="INTEGER" property="needScore" />
@@ -74,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, prod_number, title, stock, sts, valid_time, expire_time, prod_pic, describe, 
+    id, prod_number, title, stock, sts, valid_time, expire_time, prod_pic, description, 
     gmt_create, gmt_modify, need_score
   </sql>
   <select id="selectByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxExchangeProductExample" resultMap="BaseResultMap">
@@ -113,11 +113,11 @@
     </selectKey>
     insert into wx_exchange_product (prod_number, title, stock, 
       sts, valid_time, expire_time, 
-      prod_pic, describe, gmt_create, 
+      prod_pic, description, gmt_create, 
       gmt_modify, need_score)
     values (#{prodNumber,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, 
       #{sts,jdbcType=INTEGER}, #{validTime,jdbcType=TIMESTAMP}, #{expireTime,jdbcType=TIMESTAMP}, 
-      #{prodPic,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{prodPic,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
       #{gmtModify,jdbcType=TIMESTAMP}, #{needScore,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.yisutech.corp.domain.repository.pojo.WxExchangeProduct">
@@ -147,8 +147,8 @@
       <if test="prodPic != null">
         prod_pic,
       </if>
-      <if test="describe != null">
-        describe,
+      <if test="description != null">
+        description,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -182,8 +182,8 @@
       <if test="prodPic != null">
         #{prodPic,jdbcType=VARCHAR},
       </if>
-      <if test="describe != null">
-        #{describe,jdbcType=VARCHAR},
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
@@ -229,8 +229,8 @@
       <if test="record.prodPic != null">
         prod_pic = #{record.prodPic,jdbcType=VARCHAR},
       </if>
-      <if test="record.describe != null">
-        describe = #{record.describe,jdbcType=VARCHAR},
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
       </if>
       <if test="record.gmtCreate != null">
         gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
@@ -256,7 +256,7 @@
       valid_time = #{record.validTime,jdbcType=TIMESTAMP},
       expire_time = #{record.expireTime,jdbcType=TIMESTAMP},
       prod_pic = #{record.prodPic,jdbcType=VARCHAR},
-      describe = #{record.describe,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
       gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
       gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
       need_score = #{record.needScore,jdbcType=INTEGER}
@@ -288,8 +288,8 @@
       <if test="prodPic != null">
         prod_pic = #{prodPic,jdbcType=VARCHAR},
       </if>
-      <if test="describe != null">
-        describe = #{describe,jdbcType=VARCHAR},
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
       </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -312,7 +312,7 @@
       valid_time = #{validTime,jdbcType=TIMESTAMP},
       expire_time = #{expireTime,jdbcType=TIMESTAMP},
       prod_pic = #{prodPic,jdbcType=VARCHAR},
-      describe = #{describe,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
       need_score = #{needScore,jdbcType=INTEGER}
