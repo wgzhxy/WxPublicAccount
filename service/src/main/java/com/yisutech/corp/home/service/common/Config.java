@@ -22,9 +22,11 @@ public class Config {
 
     public String WxCgiUrl = "https://api.weixin.qq.com/cgi-bin";
 
+    public String WxApiUrl = "https://api.weixin.qq.com";
+
     public String WxOpenUrl = "https://open.weixin.qq.com";
 
-    public String WxOpenState = "45897634";
+    public String WxOpenState = "123456";
 
     public String accessToken = "";
 

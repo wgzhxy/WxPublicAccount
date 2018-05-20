@@ -89,10 +89,10 @@
                         $.ajax({
                             type: 'get',
                             dataType: 'json',
-                            url: 'http://www.yisutech.com/user/saveUser.do',
+                            url: 'http://www.yisutech.com:7001/user/saveUser.do',
                             data: {
-                                state: getQueryString("state"),
-                                code: getQueryString("code"),
+                                state: '123456', // getQueryString("state")
+                                code: '061WOEGg1ZjXoy0Wt0Dg1CAqGg1WOEGv', // getQueryString("code")
                                 name: $("#name").val(),
                                 mobile: $("#mobile").val(),
                                 verifyCode: $("#verifyCode").val(),
@@ -133,9 +133,10 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: 'http://www.yisutech.com/user/verifyCode.do',
+                url: 'http://www.yisutech.com:7001/user/verifyCode.do',
                 data: {
-                    mobile: $("#mobile").val()
+                    mobile: $("#mobile").val(),
+                    code: '061WOEGg1ZjXoy0Wt0Dg1CAqGg1WOEGv'
                 },
                 success: function (data) {
                     if (data && data.success == false) {

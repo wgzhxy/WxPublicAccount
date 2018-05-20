@@ -32,11 +32,11 @@ public class WxUserSrvImpl implements WxUserSrv {
             return null;
         }
 
-        StringBuilder url = new StringBuilder(config.WxCgiUrl);
+        StringBuilder url = new StringBuilder(config.WxApiUrl);
         url.append("/sns/oauth2/access_token?")
                 .append("appid=").append(config.WxAppId).append("&")
                 .append("secret=").append(config.WxAppSecret).append("&")
-                .append("code=").append("CODE").append("&")
+                .append("code=").append(code).append("&")
                 .append("grant_type=").append("authorization_code");
 
         String respJson = HttpUtils.getReq(url.toString(), Charsets.UTF_8);
@@ -61,7 +61,7 @@ public class WxUserSrvImpl implements WxUserSrv {
             return null;
         }
 
-        StringBuilder url = new StringBuilder(config.WxCgiUrl);
+        StringBuilder url = new StringBuilder(config.WxApiUrl);
         url.append("/sns/oauth2/refresh_token?")
                 .append("appid=").append(config.WxAppId).append("&")
                 .append("grant_type=").append("refresh_token").append("&")
@@ -89,7 +89,7 @@ public class WxUserSrvImpl implements WxUserSrv {
             return null;
         }
 
-        StringBuilder url = new StringBuilder(config.WxCgiUrl);
+        StringBuilder url = new StringBuilder(config.WxApiUrl);
         url.append("/sns/userinfo?")
                 .append("access_token=").append(accessToken).append("&")
                 .append("openid=").append(openId).append("&")

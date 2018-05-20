@@ -14,6 +14,8 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSession;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -34,8 +36,15 @@ public class HttpUtils {
         SocketConfig sctConf = SocketConfig.custom().setSoKeepAlive(true).setSoTimeout(3000).build();
         RequestConfig reqConf = RequestConfig.custom().setConnectionRequestTimeout(2000).setSocketTimeout(3000).build();
 
+        HostnameVerifier hv = new HostnameVerifier() {
+            public boolean verify(String urlHostName, SSLSession session) {
+                System.out.println("Warning: URL Host: " + urlHostName + " vs. "
+                        + session.getPeerHost());
+                return true;
+            }
+        };
         defaultClient = HttpClientBuilder.create().setMaxConnTotal(500).setMaxConnPerRoute(50)
-                .setDefaultSocketConfig(sctConf).setDefaultRequestConfig(reqConf).build();
+                .setDefaultSocketConfig(sctConf).setDefaultRequestConfig(reqConf).setSSLHostnameVerifier(hv).build();
     }
 
     /**

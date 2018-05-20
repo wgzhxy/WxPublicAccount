@@ -47,7 +47,7 @@ public class UserSrvImpl implements UserSrv {
         // 获取accessToken, refreshToken
         WxUserInfo wxUserInfo = wxUserSrv.getOauth2Token(code, state);
         if (wxUserInfo == null || StringUtils.isBlank(wxUserInfo.getOpenId())) {
-            return new Result<>(false, "getOauth2Token", "get access token error");
+            return new Result<>(false, "getOauth2Token", "凭证失效");
         }
 
         // 获取微信用户信息
@@ -56,7 +56,7 @@ public class UserSrvImpl implements UserSrv {
 
         // 保存用户信息
         WxUserExample example = new WxUserExample();
-        example.createCriteria().andUnionIdEqualTo(userDetailInfo.getUnionId());
+        example.createCriteria().andUnionIdEqualTo(userDetailInfo.getOpenId());
         List<WxUser> wxUsers = wxUserMapper.selectByExample(example);
 
 
