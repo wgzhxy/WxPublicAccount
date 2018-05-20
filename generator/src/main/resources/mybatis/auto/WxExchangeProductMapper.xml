@@ -6,11 +6,11 @@
     <result column="prod_number" jdbcType="VARCHAR" property="prodNumber" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="stock" jdbcType="INTEGER" property="stock" />
-    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="sts" jdbcType="INTEGER" property="sts" />
     <result column="valid_time" jdbcType="TIMESTAMP" property="validTime" />
     <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
     <result column="prod_pic" jdbcType="VARCHAR" property="prodPic" />
-    <result column="desc" jdbcType="VARCHAR" property="desc" />
+    <result column="describe" jdbcType="VARCHAR" property="describe" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
     <result column="need_score" jdbcType="INTEGER" property="needScore" />
@@ -74,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, prod_number, title, stock, status, valid_time, expire_time, prod_pic, desc, gmt_create, 
-    gmt_modify, need_score
+    id, prod_number, title, stock, sts, valid_time, expire_time, prod_pic, describe, 
+    gmt_create, gmt_modify, need_score
   </sql>
   <select id="selectByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxExchangeProductExample" resultMap="BaseResultMap">
     select
@@ -112,12 +112,12 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into wx_exchange_product (prod_number, title, stock, 
-      status, valid_time, expire_time, 
-      prod_pic, desc, gmt_create, 
+      sts, valid_time, expire_time, 
+      prod_pic, describe, gmt_create, 
       gmt_modify, need_score)
     values (#{prodNumber,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER}, #{validTime,jdbcType=TIMESTAMP}, #{expireTime,jdbcType=TIMESTAMP}, 
-      #{prodPic,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{sts,jdbcType=INTEGER}, #{validTime,jdbcType=TIMESTAMP}, #{expireTime,jdbcType=TIMESTAMP}, 
+      #{prodPic,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
       #{gmtModify,jdbcType=TIMESTAMP}, #{needScore,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.yisutech.corp.domain.repository.pojo.WxExchangeProduct">
@@ -135,8 +135,8 @@
       <if test="stock != null">
         stock,
       </if>
-      <if test="status != null">
-        status,
+      <if test="sts != null">
+        sts,
       </if>
       <if test="validTime != null">
         valid_time,
@@ -147,8 +147,8 @@
       <if test="prodPic != null">
         prod_pic,
       </if>
-      <if test="desc != null">
-        desc,
+      <if test="describe != null">
+        describe,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -170,8 +170,8 @@
       <if test="stock != null">
         #{stock,jdbcType=INTEGER},
       </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
+      <if test="sts != null">
+        #{sts,jdbcType=INTEGER},
       </if>
       <if test="validTime != null">
         #{validTime,jdbcType=TIMESTAMP},
@@ -182,8 +182,8 @@
       <if test="prodPic != null">
         #{prodPic,jdbcType=VARCHAR},
       </if>
-      <if test="desc != null">
-        #{desc,jdbcType=VARCHAR},
+      <if test="describe != null">
+        #{describe,jdbcType=VARCHAR},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
@@ -217,8 +217,8 @@
       <if test="record.stock != null">
         stock = #{record.stock,jdbcType=INTEGER},
       </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=INTEGER},
+      <if test="record.sts != null">
+        sts = #{record.sts,jdbcType=INTEGER},
       </if>
       <if test="record.validTime != null">
         valid_time = #{record.validTime,jdbcType=TIMESTAMP},
@@ -229,8 +229,8 @@
       <if test="record.prodPic != null">
         prod_pic = #{record.prodPic,jdbcType=VARCHAR},
       </if>
-      <if test="record.desc != null">
-        desc = #{record.desc,jdbcType=VARCHAR},
+      <if test="record.describe != null">
+        describe = #{record.describe,jdbcType=VARCHAR},
       </if>
       <if test="record.gmtCreate != null">
         gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
@@ -252,11 +252,11 @@
       prod_number = #{record.prodNumber,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
       stock = #{record.stock,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=INTEGER},
+      sts = #{record.sts,jdbcType=INTEGER},
       valid_time = #{record.validTime,jdbcType=TIMESTAMP},
       expire_time = #{record.expireTime,jdbcType=TIMESTAMP},
       prod_pic = #{record.prodPic,jdbcType=VARCHAR},
-      desc = #{record.desc,jdbcType=VARCHAR},
+      describe = #{record.describe,jdbcType=VARCHAR},
       gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
       gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
       need_score = #{record.needScore,jdbcType=INTEGER}
@@ -276,8 +276,8 @@
       <if test="stock != null">
         stock = #{stock,jdbcType=INTEGER},
       </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
+      <if test="sts != null">
+        sts = #{sts,jdbcType=INTEGER},
       </if>
       <if test="validTime != null">
         valid_time = #{validTime,jdbcType=TIMESTAMP},
@@ -288,8 +288,8 @@
       <if test="prodPic != null">
         prod_pic = #{prodPic,jdbcType=VARCHAR},
       </if>
-      <if test="desc != null">
-        desc = #{desc,jdbcType=VARCHAR},
+      <if test="describe != null">
+        describe = #{describe,jdbcType=VARCHAR},
       </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -308,11 +308,11 @@
     set prod_number = #{prodNumber,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       stock = #{stock,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
+      sts = #{sts,jdbcType=INTEGER},
       valid_time = #{validTime,jdbcType=TIMESTAMP},
       expire_time = #{expireTime,jdbcType=TIMESTAMP},
       prod_pic = #{prodPic,jdbcType=VARCHAR},
-      desc = #{desc,jdbcType=VARCHAR},
+      describe = #{describe,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
       need_score = #{needScore,jdbcType=INTEGER}

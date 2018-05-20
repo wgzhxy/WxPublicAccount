@@ -11,7 +11,7 @@ public class WxExchangeProduct {
 
     private Integer stock;
 
-    private Integer status;
+    private Integer sts;
 
     private Date validTime;
 
@@ -19,7 +19,7 @@ public class WxExchangeProduct {
 
     private String prodPic;
 
-    private String desc;
+    private String describe;
 
     private Date gmtCreate;
 
@@ -59,12 +59,12 @@ public class WxExchangeProduct {
         this.stock = stock;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getSts() {
+        return sts;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setSts(Integer sts) {
+        this.sts = sts;
     }
 
     public Date getValidTime() {
@@ -91,12 +91,12 @@ public class WxExchangeProduct {
         this.prodPic = prodPic;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescribe() {
+        return describe;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescribe(String describe) {
+        this.describe = describe;
     }
 
     public Date getGmtCreate() {

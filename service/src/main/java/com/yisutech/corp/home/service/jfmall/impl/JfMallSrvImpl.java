@@ -101,7 +101,7 @@ public class JfMallSrvImpl implements JfMallSrv {
     public List<WxExchangeProduct> queryExchangeProducts() {
 
         WxExchangeProductExample example = new WxExchangeProductExample();
-        example.setOrderByClause(" id desc");
+        //example.setOrderByClause(" id desc");
 
         return wxExchangeProductMapper.selectByExample(example);
     }
