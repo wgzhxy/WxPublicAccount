@@ -1,8 +1,10 @@
 package com.yisutech.corp.home.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Maps;
+import com.yisutech.corp.domain.repository.pojo.WxUser;
 import com.yisutech.corp.home.service.user.UserSrv;
 import com.yisutech.corp.home.service.wxcore.WxUserSrv;
-import com.yisutech.corp.home.service.wxcore.dto.WxUserInfo;
 import com.yisutech.corp.home.tools.result.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * 版权：Copyright by www.yisutech.com
@@ -45,9 +50,20 @@ public class GRUserController {
                                  @RequestParam(required = false) String code,
                                  @RequestParam(required = false) String state) {
 
-        model.addAttribute("user", userSrv.getUserInfo(code));
+        WxUser wxUser = userSrv.getUserInfo(code);
+        if (wxUser == null) {
+            wxUser = new WxUser();
+        }
+        Map<String, Object> respMap = Maps.newHashMap();
+        respMap.putIfAbsent("name", wxUser.getName());
+        respMap.putIfAbsent("nick", wxUser.getNick());
+        respMap.putIfAbsent("mobile", wxUser.getMobile());
+        respMap.putIfAbsent("address", wxUser.getAddress());
+
+        model.addAllAttributes(respMap);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/user/userInfo");
+
         return modelAndView;
     }
 
