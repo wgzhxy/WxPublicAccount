@@ -57,11 +57,11 @@ public class JfMallSrvImpl implements JfMallSrv {
         example.createCriteria().andOpenIdEqualTo(wxUserInfo.getOpenId());
         List<WxUser> wxUsers = wxUserMapper.selectByExample(example);
         if (wxUsers == null || wxUsers.size() == 0) {
-            return new Result<>(false, "user_not_exists", "用户不存在");
+            return new Result<>(false, "user_not_exists", "您还没有注册会员");
         }
         WxUser wxUser = wxUsers.get(0);
         if (wxUser.getScore() <= 0) {
-            return new Result<>(false, "user_score_not_enough", "您没有积分");
+            return new Result<>(false, "user_score_not_enough", "您没有积分了");
         }
 
         // 3. 查询兑换产品
@@ -75,7 +75,7 @@ public class JfMallSrvImpl implements JfMallSrv {
 
         // 4. 扣减积分
         if (wxUser.getScore() < wxExchangeProduct.getNeedScore()) { // 判断积分是否够扣减
-            return new Result<>(false, "user_score_no_exchange", "用户积分不足");
+            return new Result<>(false, "user_score_no_exchange", "您的积分不足");
         }
         // 4.1 扣减用户积分
         wxUser.setScore(wxUser.getScore() - wxExchangeProduct.getNeedScore());
