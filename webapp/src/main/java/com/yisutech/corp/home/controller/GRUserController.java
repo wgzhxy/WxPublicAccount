@@ -128,8 +128,17 @@ public class GRUserController {
                 return new Result<>(false, status.getMsgCode(), status.getMsgInfo());
             }
         } catch (Throwable e) {
-            LOG.error("verifyCode_error" , e);
+            LOG.error("verifyCode_error", e);
             return new Result<>(false, "system_error", "系统错误，联调管理员");
         }
+    }
+
+    @RequestMapping("/newUserAward")
+    public ModelAndView newUserAward(Model model,
+                                     @RequestParam(required = false) String code,
+                                     @RequestParam(required = false) String state) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/user/newUserAward");
+        return modelAndView;
     }
 }
