@@ -21,11 +21,11 @@ public class WxMenuSrvImplTest {
 
         String testDomain = "yisutech.s1.natapp.cc";
         String onlineDomain = "www.yisutech.com";
-        String domain = testDomain;
+        String domain = onlineDomain;
 
 
-        String menuJson = "{\"button\":[{\"type\":\"view\",\"name\":\"企业简介\",\"url\":\"http://yisutech.s1.natapp.cc/corp/corpHome.html\"}," +
-                "{\"type\":\"view\",\"name\":\"积分商城\",\"url\":\"http://yisutech.s1.natapp.cc/jf/jfHome.html\"}," +
+        String menuJson = "{\"button\":[{\"type\":\"view\",\"name\":\"企业简介\",\"url\":\"http://" + domain + "/corp/corpHome.html\"}," +
+                "{\"type\":\"view\",\"name\":\"积分商城\",\"url\":\"http://" + domain + "/jf/jfHome.html\"}," +
                 "{\"name\":\"会员\",\"sub_button\":[" +
                 "{\"type\":\"view\",\"name\":\"会员注册\",\"url\":\"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc4d8005e75ad417f&redirect_uri=http%3a%2f%2f" +
                 domain + "%2fuser%2fregister.html&response_type=code&scope=snsapi_userinfo&state=123456#wechat_redirect\"}," +
