@@ -68,6 +68,7 @@ public class GRUserController {
         respMap.putIfAbsent("nick", wxUser.getNick());
         respMap.putIfAbsent("mobile", wxUser.getMobile());
         respMap.putIfAbsent("address", wxUser.getAddress());
+        respMap.putIfAbsent("score", wxUser.getScore());
 
         model.addAllAttributes(respMap);
         ModelAndView modelAndView = new ModelAndView();

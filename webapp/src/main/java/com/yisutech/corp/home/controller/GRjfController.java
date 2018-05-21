@@ -35,6 +35,7 @@ public class GRjfController {
                 WxExchangeProduct wxExchangeProduct = new WxExchangeProduct();
                 wxExchangeProduct.setTitle("大米, 灵芝，牛奶" + i);
                 wxExchangeProduct.setDescription("优质的大米，美丽的灵芝，营养的牛奶，看看显示的儿果是怎么样的" + i);
+                wxExchangeProduct.setNeedScore(i * 10);
                 products.add(wxExchangeProduct);
             }
         }
