@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css"/>
     <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.3/weui.min.js"></script>
     <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="/config.js"></script>
 </head>
 <body>
 <form id="userRegister" style="padding: 10px;">
@@ -89,7 +90,7 @@
                         $.ajax({
                             type: 'get',
                             dataType: 'json',
-                            url: 'http://yisutech.s1.natapp.cc/user/saveUser.do',
+                            url: appConfig.appDomain + '/user/saveUser.do',
                             data: {
                                 state: getQueryString("state"),
                                 code: getQueryString("code"),
@@ -132,7 +133,7 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: 'http://yisutech.s1.natapp.cc/user/verifyCode.do',
+                url: appConfig.appDomain + '/user/verifyCode.do',
                 data: {
                     mobile: $("#mobile").val(),
                     code: getQueryString("code"),
