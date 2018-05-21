@@ -53,6 +53,12 @@ public class GRUserController {
                                    @RequestParam(required = false) String state) {
 
         List<MyExchangeRecord> myExchangeRecords = jfMallSrv.queryExchangeRecords(code, state);
+
+        myExchangeRecords.forEach(myExchangeRecord -> {
+            if (StringUtils.isBlank(myExchangeRecord.getPicUrl())) {
+                myExchangeRecord.setPicUrl("/img/works/6.jpg");
+            }
+        });
         model.addAttribute("myRecords", myExchangeRecords);
 
         ModelAndView modelAndView = new ModelAndView();

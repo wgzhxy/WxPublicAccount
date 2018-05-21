@@ -66,7 +66,7 @@ public class JfMallSrvImpl implements JfMallSrv {
 
         // 3. 查询兑换产品
         WxExchangeProduct wxExchangeProduct = wxExchangeProductMapper.selectByPrimaryKey(prodId.intValue());
-        if(wxExchangeProduct == null) {
+        if (wxExchangeProduct == null) {
             return new Result<>(false, "product_stock_not_enough", "商品不存在");
         }
         if (wxExchangeProduct.getStock() <= 0) {
@@ -108,7 +108,18 @@ public class JfMallSrvImpl implements JfMallSrv {
         WxExchangeProductExample example = new WxExchangeProductExample();
 
         example.setOrderByClause(" id desc");
-        return wxExchangeProductMapper.selectByExample(example);
+        List<WxExchangeProduct> ls = wxExchangeProductMapper.selectByExample(example);
+        if(ls == null || ls.size() == 0) {
+            return Lists.newArrayList();
+        }
+
+        ls.forEach(wxExchangeProduct->{
+            if(StringUtils.isBlank(wxExchangeProduct.getProdPic())) {
+                wxExchangeProduct.setProdPic("/img/works/6.jpg");
+            }
+        });
+
+        return ls;
     }
 
     @Override
@@ -138,6 +149,8 @@ public class JfMallSrvImpl implements JfMallSrv {
             WxExchangeProduct wxExchangeProduct = wxExchangeProductMapper.selectByPrimaryKey(exchangeRecord.getProductId());
             if (wxExchangeProduct != null) {
                 myExchangeRecord.setTitle(wxExchangeProduct.getTitle());
+                myExchangeRecord.setDescription(wxExchangeProduct.getDescription());
+                myExchangeRecord.setPicUrl(wxExchangeProduct.getProdPic());
             }
             ls.add(myExchangeRecord);
         });
