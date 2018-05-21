@@ -23,7 +23,8 @@ public class WxMenuSrvImplTest {
                 "{\"name\":\"会员\",\"sub_button\":[" +
                 "{\"type\":\"view\",\"name\":\"会员注册\",\"url\":\"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc4d8005e75ad417f&redirect_uri=http%3a%2f%2fyisutech.s1.natapp.cc%2fuser%2fregister.html&response_type=code&scope=snsapi_userinfo&state=123456#wechat_redirect\"}," +
                 "{\"type\":\"view\",\"name\":\"会员信息\",\"url\":\"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc4d8005e75ad417f&redirect_uri=http%3a%2f%2fyisutech.s1.natapp.cc%2fuser%2fuserInfo.html&response_type=code&scope=snsapi_userinfo&state=123456#wechat_redirect\"}," +
-                "{\"type\":\"view\",\"name\":\"我的商品\",\"url\":\"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc4d8005e75ad417f&redirect_uri=http%3a%2f%2fyisutech.s1.natapp.cc%2fuser%2fmyProducts.html&response_type=code&scope=snsapi_userinfo&state=123456#wechat_redirect\"}]}]}";
+                "{\"type\":\"view\",\"name\":\"我的兑换\",\"url\":\"https://open.weixin.qq" +
+                ".com/connect/oauth2/authorize?appid=wxc4d8005e75ad417f&redirect_uri=http%3a%2f%2fyisutech.s1.natapp.cc%2fuser%2fmyProducts.html&response_type=code&scope=snsapi_userinfo&state=123456#wechat_redirect\"}]}]}";
         Assert.assertTrue(wxMenuSrv.createMenu(menuJson));
 
     }
