@@ -26,12 +26,23 @@
                 <p class="weui-media-box__desc"><span style="background-color: #f7f7f7">需要积分: ${p.needScore?if_exists}</span></p>
                 <p class="weui-media-box__desc">${p.description?if_exists}</p>
             </div>
-            <a style="margin-left: 15px;margin-top: 0px;" href="javascript:;" class="weui-btn weui-btn_mini weui-btn_default">
+            <a style="margin-left: 15px;margin-top: 0px;" href="javascript:exChangeProd('${p.id?if_exists}');"
+               class="weui-btn weui-btn_mini weui-btn_default">
                 积分兑换
             </a>
         </a>
     </#list>
     <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg"></a>
+    <script type="text/javascript">
+        function exChangeProd(prodId) {
+            if (prodId && prodId == '') {
+                weui.alert('兑换商品信息不正确');
+            }
+            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
+                "appid=wxc4d8005e75ad417f&redirect_uri=http%3a%2f%2fyisutech.s1.natapp.cc%2fjf%2fjfExchange.html&" +
+                "response_type=code&scope=snsapi_userinfo&state=123456&prodId=" + prodId + "#wechat_redirect";
+        }
+    </script>
 </div>
 </body>
 </html>

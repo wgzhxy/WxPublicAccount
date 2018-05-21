@@ -9,39 +9,40 @@
     <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.3/weui.min.js"></script>
 </head>
 <body>
-<div class="weui-form-preview__hd">
-    <label class="weui-form-preview__label">姓名</label>
-    <em class="weui-form-preview__value" style="font-size: medium">
-        ${name?if_exists}
-    </em>
+<div style="padding: 5px">
+    <div class="weui-form-preview__hd">
+        <label class="weui-form-preview__label">姓名</label>
+        <em class="weui-form-preview__value" style="font-size: medium">
+            ${name?if_exists}
+        </em>
+    </div>
+    <div class="weui-form-preview__hd">
+        <label class="weui-form-preview__label">昵称</label>
+        <em class="weui-form-preview__value" style="font-size: medium">
+            ${nick?if_exists}
+        </em>
+    </div>
+    <div class="weui-form-preview__hd">
+        <label class="weui-form-preview__label">我的积分</label>
+        <em class="weui-form-preview__value" style="font-size: medium">
+            ${score?if_exists}
+        </em>
+    </div>
+    <div class="weui-form-preview__hd">
+        <label class="weui-form-preview__label">手机号</label>
+        <em class="weui-form-preview__value" style="font-size: medium">
+            ${mobile?if_exists}
+        </em>
+    </div>
+    <div class="weui-form-preview__hd">
+        <label class="weui-form-preview__label">邮寄地址</label>
+        <em class="weui-form-preview__value" style="font-size: medium">
+            ${address?if_exists}
+        </em>
+    </div>
+    <div class="weui-form-preview__ft">
+        <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:"></a>
+    </div>
 </div>
-<div class="weui-form-preview__hd">
-    <label class="weui-form-preview__label">昵称</label>
-    <em class="weui-form-preview__value" style="font-size: medium">
-        ${nick?if_exists}
-    </em>
-</div>
-<div class="weui-form-preview__hd">
-    <label class="weui-form-preview__label">我的积分</label>
-    <em class="weui-form-preview__value" style="font-size: medium">
-        ${score?if_exists}
-    </em>
-</div>
-<div class="weui-form-preview__hd">
-    <label class="weui-form-preview__label">手机号</label>
-    <em class="weui-form-preview__value" style="font-size: medium">
-        ${mobile?if_exists}
-    </em>
-</div>
-<div class="weui-form-preview__hd">
-    <label class="weui-form-preview__label">邮寄地址</label>
-    <em class="weui-form-preview__value" style="font-size: medium">
-        ${address?if_exists}
-    </em>
-</div>
-<div class="weui-form-preview__ft">
-    <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:"></a>
-</div>
-
 </body>
 </html>

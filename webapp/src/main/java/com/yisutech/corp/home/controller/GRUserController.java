@@ -1,8 +1,9 @@
 package com.yisutech.corp.home.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import com.yisutech.corp.domain.repository.pojo.WxUser;
+import com.yisutech.corp.home.service.jfmall.JfMallSrv;
+import com.yisutech.corp.home.service.jfmall.vo.MyExchangeRecord;
 import com.yisutech.corp.home.service.user.UserSrv;
 import com.yisutech.corp.home.service.wxcore.WxUserSrv;
 import com.yisutech.corp.home.tools.result.Result;
@@ -15,8 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,6 +35,8 @@ public class GRUserController {
     private UserSrv userSrv;
     @Resource
     private WxUserSrv wxUserSrv;
+    @Resource
+    private JfMallSrv jfMallSrv;
 
     @RequestMapping("/register")
     public ModelAndView register(Model model) {
@@ -46,7 +48,12 @@ public class GRUserController {
     }
 
     @RequestMapping("/myProducts")
-    public ModelAndView myProducts(Model model) {
+    public ModelAndView myProducts(Model model,
+                                   @RequestParam(required = false) String code,
+                                   @RequestParam(required = false) String state) {
+
+        List<MyExchangeRecord> myExchangeRecords = jfMallSrv.queryExchangeRecords(code, state);
+        model.addAttribute("myRecords", myExchangeRecords);
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/user/myProduct");
@@ -106,14 +113,12 @@ public class GRUserController {
         if (StringUtils.isBlank(code)) {
             return new Result<>(false, "code_is_null", "手户凭证不能为空");
         }
-
         if (StringUtils.isBlank(mobile)) {
             return new Result<>(false, "mobile_is_null", "手机号不能为空");
         }
 
         String randCode = String.valueOf(Math.random() * 10000).substring(0, 4);
         boolean status = userSrv.sendVerifyCode(mobile, randCode);
-
         if (status) {
             return new Result<>(true);
         } else {

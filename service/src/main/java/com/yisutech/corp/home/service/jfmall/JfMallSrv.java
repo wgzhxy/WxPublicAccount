@@ -1,6 +1,8 @@
 package com.yisutech.corp.home.service.jfmall;
 
 import com.yisutech.corp.domain.repository.pojo.WxExchangeProduct;
+import com.yisutech.corp.domain.repository.pojo.WxExchangeRecord;
+import com.yisutech.corp.home.service.jfmall.vo.MyExchangeRecord;
 import com.yisutech.corp.home.tools.result.Result;
 
 import java.util.List;
@@ -29,6 +31,13 @@ public interface JfMallSrv {
      * @return List<WxExchangeProduct>
      */
     List<WxExchangeProduct> queryExchangeProducts();
+
+    /**
+     * 查询积分商城兑换商品
+     *
+     * @return List<WxExchangeProduct>
+     */
+    List<MyExchangeRecord> queryExchangeRecords(String code, String state);
 
     /**
      * 积分商城产品更新

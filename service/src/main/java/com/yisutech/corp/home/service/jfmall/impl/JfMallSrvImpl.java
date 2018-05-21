@@ -1,10 +1,12 @@
 package com.yisutech.corp.home.service.jfmall.impl;
 
+import com.google.common.collect.Lists;
 import com.yisutech.corp.domain.repository.mapper.WxExchangeProductMapper;
 import com.yisutech.corp.domain.repository.mapper.WxExchangeRecordMapper;
 import com.yisutech.corp.domain.repository.mapper.WxUserMapper;
 import com.yisutech.corp.domain.repository.pojo.*;
 import com.yisutech.corp.home.service.jfmall.JfMallSrv;
+import com.yisutech.corp.home.service.jfmall.vo.MyExchangeRecord;
 import com.yisutech.corp.home.service.wxcore.WxUserSrv;
 import com.yisutech.corp.home.service.wxcore.dto.WxUserInfo;
 import com.yisutech.corp.home.tools.DateUtil;
@@ -104,6 +106,40 @@ public class JfMallSrvImpl implements JfMallSrv {
 
         example.setOrderByClause(" id desc");
         return wxExchangeProductMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<MyExchangeRecord> queryExchangeRecords(String code, String state) {
+
+        // 1. 查用户信息
+        WxUserInfo wxUserInfo = wxUserSrv.getOauth2Token(code, state);
+        if (wxUserInfo == null || StringUtils.isBlank(wxUserInfo.getOpenId())) {
+            return Lists.newArrayList();
+        }
+
+        // 2. 查询兑换记录
+        WxExchangeRecordExample example = new WxExchangeRecordExample();
+        example.createCriteria().andOpenIdEqualTo(wxUserInfo.getOpenId());
+        List<WxExchangeRecord> exchangeRecords = wxExchangeRecordMapper.selectByExample(example);
+        if (exchangeRecords == null || exchangeRecords.size() == 0) {
+            return Lists.newArrayList();
+        }
+
+        // 3. 数据处理
+        List<MyExchangeRecord> ls = Lists.newArrayList();
+        exchangeRecords.forEach(exchangeRecord -> {
+
+            MyExchangeRecord myExchangeRecord = new MyExchangeRecord();
+            BeanUtils.copyProperties(exchangeRecord, myExchangeRecord);
+
+            WxExchangeProduct wxExchangeProduct = wxExchangeProductMapper.selectByPrimaryKey(exchangeRecord.getProductId());
+            if (wxExchangeProduct != null) {
+                myExchangeRecord.setTitle(wxExchangeProduct.getTitle());
+            }
+            ls.add(myExchangeRecord);
+        });
+
+        return ls;
     }
 
     @Override
