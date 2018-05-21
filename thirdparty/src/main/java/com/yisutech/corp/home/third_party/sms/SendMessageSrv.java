@@ -28,7 +28,7 @@ public class SendMessageSrv {
 
     private static String ACCESS_KEY_ID = "x3iyjYdy0OKvjb8h";
     private static String ACCESS_KEY_SECRET = "gnXtyuxXfYKnlz6fX5A9bFnlSXKNGz";
-    private static Logger LOG = LoggerFactory.getLogger(SendMessageSrv.class);
+    private static Logger LOG = LoggerFactory.getLogger("sendMessageLog");
 
     /**
      * 短信发送
@@ -100,6 +100,7 @@ public class SendMessageSrv {
 
             //请求失败这里会抛ClientException异常
             SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
+            LOG.info("sendMessage : {}", JSON.toJSONString(sendSmsResponse));
             if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
                 return true;
             }
