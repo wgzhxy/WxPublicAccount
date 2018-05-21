@@ -133,7 +133,7 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: appConfig.appTestDomain + '/user/verifyCode.do',
+                url: appConfig.appDomain + '/user/verifyCode.do',
                 data: {
                     mobile: $("#mobile").val(),
                     code: getQueryString("code"),
