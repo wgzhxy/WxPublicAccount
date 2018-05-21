@@ -102,8 +102,8 @@ public class GRUserController {
         if (StringUtils.isBlank(code)) {
             return new Result<>(false, "code_is_null", "页面没有授权");
         }
-        if (!StringUtils.equals("123456", verifyCode)) {
-            return new Result<>(false, "verifyCode_is_error", "验证码不正确");
+        if (StringUtils.isBlank(verifyCode)) {
+            return new Result<>(false, "verifyCode_is_error", "请输入正确的手机验证码");
         }
         if (StringUtils.isBlank(mobile)) {
             return new Result<>(false, "mobile_is_null", "手机号为空");

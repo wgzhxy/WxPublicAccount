@@ -53,16 +53,11 @@ public class UserSrvImpl implements UserSrv {
             return new Result<>(false, "params_error", "state is error");
         }
 
-        // 获取accessToken, refreshToken
-        WxUserInfo wxUserInfo = wxUserSrv.getOauth2Token(code, state);
-        if (wxUserInfo == null || StringUtils.isBlank(wxUserInfo.getOpenId())) {
-            return new Result<>(false, "getOauth2Token", "凭证失效");
-        }
-
         // 验证码是否有效
         Date currentDate = Calendar.getInstance().getTime();
 
         WxVefifyCodeExample verifExample = new WxVefifyCodeExample();
+        verifExample.setOrderByClause(" id desc");
         verifExample.createCriteria().andAppIdEqualTo(config.WxAppId)
                 .andMobleEqualTo(mobile)
                 .andValidTimeStampLessThanOrEqualTo(currentDate)
@@ -75,6 +70,12 @@ public class UserSrvImpl implements UserSrv {
 
         if (!wxVefifyCodes.get(0).getVefifyCode().equals(verifyCode)) {
             return new Result<>(false, "mobile_code_error", "手机验证码错误");
+        }
+
+        // 获取accessToken, refreshToken
+        WxUserInfo wxUserInfo = wxUserSrv.getOauth2Token(code, state);
+        if (wxUserInfo == null || StringUtils.isBlank(wxUserInfo.getOpenId())) {
+            return new Result<>(false, "getOauth2Token", "凭证失效");
         }
 
         // 获取微信用户信息
@@ -157,6 +158,22 @@ public class UserSrvImpl implements UserSrv {
         String templateCode = config.mobile_tmeplateCode;
 
         Map<String, Object> params = Maps.newHashMap();
+
+        // 验证码是否已经过期
+        Date currentDate = Calendar.getInstance().getTime();
+
+        WxVefifyCodeExample verifExample = new WxVefifyCodeExample();
+        verifExample.setOrderByClause(" id desc");
+
+        verifExample.createCriteria().andAppIdEqualTo(config.WxAppId)
+                .andMobleEqualTo(mobile)
+                .andValidTimeStampLessThanOrEqualTo(currentDate)
+                .andExpireTimeStampGreaterThanOrEqualTo(currentDate);
+        List<WxVefifyCode> wxVefifyCodes = wxVefifyCodeMapper.selectByExample(verifExample);
+
+        if (wxVefifyCodes != null && wxVefifyCodes.size() > 0) {
+            code = wxVefifyCodes.get(0).getVefifyCode();
+        }
         params.putIfAbsent("code", code);
 
         boolean send = sendMessageSrv.sendSms(corpTag, mobiles, templateCode, params, outId);
