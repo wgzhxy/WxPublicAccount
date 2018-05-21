@@ -8,6 +8,7 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
+import com.yisutech.corp.home.tools.result.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -40,17 +41,17 @@ public class SendMessageSrv {
      * @param outId        outId为提供给业务方扩展字段，最终在短信回执消息中将此值带回给调用者
      * @return
      */
-    public boolean sendSms(String corpTag, String mobiles, String templateCode, Map<String, Object> params, String outId) {
+    public Result<Boolean> sendSms(String corpTag, String mobiles, String templateCode, Map<String, Object> params, String outId) {
 
         // 参数检查
         if (StringUtils.isEmpty(mobiles)) {
-            return false;
+            return new Result<>(false, "mobiles_error", "mobiles is empty");
         }
         if (StringUtils.isEmpty(templateCode)) {
-            return false;
+            return new Result<>(false, "templateCode_error", "templateCode is empty");
         }
         if (params == null || params.size() == 0) {
-            return false;
+            return new Result<>(false, "params_error", "params is empty");
         }
 
         //设置超时时间-可自行调整
@@ -102,11 +103,14 @@ public class SendMessageSrv {
             SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
             LOG.info("sendMessage : {}", JSON.toJSONString(sendSmsResponse));
             if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
-                return true;
+                return new Result<>(true);
+
+            } else {
+                return new Result<>(false, sendSmsResponse.getCode(), sendSmsResponse.getMessage());
             }
         } catch (Throwable e) {
             LOG.error("sendSms_error", e);
+            return new Result<>(false, "system_error", "系统错误，联调管理员");
         }
-        return false;
     }
 }

@@ -33,5 +33,5 @@ public interface UserSrv {
      *
      * @param mobile
      */
-    boolean sendVerifyCode(String mobile, String code);
+    Result<Boolean> sendVerifyCode(String mobile, String code);
 }

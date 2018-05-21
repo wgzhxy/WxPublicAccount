@@ -151,7 +151,7 @@ public class UserSrvImpl implements UserSrv {
     }
 
     @Override
-    public boolean sendVerifyCode(String mobile, String code) {
+    public Result<Boolean> sendVerifyCode(String mobile, String code) {
 
         String outId = "";
         String mobiles = mobile;
@@ -177,8 +177,8 @@ public class UserSrvImpl implements UserSrv {
         }
         params.putIfAbsent("code", code);
 
-        boolean send = sendMessageSrv.sendSms(corpTag, mobiles, templateCode, params, outId);
-        if (send) {
+        Result<Boolean> send = sendMessageSrv.sendSms(corpTag, mobiles, templateCode, params, outId);
+        if (send != null && send.isSuccess()) {
 
             WxVefifyCode wxVefifyCode = new WxVefifyCode();
             wxVefifyCode.setAppId(config.WxAppId);
@@ -190,10 +190,15 @@ public class UserSrvImpl implements UserSrv {
             wxVefifyCode.setExpireTimeStamp(new Date(System.currentTimeMillis() + 300000));
 
             int update = wxVefifyCodeMapper.insert(wxVefifyCode);
-            return update > 0;
+            if(update > 0) {
+                return new Result<>(true);
+
+            } else {
+                return new Result<>(false, "save_verify_code", "手机验证码保证失败");
+            }
 
         } else {
-            return false;
+            return new Result<>(false, send.getMsgCode(), send.getMsgInfo());
         }
 
     }

@@ -7,6 +7,8 @@ import com.yisutech.corp.home.service.user.UserSrv;
 import com.yisutech.corp.home.service.wxcore.WxUserSrv;
 import com.yisutech.corp.home.tools.result.Result;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +37,8 @@ public class GRUserController {
     private WxUserSrv wxUserSrv;
     @Resource
     private JfMallSrv jfMallSrv;
+
+    private static Logger LOG = LoggerFactory.getLogger(GRUserController.class);
 
     @RequestMapping("/register")
     public ModelAndView register(Model model) {
@@ -113,12 +117,19 @@ public class GRUserController {
             return new Result<>(false, "mobile_is_null", "手机号不能为空");
         }
 
-        String randCode = String.valueOf(Math.random() * 10000).substring(0, 4);
-        boolean status = userSrv.sendVerifyCode(mobile, randCode);
-        if (status) {
-            return new Result<>(true);
-        } else {
-            return new Result<>(false, "send_fail", "发送短信失败");
+        try {
+            String randCode = String.valueOf(Math.random() * 10000).substring(0, 4);
+            Result<Boolean> status = userSrv.sendVerifyCode(mobile, randCode);
+
+            if (status != null && status.isSuccess()) {
+                return new Result<>(true);
+
+            } else {
+                return new Result<>(false, status.getMsgCode(), status.getMsgInfo());
+            }
+        } catch (Throwable e) {
+            LOG.error("verifyCode_error" , e);
+            return new Result<>(false, "system_error", "系统错误，联调管理员");
         }
     }
 }
