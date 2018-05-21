@@ -59,11 +59,11 @@ public class GRjfController {
 
         // 参数检查
         if (StringUtils.isBlank(code)) {
-            model.addAttribute("message", "用户凭证失效，请重试");
+            model.addAttribute("message", "<span style='color:red'>用户凭证失效，请重试</span>");
             return modelAndView;
         }
         if (StringUtils.isBlank(state)) {
-            model.addAttribute("message", "兑换商品不存在");
+            model.addAttribute("message", "<span style='color:red'>兑换商品不存在</span>");
             return modelAndView;
         }
 
@@ -74,7 +74,7 @@ public class GRjfController {
             model.addAttribute("message", "恭喜您，积分兑换商品成功！");
 
         } else {
-            model.addAttribute("message", "抱歉，积分兑换商品失败, " + result.getMsgInfo());
+            model.addAttribute("message", "<span style='color:red'>抱歉，积分兑换商品失败, " + result.getMsgInfo() + "</span>");
         }
 
         return modelAndView;

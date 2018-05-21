@@ -4,4 +4,5 @@ var appConfig = {
     testDomain: 'yisutech.s1.natapp.cc',
     domain: 'www.yisutech.com'
 };
-appConfig.appDomain = appConfig.appTestDomain;
+// appConfig.appDomain = appConfig.appTestDomain;
+// appConfig.domain = appConfig.testDomain;
