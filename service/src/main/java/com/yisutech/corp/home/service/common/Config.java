@@ -32,5 +32,5 @@ public class Config {
 
     public String mobile_tmeplateCode = "SMS_135037780";
 
-    public String mobile_sign_name = "贵州贵人";
+    public String mobile_sign_name = "贵人圈";
 }

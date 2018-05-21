@@ -55,5 +55,10 @@
         <table tableName="wx_user" domainObjectName="WxUser">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
+
+        <table tableName="wx_vefify_code" domainObjectName="WxVefifyCode">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
     </context>
 </generatorConfiguration>

@@ -2,8 +2,11 @@ package com.yisutech.corp.home.service.user.impl;
 
 import com.google.common.collect.Maps;
 import com.yisutech.corp.domain.repository.mapper.WxUserMapper;
+import com.yisutech.corp.domain.repository.mapper.WxVefifyCodeMapper;
 import com.yisutech.corp.domain.repository.pojo.WxUser;
 import com.yisutech.corp.domain.repository.pojo.WxUserExample;
+import com.yisutech.corp.domain.repository.pojo.WxVefifyCode;
+import com.yisutech.corp.domain.repository.pojo.WxVefifyCodeExample;
 import com.yisutech.corp.home.service.common.Config;
 import com.yisutech.corp.home.service.user.UserSrv;
 import com.yisutech.corp.home.service.wxcore.WxUserSrv;
@@ -15,6 +18,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +42,8 @@ public class UserSrvImpl implements UserSrv {
     private WxUserMapper wxUserMapper;
     @Resource
     private SendMessageSrv sendMessageSrv;
+    @Resource
+    private WxVefifyCodeMapper wxVefifyCodeMapper;
 
     @Override
     public Result<Boolean> userRegister(String name, String mobile, String address, String verifyCode, String code, String state) {
@@ -50,6 +57,24 @@ public class UserSrvImpl implements UserSrv {
         WxUserInfo wxUserInfo = wxUserSrv.getOauth2Token(code, state);
         if (wxUserInfo == null || StringUtils.isBlank(wxUserInfo.getOpenId())) {
             return new Result<>(false, "getOauth2Token", "凭证失效");
+        }
+
+        // 验证码是否有效
+        Date currentDate = Calendar.getInstance().getTime();
+
+        WxVefifyCodeExample verifExample = new WxVefifyCodeExample();
+        verifExample.createCriteria().andAppIdEqualTo(config.WxAppId)
+                .andMobleEqualTo(mobile)
+                .andValidTimeStampLessThanOrEqualTo(currentDate)
+                .andExpireTimeStampGreaterThanOrEqualTo(currentDate);
+
+        List<WxVefifyCode> wxVefifyCodes = wxVefifyCodeMapper.selectByExample(verifExample);
+        if (wxVefifyCodes == null || wxVefifyCodes.size() == 0) {
+            return new Result<>(false, "mobile_code_error", "手机验证码错误");
+        }
+
+        if (!wxVefifyCodes.get(0).getVefifyCode().equals(verifyCode)) {
+            return new Result<>(false, "mobile_code_error", "手机验证码错误");
         }
 
         // 获取微信用户信息
@@ -126,14 +151,32 @@ public class UserSrvImpl implements UserSrv {
     @Override
     public boolean sendVerifyCode(String mobile, String code) {
 
-        String corpTag = "";
         String outId = "";
         String mobiles = mobile;
-        String templateCode = "";
+        String corpTag = config.mobile_sign_name;
+        String templateCode = config.mobile_tmeplateCode;
 
         Map<String, Object> params = Maps.newHashMap();
         params.putIfAbsent("code", code);
 
-        return sendMessageSrv.sendSms(corpTag, mobiles, templateCode, params, outId);
+        boolean send = sendMessageSrv.sendSms(corpTag, mobiles, templateCode, params, outId);
+        if (send) {
+
+            WxVefifyCode wxVefifyCode = new WxVefifyCode();
+            wxVefifyCode.setAppId(config.WxAppId);
+            wxVefifyCode.setGmtCreate(DateUtil.getNowTime());
+            wxVefifyCode.setGmtModify(DateUtil.getNowTime());
+            wxVefifyCode.setMoble(mobile);
+            wxVefifyCode.setVefifyCode(code);
+            wxVefifyCode.setValidTimeStamp(Calendar.getInstance().getTime());
+            wxVefifyCode.setExpireTimeStamp(new Date(System.currentTimeMillis() + 300000));
+
+            int update = wxVefifyCodeMapper.insert(wxVefifyCode);
+            return update > 0;
+
+        } else {
+            return false;
+        }
+
     }
 }

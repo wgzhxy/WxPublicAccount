@@ -1,0 +1,832 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yisutech.corp.domain.repository.mapper.WxVefifyCodeMapper">
+  <resultMap id="BaseResultMap" type="com.yisutech.corp.domain.repository.pojo.WxVefifyCode">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="moble" jdbcType="VARCHAR" property="moble" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="vefify_code" jdbcType="VARCHAR" property="vefifyCode" />
+    <result column="union_id" jdbcType="VARCHAR" property="unionId" />
+    <result column="app_id" jdbcType="VARCHAR" property="appId" />
+    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="valid_time_stamp" jdbcType="TIMESTAMP" property="validTimeStamp" />
+    <result column="expire_time_stamp" jdbcType="TIMESTAMP" property="expireTimeStamp" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, moble, open_id, vefify_code, union_id, app_id, gmt_modify, gmt_create, valid_time_stamp, 
+    expire_time_stamp
+  </sql>
+  <select id="selectByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCodeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from wx_vefify_code
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wx_vefify_code
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wx_vefify_code
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCodeExample">
+    delete from wx_vefify_code
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCode">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into wx_vefify_code (moble, open_id, vefify_code, 
+      union_id, app_id, gmt_modify, 
+      gmt_create, valid_time_stamp, expire_time_stamp
+      )
+    values (#{moble,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, #{vefifyCode,jdbcType=VARCHAR}, 
+      #{unionId,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, #{gmtModify,jdbcType=TIMESTAMP}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{validTimeStamp,jdbcType=TIMESTAMP}, #{expireTimeStamp,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCode">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into wx_vefify_code
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="moble != null">
+        moble,
+      </if>
+      <if test="openId != null">
+        open_id,
+      </if>
+      <if test="vefifyCode != null">
+        vefify_code,
+      </if>
+      <if test="unionId != null">
+        union_id,
+      </if>
+      <if test="appId != null">
+        app_id,
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="validTimeStamp != null">
+        valid_time_stamp,
+      </if>
+      <if test="expireTimeStamp != null">
+        expire_time_stamp,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="moble != null">
+        #{moble,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="vefifyCode != null">
+        #{vefifyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null">
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validTimeStamp != null">
+        #{validTimeStamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expireTimeStamp != null">
+        #{expireTimeStamp,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCodeExample" resultType="java.lang.Long">
+    select count(*) from wx_vefify_code
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update wx_vefify_code
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.moble != null">
+        moble = #{record.moble,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openId != null">
+        open_id = #{record.openId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vefifyCode != null">
+        vefify_code = #{record.vefifyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unionId != null">
+        union_id = #{record.unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appId != null">
+        app_id = #{record.appId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gmtModify != null">
+        gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gmtCreate != null">
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.validTimeStamp != null">
+        valid_time_stamp = #{record.validTimeStamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expireTimeStamp != null">
+        expire_time_stamp = #{record.expireTimeStamp,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update wx_vefify_code
+    set id = #{record.id,jdbcType=INTEGER},
+      moble = #{record.moble,jdbcType=VARCHAR},
+      open_id = #{record.openId,jdbcType=VARCHAR},
+      vefify_code = #{record.vefifyCode,jdbcType=VARCHAR},
+      union_id = #{record.unionId,jdbcType=VARCHAR},
+      app_id = #{record.appId,jdbcType=VARCHAR},
+      gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      valid_time_stamp = #{record.validTimeStamp,jdbcType=TIMESTAMP},
+      expire_time_stamp = #{record.expireTimeStamp,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCode">
+    update wx_vefify_code
+    <set>
+      <if test="moble != null">
+        moble = #{moble,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="vefifyCode != null">
+        vefify_code = #{vefifyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null">
+        union_id = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null">
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validTimeStamp != null">
+        valid_time_stamp = #{validTimeStamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expireTimeStamp != null">
+        expire_time_stamp = #{expireTimeStamp,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCode">
+    update wx_vefify_code
+    set moble = #{moble,jdbcType=VARCHAR},
+      open_id = #{openId,jdbcType=VARCHAR},
+      vefify_code = #{vefifyCode,jdbcType=VARCHAR},
+      union_id = #{unionId,jdbcType=VARCHAR},
+      app_id = #{appId,jdbcType=VARCHAR},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      valid_time_stamp = #{validTimeStamp,jdbcType=TIMESTAMP},
+      expire_time_stamp = #{expireTimeStamp,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.yisutech.corp.domain.repository.pojo.WxVefifyCode">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="moble" jdbcType="VARCHAR" property="moble" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="vefify_code" jdbcType="VARCHAR" property="vefifyCode" />
+    <result column="union_id" jdbcType="VARCHAR" property="unionId" />
+    <result column="app_id" jdbcType="VARCHAR" property="appId" />
+    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="valid_time_stamp" jdbcType="INTEGER" property="validTimeStamp" />
+    <result column="expire_time_stamp" jdbcType="INTEGER" property="expireTimeStamp" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, moble, open_id, vefify_code, union_id, app_id, gmt_modify, gmt_create, valid_time_stamp, 
+    expire_time_stamp
+  </sql>
+  <select id="selectByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCodeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from wx_vefify_code
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wx_vefify_code
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wx_vefify_code
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCodeExample">
+    delete from wx_vefify_code
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCode">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into wx_vefify_code (moble, open_id, vefify_code, 
+      union_id, app_id, gmt_modify, 
+      gmt_create, valid_time_stamp, expire_time_stamp
+      )
+    values (#{moble,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, #{vefifyCode,jdbcType=VARCHAR}, 
+      #{unionId,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, #{gmtModify,jdbcType=TIMESTAMP}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{validTimeStamp,jdbcType=INTEGER}, #{expireTimeStamp,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCode">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into wx_vefify_code
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="moble != null">
+        moble,
+      </if>
+      <if test="openId != null">
+        open_id,
+      </if>
+      <if test="vefifyCode != null">
+        vefify_code,
+      </if>
+      <if test="unionId != null">
+        union_id,
+      </if>
+      <if test="appId != null">
+        app_id,
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="validTimeStamp != null">
+        valid_time_stamp,
+      </if>
+      <if test="expireTimeStamp != null">
+        expire_time_stamp,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="moble != null">
+        #{moble,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="vefifyCode != null">
+        #{vefifyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null">
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validTimeStamp != null">
+        #{validTimeStamp,jdbcType=INTEGER},
+      </if>
+      <if test="expireTimeStamp != null">
+        #{expireTimeStamp,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCodeExample" resultType="java.lang.Long">
+    select count(*) from wx_vefify_code
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update wx_vefify_code
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.moble != null">
+        moble = #{record.moble,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openId != null">
+        open_id = #{record.openId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vefifyCode != null">
+        vefify_code = #{record.vefifyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unionId != null">
+        union_id = #{record.unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appId != null">
+        app_id = #{record.appId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gmtModify != null">
+        gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gmtCreate != null">
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.validTimeStamp != null">
+        valid_time_stamp = #{record.validTimeStamp,jdbcType=INTEGER},
+      </if>
+      <if test="record.expireTimeStamp != null">
+        expire_time_stamp = #{record.expireTimeStamp,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update wx_vefify_code
+    set id = #{record.id,jdbcType=INTEGER},
+      moble = #{record.moble,jdbcType=VARCHAR},
+      open_id = #{record.openId,jdbcType=VARCHAR},
+      vefify_code = #{record.vefifyCode,jdbcType=VARCHAR},
+      union_id = #{record.unionId,jdbcType=VARCHAR},
+      app_id = #{record.appId,jdbcType=VARCHAR},
+      gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      valid_time_stamp = #{record.validTimeStamp,jdbcType=INTEGER},
+      expire_time_stamp = #{record.expireTimeStamp,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCode">
+    update wx_vefify_code
+    <set>
+      <if test="moble != null">
+        moble = #{moble,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="vefifyCode != null">
+        vefify_code = #{vefifyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null">
+        union_id = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null">
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validTimeStamp != null">
+        valid_time_stamp = #{validTimeStamp,jdbcType=INTEGER},
+      </if>
+      <if test="expireTimeStamp != null">
+        expire_time_stamp = #{expireTimeStamp,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCode">
+    update wx_vefify_code
+    set moble = #{moble,jdbcType=VARCHAR},
+      open_id = #{openId,jdbcType=VARCHAR},
+      vefify_code = #{vefifyCode,jdbcType=VARCHAR},
+      union_id = #{unionId,jdbcType=VARCHAR},
+      app_id = #{appId,jdbcType=VARCHAR},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      valid_time_stamp = #{validTimeStamp,jdbcType=INTEGER},
+      expire_time_stamp = #{expireTimeStamp,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.yisutech.corp.domain.repository.pojo.WxVefifyCode">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="moble" jdbcType="VARCHAR" property="moble" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="vefify_code" jdbcType="VARCHAR" property="vefifyCode" />
+    <result column="union_id" jdbcType="VARCHAR" property="unionId" />
+    <result column="app_id" jdbcType="VARCHAR" property="appId" />
+    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, moble, open_id, vefify_code, union_id, app_id, gmt_modify, gmt_create
+  </sql>
+  <select id="selectByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCodeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from wx_vefify_code
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wx_vefify_code
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wx_vefify_code
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCodeExample">
+    delete from wx_vefify_code
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCode">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into wx_vefify_code (moble, open_id, vefify_code, 
+      union_id, app_id, gmt_modify, 
+      gmt_create)
+    values (#{moble,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, #{vefifyCode,jdbcType=VARCHAR}, 
+      #{unionId,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, #{gmtModify,jdbcType=TIMESTAMP}, 
+      #{gmtCreate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCode">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into wx_vefify_code
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="moble != null">
+        moble,
+      </if>
+      <if test="openId != null">
+        open_id,
+      </if>
+      <if test="vefifyCode != null">
+        vefify_code,
+      </if>
+      <if test="unionId != null">
+        union_id,
+      </if>
+      <if test="appId != null">
+        app_id,
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="moble != null">
+        #{moble,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="vefifyCode != null">
+        #{vefifyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null">
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCodeExample" resultType="java.lang.Long">
+    select count(*) from wx_vefify_code
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update wx_vefify_code
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.moble != null">
+        moble = #{record.moble,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openId != null">
+        open_id = #{record.openId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vefifyCode != null">
+        vefify_code = #{record.vefifyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unionId != null">
+        union_id = #{record.unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appId != null">
+        app_id = #{record.appId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gmtModify != null">
+        gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gmtCreate != null">
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update wx_vefify_code
+    set id = #{record.id,jdbcType=INTEGER},
+      moble = #{record.moble,jdbcType=VARCHAR},
+      open_id = #{record.openId,jdbcType=VARCHAR},
+      vefify_code = #{record.vefifyCode,jdbcType=VARCHAR},
+      union_id = #{record.unionId,jdbcType=VARCHAR},
+      app_id = #{record.appId,jdbcType=VARCHAR},
+      gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCode">
+    update wx_vefify_code
+    <set>
+      <if test="moble != null">
+        moble = #{moble,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="vefifyCode != null">
+        vefify_code = #{vefifyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null">
+        union_id = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null">
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yisutech.corp.domain.repository.pojo.WxVefifyCode">
+    update wx_vefify_code
+    set moble = #{moble,jdbcType=VARCHAR},
+      open_id = #{openId,jdbcType=VARCHAR},
+      vefify_code = #{vefifyCode,jdbcType=VARCHAR},
+      union_id = #{unionId,jdbcType=VARCHAR},
+      app_id = #{appId,jdbcType=VARCHAR},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
