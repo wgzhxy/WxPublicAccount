@@ -2,6 +2,7 @@ package com.yisutech.corp.home.controller;
 
 import com.yisutech.corp.domain.repository.pojo.WxExchangeProduct;
 import com.yisutech.corp.home.service.jfmall.JfMallSrv;
+import com.yisutech.corp.home.tools.result.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,10 +53,16 @@ public class GRjfController {
     @RequestMapping("/jfExchange")
     public ModelAndView jfExchange(Model model, String code, String state, String prodId) {
 
-        model.addAttribute("message", "恭喜您，积分兑换商品成功！");
+        Result<Boolean> result = jfMallSrv.exchange(code, state, Long.parseLong(prodId));
+        if (result.isSuccess()) {
+            model.addAttribute("message", "恭喜您，积分兑换商品成功！");
+
+        } else {
+            model.addAttribute("message", "抱歉，积分兑换商品失败, " + result.getMsgInfo());
+        }
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/jfmall/jfExchange");
-
         return modelAndView;
     }
 }
