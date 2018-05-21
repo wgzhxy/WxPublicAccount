@@ -104,7 +104,7 @@
                                 if (data && data.success == false) {
                                     weui.topTips(data.msgInfo);
                                 } else {
-                                    weui.topTips("新用户注册成功");
+                                    window.location.href = appConfig.appTestDomain + "/user/newUserAward.html";
                                 }
                             },
                             timeout: 15000,
@@ -133,7 +133,7 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: appConfig.appDomain + '/user/verifyCode.do',
+                url: appConfig.appTestDomain + '/user/verifyCode.do',
                 data: {
                     mobile: $("#mobile").val(),
                     code: getQueryString("code"),
