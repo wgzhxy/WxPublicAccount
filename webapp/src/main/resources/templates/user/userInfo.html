@@ -9,40 +9,34 @@
     <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.3/weui.min.js"></script>
 </head>
 <body>
+<#if wxUser?exists>
 <div class="weui-form-preview">
     <div class="weui-form-preview__hd">
         <label class="weui-form-preview__label">姓名</label>
-        <em class="weui-form-preview__value" style="font-size: medium">
-            ${name?if_exists}
-        </em>
+        <em class="weui-form-preview__value" style="font-size: medium">${wxUser.name?if_exists}</em>
     </div>
     <div class="weui-form-preview__hd">
         <label class="weui-form-preview__label">昵称</label>
-        <em class="weui-form-preview__value" style="font-size: medium">
-            ${nick?if_exists}
-        </em>
+        <em class="weui-form-preview__value" style="font-size: medium">${wxUser.nick?if_exists}</em>
     </div>
     <div class="weui-form-preview__hd">
         <label class="weui-form-preview__label">我的积分</label>
-        <em class="weui-form-preview__value" style="font-size: medium">
-            ${score?if_exists}
-        </em>
+        <em class="weui-form-preview__value" style="font-size: medium">${wxUser.score?if_exists}</em>
     </div>
     <div class="weui-form-preview__hd">
         <label class="weui-form-preview__label">手机号</label>
-        <em class="weui-form-preview__value" style="font-size: medium">
-            ${mobile?if_exists}
-        </em>
+        <em class="weui-form-preview__value" style="font-size: medium">${wxUser.mobile?if_exists}</em>
     </div>
     <div class="weui-form-preview__hd">
         <label class="weui-form-preview__label">邮寄地址</label>
-        <em class="weui-form-preview__value" style="font-size: medium">
-            ${address?if_exists}
-        </em>
-    </div>
-    <div class="weui-form-preview__ft">
-        <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:"></a>
+        <em class="weui-form-preview__value" style="font-size: medium">${wxUser.address?if_exists}</em>
     </div>
 </div>
+    <#else>
+        <div class="weui-form-preview__ft">
+            <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:">您还没注册会员，快去注册吧</a>
+        </div>
+</#if>
+
 </body>
 </html>

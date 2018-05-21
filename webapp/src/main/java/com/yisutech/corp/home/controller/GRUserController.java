@@ -1,6 +1,5 @@
 package com.yisutech.corp.home.controller;
 
-import com.google.common.collect.Maps;
 import com.yisutech.corp.domain.repository.pojo.WxUser;
 import com.yisutech.corp.home.service.jfmall.JfMallSrv;
 import com.yisutech.corp.home.service.jfmall.vo.MyExchangeRecord;
@@ -17,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 版权：Copyright by www.yisutech.com
@@ -73,17 +71,9 @@ public class GRUserController {
                                  @RequestParam(required = false) String state) {
 
         WxUser wxUser = userSrv.getUserInfo(code);
-        if (wxUser == null) {
-            wxUser = new WxUser();
+        if (wxUser != null) {
+            model.addAttribute("wxUser", wxUser);
         }
-        Map<String, Object> respMap = Maps.newHashMap();
-        respMap.putIfAbsent("name", wxUser.getName());
-        respMap.putIfAbsent("nick", wxUser.getNick());
-        respMap.putIfAbsent("mobile", wxUser.getMobile());
-        respMap.putIfAbsent("address", wxUser.getAddress());
-        respMap.putIfAbsent("score", wxUser.getScore());
-
-        model.addAllAttributes(respMap);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/user/userInfo");
 

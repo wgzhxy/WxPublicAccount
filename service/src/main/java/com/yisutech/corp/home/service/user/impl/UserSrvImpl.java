@@ -93,6 +93,7 @@ public class UserSrvImpl implements UserSrv {
             wxUser = wxUsers.get(0);
             wxUser.setAvartorUrl(userDetailInfo.getHeadImgUrl());
             wxUser.setOpenId(userDetailInfo.getOpenId());
+            wxUser.setUnionId(userDetailInfo.getUnionId());
             wxUser.setMobile(mobile);
             wxUser.setAddress(address);
             wxUser.setName(name);

@@ -27,7 +27,7 @@ public class WxMenuSrvImplTest {
         String domain = testDomain;
 
 
-        String menuJson = "{\"button\":[{\"type\":\"view\",\"name\":\"企业动态\",\"url\":\"http://" + domain + "/corp/corpHome.html\"}," +
+        String menuJson = "{\"button\":[{\"type\":\"view\",\"name\":\"企业简介\",\"url\":\"http://" + domain + "/corp/corpHome.html\"}," +
                 "{\"type\":\"view\",\"name\":\"积分商城\",\"url\":\"http://" + domain + "/jf/jfHome.html\"}," +
                 "{\"name\":\"会员\",\"sub_button\":[" +
                 "{\"type\":\"view\",\"name\":\"会员注册\",\"url\":\"https://open.weixin.qq" +
