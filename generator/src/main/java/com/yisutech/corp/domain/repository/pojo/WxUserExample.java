@@ -1254,6 +1254,66 @@ public class WxUserExample {
             addCriterion("gmt_create not between", value1, value2, "gmtCreate");
             return (Criteria) this;
         }
+
+        public Criteria andUsherIdIsNull() {
+            addCriterion("usher_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsherIdIsNotNull() {
+            addCriterion("usher_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsherIdEqualTo(Integer value) {
+            addCriterion("usher_id =", value, "usherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsherIdNotEqualTo(Integer value) {
+            addCriterion("usher_id <>", value, "usherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsherIdGreaterThan(Integer value) {
+            addCriterion("usher_id >", value, "usherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsherIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("usher_id >=", value, "usherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsherIdLessThan(Integer value) {
+            addCriterion("usher_id <", value, "usherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsherIdLessThanOrEqualTo(Integer value) {
+            addCriterion("usher_id <=", value, "usherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsherIdIn(List<Integer> values) {
+            addCriterion("usher_id in", values, "usherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsherIdNotIn(List<Integer> values) {
+            addCriterion("usher_id not in", values, "usherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsherIdBetween(Integer value1, Integer value2) {
+            addCriterion("usher_id between", value1, value2, "usherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsherIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("usher_id not between", value1, value2, "usherId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

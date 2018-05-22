@@ -60,5 +60,9 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
 
+        <table tableName="wx_order" domainObjectName="WxOrder">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
     </context>
 </generatorConfiguration>

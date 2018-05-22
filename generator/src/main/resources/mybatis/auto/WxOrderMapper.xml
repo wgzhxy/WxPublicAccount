@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yisutech.corp.domain.repository.mapper.WxOrderMapper">
+  <resultMap id="BaseResultMap" type="com.yisutech.corp.domain.repository.pojo.WxOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="out_trade_no" jdbcType="VARCHAR" property="outTradeNo" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="app_id" jdbcType="VARCHAR" property="appId" />
+    <result column="mch_id" jdbcType="VARCHAR" property="mchId" />
+    <result column="random_nonce" jdbcType="VARCHAR" property="randomNonce" />
+    <result column="total_fee" jdbcType="VARCHAR" property="totalFee" />
+    <result column="spbill_create_ip" jdbcType="VARCHAR" property="spbillCreateIp" />
+    <result column="notify_url" jdbcType="VARCHAR" property="notifyUrl" />
+    <result column="trade_type" jdbcType="VARCHAR" property="tradeType" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="pre_pay_id" jdbcType="VARCHAR" property="prePayId" />
+    <result column="transaction_id" jdbcType="VARCHAR" property="transactionId" />
+    <result column="bank_type" jdbcType="VARCHAR" property="bankType" />
+    <result column="sts" jdbcType="VARCHAR" property="sts" />
+    <result column="gmt_modify_time" jdbcType="TIMESTAMP" property="gmtModifyTime" />
+    <result column="gmt_create_time" jdbcType="TIMESTAMP" property="gmtCreateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, out_trade_no, title, app_id, mch_id, random_nonce, total_fee, spbill_create_ip, 
+    notify_url, trade_type, open_id, pre_pay_id, transaction_id, bank_type, sts, gmt_modify_time, 
+    gmt_create_time
+  </sql>
+  <select id="selectByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from wx_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wx_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wx_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxOrderExample">
+    delete from wx_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yisutech.corp.domain.repository.pojo.WxOrder">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into wx_order (out_trade_no, title, app_id, 
+      mch_id, random_nonce, total_fee, 
+      spbill_create_ip, notify_url, trade_type, 
+      open_id, pre_pay_id, transaction_id, 
+      bank_type, sts, gmt_modify_time, 
+      gmt_create_time)
+    values (#{outTradeNo,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, 
+      #{mchId,jdbcType=VARCHAR}, #{randomNonce,jdbcType=VARCHAR}, #{totalFee,jdbcType=VARCHAR}, 
+      #{spbillCreateIp,jdbcType=VARCHAR}, #{notifyUrl,jdbcType=VARCHAR}, #{tradeType,jdbcType=VARCHAR}, 
+      #{openId,jdbcType=VARCHAR}, #{prePayId,jdbcType=VARCHAR}, #{transactionId,jdbcType=VARCHAR}, 
+      #{bankType,jdbcType=VARCHAR}, #{sts,jdbcType=VARCHAR}, #{gmtModifyTime,jdbcType=TIMESTAMP}, 
+      #{gmtCreateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yisutech.corp.domain.repository.pojo.WxOrder">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into wx_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="outTradeNo != null">
+        out_trade_no,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="appId != null">
+        app_id,
+      </if>
+      <if test="mchId != null">
+        mch_id,
+      </if>
+      <if test="randomNonce != null">
+        random_nonce,
+      </if>
+      <if test="totalFee != null">
+        total_fee,
+      </if>
+      <if test="spbillCreateIp != null">
+        spbill_create_ip,
+      </if>
+      <if test="notifyUrl != null">
+        notify_url,
+      </if>
+      <if test="tradeType != null">
+        trade_type,
+      </if>
+      <if test="openId != null">
+        open_id,
+      </if>
+      <if test="prePayId != null">
+        pre_pay_id,
+      </if>
+      <if test="transactionId != null">
+        transaction_id,
+      </if>
+      <if test="bankType != null">
+        bank_type,
+      </if>
+      <if test="sts != null">
+        sts,
+      </if>
+      <if test="gmtModifyTime != null">
+        gmt_modify_time,
+      </if>
+      <if test="gmtCreateTime != null">
+        gmt_create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="outTradeNo != null">
+        #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="mchId != null">
+        #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="randomNonce != null">
+        #{randomNonce,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null">
+        #{totalFee,jdbcType=VARCHAR},
+      </if>
+      <if test="spbillCreateIp != null">
+        #{spbillCreateIp,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyUrl != null">
+        #{notifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null">
+        #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="prePayId != null">
+        #{prePayId,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionId != null">
+        #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="bankType != null">
+        #{bankType,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null">
+        #{sts,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtModifyTime != null">
+        #{gmtModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtCreateTime != null">
+        #{gmtCreateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxOrderExample" resultType="java.lang.Long">
+    select count(*) from wx_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update wx_order
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.outTradeNo != null">
+        out_trade_no = #{record.outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appId != null">
+        app_id = #{record.appId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mchId != null">
+        mch_id = #{record.mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.randomNonce != null">
+        random_nonce = #{record.randomNonce,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalFee != null">
+        total_fee = #{record.totalFee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spbillCreateIp != null">
+        spbill_create_ip = #{record.spbillCreateIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.notifyUrl != null">
+        notify_url = #{record.notifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradeType != null">
+        trade_type = #{record.tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openId != null">
+        open_id = #{record.openId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prePayId != null">
+        pre_pay_id = #{record.prePayId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transactionId != null">
+        transaction_id = #{record.transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankType != null">
+        bank_type = #{record.bankType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sts != null">
+        sts = #{record.sts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gmtModifyTime != null">
+        gmt_modify_time = #{record.gmtModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gmtCreateTime != null">
+        gmt_create_time = #{record.gmtCreateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update wx_order
+    set id = #{record.id,jdbcType=INTEGER},
+      out_trade_no = #{record.outTradeNo,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      app_id = #{record.appId,jdbcType=VARCHAR},
+      mch_id = #{record.mchId,jdbcType=VARCHAR},
+      random_nonce = #{record.randomNonce,jdbcType=VARCHAR},
+      total_fee = #{record.totalFee,jdbcType=VARCHAR},
+      spbill_create_ip = #{record.spbillCreateIp,jdbcType=VARCHAR},
+      notify_url = #{record.notifyUrl,jdbcType=VARCHAR},
+      trade_type = #{record.tradeType,jdbcType=VARCHAR},
+      open_id = #{record.openId,jdbcType=VARCHAR},
+      pre_pay_id = #{record.prePayId,jdbcType=VARCHAR},
+      transaction_id = #{record.transactionId,jdbcType=VARCHAR},
+      bank_type = #{record.bankType,jdbcType=VARCHAR},
+      sts = #{record.sts,jdbcType=VARCHAR},
+      gmt_modify_time = #{record.gmtModifyTime,jdbcType=TIMESTAMP},
+      gmt_create_time = #{record.gmtCreateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yisutech.corp.domain.repository.pojo.WxOrder">
+    update wx_order
+    <set>
+      <if test="outTradeNo != null">
+        out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null">
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="mchId != null">
+        mch_id = #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="randomNonce != null">
+        random_nonce = #{randomNonce,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null">
+        total_fee = #{totalFee,jdbcType=VARCHAR},
+      </if>
+      <if test="spbillCreateIp != null">
+        spbill_create_ip = #{spbillCreateIp,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyUrl != null">
+        notify_url = #{notifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null">
+        trade_type = #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="prePayId != null">
+        pre_pay_id = #{prePayId,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionId != null">
+        transaction_id = #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="bankType != null">
+        bank_type = #{bankType,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null">
+        sts = #{sts,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtModifyTime != null">
+        gmt_modify_time = #{gmtModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtCreateTime != null">
+        gmt_create_time = #{gmtCreateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yisutech.corp.domain.repository.pojo.WxOrder">
+    update wx_order
+    set out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      app_id = #{appId,jdbcType=VARCHAR},
+      mch_id = #{mchId,jdbcType=VARCHAR},
+      random_nonce = #{randomNonce,jdbcType=VARCHAR},
+      total_fee = #{totalFee,jdbcType=VARCHAR},
+      spbill_create_ip = #{spbillCreateIp,jdbcType=VARCHAR},
+      notify_url = #{notifyUrl,jdbcType=VARCHAR},
+      trade_type = #{tradeType,jdbcType=VARCHAR},
+      open_id = #{openId,jdbcType=VARCHAR},
+      pre_pay_id = #{prePayId,jdbcType=VARCHAR},
+      transaction_id = #{transactionId,jdbcType=VARCHAR},
+      bank_type = #{bankType,jdbcType=VARCHAR},
+      sts = #{sts,jdbcType=VARCHAR},
+      gmt_modify_time = #{gmtModifyTime,jdbcType=TIMESTAMP},
+      gmt_create_time = #{gmtCreateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
