@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <title>新用户注册有奖</title>
+    <title>微信支付</title>
     <!-- 引入 WeUI -->
     <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css"/>
     <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
@@ -14,20 +14,8 @@
 
 <div class="weui-form-preview__ft">
     <a style="margin-top: 25px;" class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:">
-        恭喜您，注册成功!<br/>
-        付8元邮寄费得到72元的灵芝。<br/>
+       ${errorMsg?if_exists}
     </a>
 </div>
-<div style="text-align:center; margin-top: 20px;" class="button-sp-area">
-    <a href="javascript:goToPay();" class="weui-btn weui-btn_mini weui-btn_primary">去付8元邮寄费吧!</a>
-</div>
-<script>
-    function goToPay() {
-        var url = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-            "appid=" + appConfig.testAppId + "&redirect_uri=http%3a%2f%2f" + appConfig.testDomain + "%2fsuport%2fwx%2fpay.html&" +
-            "response_type=code&scope=snsapi_userinfo&state=123456#wechat_redirect";
-        window.location.href = url;
-    }
-</script>
 </body>
 </html>
