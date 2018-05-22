@@ -1,6 +1,8 @@
 package com.yisutech.corp.home.controller;
 
+import com.yisutech.corp.domain.repository.pojo.WxOrder;
 import com.yisutech.corp.home.service.common.Config;
+import com.yisutech.corp.home.service.pay.OrderSrv;
 import com.yisutech.corp.home.service.wxcore.WxUserSrv;
 import com.yisutech.corp.home.service.wxcore.dto.WxUserInfo;
 import com.yisutech.corp.home.tools.HttpUtils;
@@ -41,6 +43,8 @@ public class WxPayController {
 
     @Resource
     private Config config;
+    @Resource
+    private OrderSrv orderSrv;
     @Resource
     private WxUserSrv wxUserSrv;
 
@@ -143,11 +147,22 @@ public class WxPayController {
             return mv;
         }
         /*将prepay_id存到库中*/
-        /*PageData p = new PageData();
-        p.put("shopId", out_trade_no);
-        p.put("prePayId", prepay_id);
-        activityService.updatePrePayId(p);*/
-
+        WxOrder wxOrder = new WxOrder();
+        wxOrder.setAppId(GZHID);
+        wxOrder.setMchId(SHHID);
+        wxOrder.setNotifyUrl(notify_url);
+        wxOrder.setTradeType(trade_type);
+        wxOrder.setOpenId(openid);
+        wxOrder.setTotalFee(finalmoney);
+        wxOrder.setRandomNonce(nonce_str);
+        wxOrder.setTitle(title);
+        wxOrder.setSpbillCreateIp(spbill_create_ip);
+        WxOrder order = orderSrv.saveOrder(wxOrder);
+        if (order == null || order.getId() == null) {
+            mv.addObject("errorMsg", "生成订单错误");
+            mv.setViewName("/user/error");
+            return mv;
+        }
 
         /*------7.将预支付订单的id和其他信息生成签名并一起返回到jsp页面 ------- */
         nonce_str = MD5Util.MD5Encode(String.valueOf(new Random().nextInt(10000)), "utf-8");
@@ -193,7 +208,7 @@ public class WxPayController {
             String transaction_id = (String) resultMap.get("transaction_id");
             String sign = (String) resultMap.get("sign");
             String time_end = (String) resultMap.get("time_end");
-            String bank_type = (String) resultMap.get("bank_type");
+            String bankType = (String) resultMap.get("bank_type");
 
             out_trade_no = (String) resultMap.get("out_trade_no");
             return_code = (String) resultMap.get("return_code");
@@ -202,20 +217,22 @@ public class WxPayController {
 
             //通知微信.异步确认成功.必写.不然微信会一直通知后台.八次之后就认为交易失败了.
             response.getWriter().write(RequestHandler.setXML("SUCCESS", ""));
+
+            if (return_code.equals("SUCCESS")) {
+                //支付成功的业务逻辑, 变更支付定单逻辑
+                orderSrv.payOrder(out_trade_no, bankType, transaction_id);
+            } else {
+                //支付失败的业务逻辑
+
+            }
+
         } catch (Exception e) {
             LOG.error("微信回调接口出现错误：", e);
             try {
                 response.getWriter().write(RequestHandler.setXML("FAIL", "error"));
             } catch (IOException e1) {
-                e1.printStackTrace();
+                LOG.error("response.getWriter().write_error", e1);
             }
-        }
-        if (return_code.equals("SUCCESS")) {
-            //支付成功的业务逻辑, 变更支付定单逻辑
-
-        } else {
-            //支付失败的业务逻辑
-
         }
     }
 
