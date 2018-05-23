@@ -7,36 +7,43 @@
     <!-- 引入 WeUI -->
     <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css"/>
     <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.3/weui.min.js"></script>
+    <script type="text/javascript" src="/config.js"></script>
 </head>
 <body>
 <#if wxUser?exists>
-<div class="weui-form-preview">
-    <div class="weui-form-preview__hd">
-        <label class="weui-form-preview__label">姓名</label>
-        <em class="weui-form-preview__value" style="font-size: medium">${wxUser.name?if_exists}</em>
+    <div class="weui-form-preview">
+        <div class="weui-form-preview__hd">
+            <label class="weui-form-preview__label">姓名</label>
+            <em class="weui-form-preview__value" style="font-size: medium">${wxUser.name?if_exists}</em>
+        </div>
+        <div class="weui-form-preview__hd">
+            <label class="weui-form-preview__label">昵称</label>
+            <em class="weui-form-preview__value" style="font-size: medium">${wxUser.nick?if_exists}</em>
+        </div>
+        <div class="weui-form-preview__hd">
+            <label class="weui-form-preview__label">我的积分</label>
+            <em class="weui-form-preview__value" style="font-size: medium">${wxUser.score?if_exists}</em>
+        </div>
+        <div class="weui-form-preview__hd">
+            <label class="weui-form-preview__label">手机号</label>
+            <em class="weui-form-preview__value" style="font-size: medium">${wxUser.mobile?if_exists}</em>
+        </div>
+        <div class="weui-form-preview__hd">
+            <label class="weui-form-preview__label">邮寄地址</label>
+            <em class="weui-form-preview__value" style="font-size: medium">${wxUser.address?if_exists}</em>
+        </div>
     </div>
-    <div class="weui-form-preview__hd">
-        <label class="weui-form-preview__label">昵称</label>
-        <em class="weui-form-preview__value" style="font-size: medium">${wxUser.nick?if_exists}</em>
-    </div>
-    <div class="weui-form-preview__hd">
-        <label class="weui-form-preview__label">我的积分</label>
-        <em class="weui-form-preview__value" style="font-size: medium">${wxUser.score?if_exists}</em>
-    </div>
-    <div class="weui-form-preview__hd">
-        <label class="weui-form-preview__label">手机号</label>
-        <em class="weui-form-preview__value" style="font-size: medium">${wxUser.mobile?if_exists}</em>
-    </div>
-    <div class="weui-form-preview__hd">
-        <label class="weui-form-preview__label">邮寄地址</label>
-        <em class="weui-form-preview__value" style="font-size: medium">${wxUser.address?if_exists}</em>
-    </div>
-</div>
     <#else>
         <div class="weui-form-preview__ft">
-            <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:">您还没注册会员，快去注册吧</a>
+            <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:jumpToRegist();">您还没注册会员，快去注册吧</a>
         </div>
 </#if>
-
+<script>
+    function jumpToRegist() {
+        window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appConfig.appId +
+            "&redirect_uri=http%3a%2f%2f" + appConfig.appDomain + "%2fuser%2fregister.html&response_type=code" +
+            "&scope=snsapi_userinfo&state=123456#wechat_redirect";
+    }
+</script>
 </body>
 </html>
