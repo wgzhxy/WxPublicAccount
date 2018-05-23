@@ -2,6 +2,7 @@ package com.yisutech.corp.home.controller;
 
 import com.yisutech.corp.domain.repository.pojo.WxOrder;
 import com.yisutech.corp.home.service.common.Config;
+import com.yisutech.corp.home.service.common.Constants.OrderSts;
 import com.yisutech.corp.home.service.pay.OrderSrv;
 import com.yisutech.corp.home.service.wxcore.WxUserSrv;
 import com.yisutech.corp.home.service.wxcore.dto.WxUserInfo;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Map;
 import java.util.Random;
 import java.util.SortedMap;
@@ -33,6 +35,8 @@ import java.util.TreeMap;
  * 版权：Copyright by www.yisutech.com
  * 文件名：com.yisutech.corp.home.controller.WxPayController
  * 描述：
+ * <p>
+ * 微信公众号H5支付
  *
  * @author guangzhong.wgz
  * @create 2018-05-22 上午11:58
@@ -183,8 +187,8 @@ public class WxPayController {
         mv.addObject("packageValue", packages);
         mv.addObject("paySign", finalsign);
         mv.addObject("success", "ok");
-        mv.setViewName("/user/pay");
 
+        mv.setViewName("/user/pay");
         return mv;
     }
 
@@ -194,44 +198,63 @@ public class WxPayController {
      */
     @RequestMapping(value = "/wxNotify")
     public void weixinNotify(HttpServletRequest request, HttpServletResponse response) {
-        String out_trade_no = null;
-        String return_code = null;
+
+        String out_trade_no;
+        String return_code;
+        InputStream inStream;
+        OutputStream outputStream = null;
         try {
-            InputStream inStream = request.getInputStream();
+
+            inStream = request.getInputStream();
             String resultStr = new String(IOUtils.toByteArray(inStream), "utf-8");
 
             LOG.info("支付成功的回调：" + resultStr);
 
             Map<String, Object> resultMap = XmlParseUtils.parseXmlToMap(resultStr);
-            String result_code = (String) resultMap.get("result_code");
             String is_subscribe = (String) resultMap.get("is_subscribe");
             String transaction_id = (String) resultMap.get("transaction_id");
             String sign = (String) resultMap.get("sign");
             String time_end = (String) resultMap.get("time_end");
             String bankType = (String) resultMap.get("bank_type");
-
             out_trade_no = (String) resultMap.get("out_trade_no");
             return_code = (String) resultMap.get("return_code");
 
+            // 传递定单信息
             request.setAttribute("out_trade_no", out_trade_no);
 
-            //通知微信.异步确认成功.必写.不然微信会一直通知后台.八次之后就认为交易失败了.
-            response.getWriter().write(RequestHandler.setXML("SUCCESS", ""));
-
+            // 响应头信息设置
+            response.setContentType(ContentType.APPLICATION_XML.getMimeType());
+            response.setCharacterEncoding("utf-8");
+            outputStream = response.getOutputStream();
             if (return_code.equals("SUCCESS")) {
                 //支付成功的业务逻辑, 变更支付定单逻辑
-                orderSrv.payOrder(out_trade_no, bankType, transaction_id);
+                WxOrder wxOrder = orderSrv.payOrder(out_trade_no, bankType, transaction_id, OrderSts.payed);
+                if (wxOrder != null) {
+                    //通知微信.异步确认成功.必写.不然微信会一直通知后台.八次之后就认为交易失败了.
+                    outputStream.write(RequestHandler.setXML("SUCCESS", "").getBytes("utf-8"));
+                }
+
             } else {
                 //支付失败的业务逻辑
-
+                orderSrv.payOrder(out_trade_no, bankType, transaction_id, OrderSts.fail);
+                outputStream.write(RequestHandler.setXML("FAIL", "error").getBytes("utf-8"));
             }
 
-        } catch (Exception e) {
-            LOG.error("微信回调接口出现错误：", e);
+        } catch (Throwable e) {
             try {
                 response.getWriter().write(RequestHandler.setXML("FAIL", "error"));
             } catch (IOException e1) {
                 LOG.error("response.getWriter().write_error", e1);
+            }
+            LOG.error("微信回调接口出现错误：", e);
+        } finally {
+            try {
+                if (outputStream != null) {
+                    outputStream.flush();
+                    outputStream.close();
+                }
+            } catch (Throwable e) {
+                LOG.error("release response");
             }
         }
     }

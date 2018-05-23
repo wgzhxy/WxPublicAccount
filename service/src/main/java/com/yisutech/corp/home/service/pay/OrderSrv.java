@@ -1,6 +1,7 @@
 package com.yisutech.corp.home.service.pay;
 
 import com.yisutech.corp.domain.repository.pojo.WxOrder;
+import com.yisutech.corp.home.service.common.Constants;
 
 /**
  * 版权：Copyright by www.yisutech.com
@@ -25,5 +26,5 @@ public interface OrderSrv {
      *
      * @return
      */
-    WxOrder payOrder(String outTradeNo, String bankType, String transactionId);
+    WxOrder payOrder(String outTradeNo, String bankType, String transactionId, Constants.OrderSts orderSts);
 }

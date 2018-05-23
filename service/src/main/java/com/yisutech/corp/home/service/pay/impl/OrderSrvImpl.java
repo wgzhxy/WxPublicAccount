@@ -51,7 +51,7 @@ public class OrderSrvImpl implements OrderSrv {
     }
 
     @Override
-    public WxOrder payOrder(String outTradeNo, String bankType, String transactionId) {
+    public WxOrder payOrder(String outTradeNo, String bankType, String transactionId, OrderSts orderSts) {
 
         if (StringUtils.isBlank(outTradeNo)) {
             return null;
@@ -60,9 +60,9 @@ public class OrderSrvImpl implements OrderSrv {
         // 查询定单是否存在
         WxOrderExample example = new WxOrderExample();
         example.createCriteria().andOutTradeNoEqualTo(outTradeNo)
-                .andStsEqualTo(OrderSts.ready.name());
-        List<WxOrder> wxOrders = wxOrderMapper.selectByExample(example);
+                .andStsNotEqualTo(OrderSts.payed.name());
 
+        List<WxOrder> wxOrders = wxOrderMapper.selectByExample(example);
         if (wxOrders == null || wxOrders.size() == 0) {
             return null;
         }
@@ -70,15 +70,12 @@ public class OrderSrvImpl implements OrderSrv {
         // 修改定单状态
         WxOrder wxOrder = wxOrders.get(0);
         wxOrder.setTransactionId(transactionId);
-        wxOrder.setSts(OrderSts.payed.name());
+        wxOrder.setSts(orderSts.name());
+        wxOrder.setBankType(bankType);
         wxOrder.setGmtModifyTime(DateUtil.getNowTime());
 
         int update = wxOrderMapper.updateByPrimaryKeySelective(wxOrder);
-        if (update > 0) {
-            return wxOrder;
-        } else {
-            return null;
-        }
+        return update > 0 ? wxOrder : null;
     }
 
 

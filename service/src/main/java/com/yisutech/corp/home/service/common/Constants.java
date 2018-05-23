@@ -11,6 +11,6 @@ package com.yisutech.corp.home.service.common;
 public interface Constants {
 
     enum OrderSts {
-        ready, payed
+        ready, payed, fail
     }
 }
