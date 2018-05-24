@@ -51,6 +51,7 @@ public class GRUserController {
 
     @RequestMapping("/myProducts")
     public ModelAndView myProducts(Model model,
+                                   @RequestParam(required = false) String token,
                                    @RequestParam(required = false) String code,
                                    @RequestParam(required = false) String state) {
 
