@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yisutech.corp.domain.repository.mapper.WxResourceMapper">
+  <resultMap id="BaseResultMap" type="com.yisutech.corp.domain.repository.pojo.WxResource">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="rs_code" jdbcType="VARCHAR" property="rsCode" />
+    <result column="app_code" jdbcType="VARCHAR" property="appCode" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="gmt_modify_time" jdbcType="TIMESTAMP" property="gmtModifyTime" />
+    <result column="gmt_create_time" jdbcType="TIMESTAMP" property="gmtCreateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.yisutech.corp.domain.repository.pojo.WxResource">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, rs_code, app_code, type, modifier, creator, gmt_modify_time, gmt_create_time
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.yisutech.corp.domain.repository.pojo.WxResourceExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from wx_resource
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxResourceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from wx_resource
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from wx_resource
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wx_resource
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxResourceExample">
+    delete from wx_resource
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yisutech.corp.domain.repository.pojo.WxResource">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into wx_resource (rs_code, app_code, type, 
+      modifier, creator, gmt_modify_time, 
+      gmt_create_time, content)
+    values (#{rsCode,jdbcType=VARCHAR}, #{appCode,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{modifier,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{gmtModifyTime,jdbcType=TIMESTAMP}, 
+      #{gmtCreateTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yisutech.corp.domain.repository.pojo.WxResource">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into wx_resource
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rsCode != null">
+        rs_code,
+      </if>
+      <if test="appCode != null">
+        app_code,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="modifier != null">
+        modifier,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="gmtModifyTime != null">
+        gmt_modify_time,
+      </if>
+      <if test="gmtCreateTime != null">
+        gmt_create_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rsCode != null">
+        #{rsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="appCode != null">
+        #{appCode,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtModifyTime != null">
+        #{gmtModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtCreateTime != null">
+        #{gmtCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxResourceExample" resultType="java.lang.Long">
+    select count(*) from wx_resource
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update wx_resource
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.rsCode != null">
+        rs_code = #{record.rsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appCode != null">
+        app_code = #{record.appCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifier != null">
+        modifier = #{record.modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gmtModifyTime != null">
+        gmt_modify_time = #{record.gmtModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gmtCreateTime != null">
+        gmt_create_time = #{record.gmtCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update wx_resource
+    set id = #{record.id,jdbcType=INTEGER},
+      rs_code = #{record.rsCode,jdbcType=VARCHAR},
+      app_code = #{record.appCode,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      modifier = #{record.modifier,jdbcType=VARCHAR},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      gmt_modify_time = #{record.gmtModifyTime,jdbcType=TIMESTAMP},
+      gmt_create_time = #{record.gmtCreateTime,jdbcType=TIMESTAMP},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update wx_resource
+    set id = #{record.id,jdbcType=INTEGER},
+      rs_code = #{record.rsCode,jdbcType=VARCHAR},
+      app_code = #{record.appCode,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      modifier = #{record.modifier,jdbcType=VARCHAR},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      gmt_modify_time = #{record.gmtModifyTime,jdbcType=TIMESTAMP},
+      gmt_create_time = #{record.gmtCreateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yisutech.corp.domain.repository.pojo.WxResource">
+    update wx_resource
+    <set>
+      <if test="rsCode != null">
+        rs_code = #{rsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="appCode != null">
+        app_code = #{appCode,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtModifyTime != null">
+        gmt_modify_time = #{gmtModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtCreateTime != null">
+        gmt_create_time = #{gmtCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yisutech.corp.domain.repository.pojo.WxResource">
+    update wx_resource
+    set rs_code = #{rsCode,jdbcType=VARCHAR},
+      app_code = #{appCode,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      gmt_modify_time = #{gmtModifyTime,jdbcType=TIMESTAMP},
+      gmt_create_time = #{gmtCreateTime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yisutech.corp.domain.repository.pojo.WxResource">
+    update wx_resource
+    set rs_code = #{rsCode,jdbcType=VARCHAR},
+      app_code = #{appCode,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      gmt_modify_time = #{gmtModifyTime,jdbcType=TIMESTAMP},
+      gmt_create_time = #{gmtCreateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

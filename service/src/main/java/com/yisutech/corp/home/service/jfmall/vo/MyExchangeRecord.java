@@ -15,7 +15,7 @@ import java.io.Serializable;
  **/
 @Data
 public class MyExchangeRecord extends WxExchangeRecord implements Serializable {
-    String title;
-    String picUrl;
-    String description;
+	String title;
+	String picUrl;
+	String description;
 }

@@ -1,7 +1,6 @@
 package com.yisutech.corp.home.service.jfmall;
 
 import com.yisutech.corp.domain.repository.pojo.WxExchangeProduct;
-import com.yisutech.corp.domain.repository.pojo.WxExchangeRecord;
 import com.yisutech.corp.home.service.jfmall.vo.MyExchangeRecord;
 import com.yisutech.corp.home.tools.result.Result;
 
@@ -17,41 +16,41 @@ import java.util.List;
  **/
 public interface JfMallSrv {
 
-    /**
-     * 积分兑换商品
-     *
-     * @param code 用户凭证
-     * @return
-     */
-    Result<Boolean> exchange(String code, String state, Long prodId);
+	/**
+	 * 积分兑换商品
+	 *
+	 * @param code 用户凭证
+	 * @return
+	 */
+	Result<Boolean> exchange(String code, String state, Long prodId);
 
-    /**
-     * 查询积分商城兑换商品
-     *
-     * @return List<WxExchangeProduct>
-     */
-    List<WxExchangeProduct> queryExchangeProducts();
+	/**
+	 * 查询积分商城兑换商品
+	 *
+	 * @return List<WxExchangeProduct>
+	 */
+	List<WxExchangeProduct> queryExchangeProducts();
 
-    /**
-     * 查询积分商城兑换商品
-     *
-     * @return List<WxExchangeProduct>
-     */
-    List<MyExchangeRecord> queryExchangeRecords(String code, String state);
+	/**
+	 * 查询积分商城兑换商品
+	 *
+	 * @return List<WxExchangeProduct>
+	 */
+	List<MyExchangeRecord> queryExchangeRecords(String code, String state);
 
-    /**
-     * 积分商城产品更新
-     *
-     * @param wxExchangeProduct
-     * @return
-     */
-    boolean saveExchangeProduct(WxExchangeProduct wxExchangeProduct);
+	/**
+	 * 积分商城产品更新
+	 *
+	 * @param wxExchangeProduct
+	 * @return
+	 */
+	boolean saveExchangeProduct(WxExchangeProduct wxExchangeProduct);
 
-    /**
-     * 积分商城商品详情
-     *
-     * @param productId 商品ID
-     * @return
-     */
-    WxExchangeProduct getExchangeProduct(Long productId);
+	/**
+	 * 积分商城商品详情
+	 *
+	 * @param productId 商品ID
+	 * @return
+	 */
+	WxExchangeProduct getExchangeProduct(Long productId);
 }
