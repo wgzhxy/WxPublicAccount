@@ -30,7 +30,7 @@ public class GRhomeController {
 	public ModelAndView corpHome() {
 		ModelAndView modelAndView = new ModelAndView();
 		try {
-			modelAndView.addObject("corpInfomation", resourceService.getCorpInfomation());
+			modelAndView.addObject("corpInformation", resourceService.getCorpInformation());
 		} catch (Throwable e) {
 			LOG.info("corpHome_error", e);
 		}

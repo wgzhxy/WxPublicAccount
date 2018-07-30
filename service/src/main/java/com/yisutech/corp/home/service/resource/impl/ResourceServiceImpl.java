@@ -27,11 +27,22 @@ public class ResourceServiceImpl implements ResourceService {
 	private WxResourceMapper wxResourceMapper;
 
 	@Override
-	public String getCorpInfomation() {
+	public String getCorpInformation() {
 
 		WxResourceExample example = new WxResourceExample();
 		example.createCriteria().andAppCodeEqualTo("guirenquan")
 				.andRsCodeEqualTo("CORP_INFO");
+		List<WxResource> wxResources = wxResourceMapper.selectByExampleWithBLOBs(example);
+
+		return wxResources != null && wxResources.size() > 0 ? wxResources.get(0).getContent() : "";
+	}
+
+	@Override
+	public String getInformation(String appCode, String rsCode) {
+
+		WxResourceExample example = new WxResourceExample();
+		example.createCriteria().andAppCodeEqualTo(appCode)
+				.andRsCodeEqualTo(rsCode);
 		List<WxResource> wxResources = wxResourceMapper.selectByExampleWithBLOBs(example);
 
 		return wxResources != null && wxResources.size() > 0 ? wxResources.get(0).getContent() : "";

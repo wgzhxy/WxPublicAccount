@@ -18,5 +18,12 @@ public interface ResourceService {
 	 *
 	 * @return
 	 */
-	String getCorpInfomation();
+	String getCorpInformation();
+
+	/**
+	 * 获取公司简介
+	 *
+	 * @return
+	 */
+	String getInformation(String appCode, String rsCode);
 }
