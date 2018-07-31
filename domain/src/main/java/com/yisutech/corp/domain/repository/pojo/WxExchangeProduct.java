@@ -19,13 +19,15 @@ public class WxExchangeProduct {
 
     private String prodPic;
 
-    private String description;
-
     private Date gmtCreate;
 
     private Date gmtModify;
 
     private Integer needScore;
+
+    private String digest;
+
+    private String description;
 
     public Integer getId() {
         return id;
@@ -91,14 +93,6 @@ public class WxExchangeProduct {
         this.prodPic = prodPic;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Date getGmtCreate() {
         return gmtCreate;
     }
@@ -121,5 +115,21 @@ public class WxExchangeProduct {
 
     public void setNeedScore(Integer needScore) {
         this.needScore = needScore;
+    }
+
+    public String getDigest() {
+        return digest;
+    }
+
+    public void setDigest(String digest) {
+        this.digest = digest;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
