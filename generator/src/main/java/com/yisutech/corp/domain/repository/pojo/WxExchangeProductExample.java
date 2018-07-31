@@ -615,76 +615,6 @@ public class WxExchangeProductExample {
             return (Criteria) this;
         }
 
-        public Criteria andDescriptionIsNull() {
-            addCriterion("description is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionIsNotNull() {
-            addCriterion("description is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionEqualTo(String value) {
-            addCriterion("description =", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionNotEqualTo(String value) {
-            addCriterion("description <>", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionGreaterThan(String value) {
-            addCriterion("description >", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionGreaterThanOrEqualTo(String value) {
-            addCriterion("description >=", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionLessThan(String value) {
-            addCriterion("description <", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionLessThanOrEqualTo(String value) {
-            addCriterion("description <=", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionLike(String value) {
-            addCriterion("description like", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionNotLike(String value) {
-            addCriterion("description not like", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionIn(List<String> values) {
-            addCriterion("description in", values, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionNotIn(List<String> values) {
-            addCriterion("description not in", values, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionBetween(String value1, String value2) {
-            addCriterion("description between", value1, value2, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionNotBetween(String value1, String value2) {
-            addCriterion("description not between", value1, value2, "description");
-            return (Criteria) this;
-        }
-
         public Criteria andGmtCreateIsNull() {
             addCriterion("gmt_create is null");
             return (Criteria) this;
@@ -862,6 +792,76 @@ public class WxExchangeProductExample {
 
         public Criteria andNeedScoreNotBetween(Integer value1, Integer value2) {
             addCriterion("need_score not between", value1, value2, "needScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andDigestIsNull() {
+            addCriterion("digest is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDigestIsNotNull() {
+            addCriterion("digest is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDigestEqualTo(String value) {
+            addCriterion("digest =", value, "digest");
+            return (Criteria) this;
+        }
+
+        public Criteria andDigestNotEqualTo(String value) {
+            addCriterion("digest <>", value, "digest");
+            return (Criteria) this;
+        }
+
+        public Criteria andDigestGreaterThan(String value) {
+            addCriterion("digest >", value, "digest");
+            return (Criteria) this;
+        }
+
+        public Criteria andDigestGreaterThanOrEqualTo(String value) {
+            addCriterion("digest >=", value, "digest");
+            return (Criteria) this;
+        }
+
+        public Criteria andDigestLessThan(String value) {
+            addCriterion("digest <", value, "digest");
+            return (Criteria) this;
+        }
+
+        public Criteria andDigestLessThanOrEqualTo(String value) {
+            addCriterion("digest <=", value, "digest");
+            return (Criteria) this;
+        }
+
+        public Criteria andDigestLike(String value) {
+            addCriterion("digest like", value, "digest");
+            return (Criteria) this;
+        }
+
+        public Criteria andDigestNotLike(String value) {
+            addCriterion("digest not like", value, "digest");
+            return (Criteria) this;
+        }
+
+        public Criteria andDigestIn(List<String> values) {
+            addCriterion("digest in", values, "digest");
+            return (Criteria) this;
+        }
+
+        public Criteria andDigestNotIn(List<String> values) {
+            addCriterion("digest not in", values, "digest");
+            return (Criteria) this;
+        }
+
+        public Criteria andDigestBetween(String value1, String value2) {
+            addCriterion("digest between", value1, value2, "digest");
+            return (Criteria) this;
+        }
+
+        public Criteria andDigestNotBetween(String value1, String value2) {
+            addCriterion("digest not between", value1, value2, "digest");
             return (Criteria) this;
         }
     }

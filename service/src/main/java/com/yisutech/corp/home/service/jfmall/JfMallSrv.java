@@ -52,5 +52,5 @@ public interface JfMallSrv {
 	 * @param productId 商品ID
 	 * @return
 	 */
-	WxExchangeProduct getExchangeProduct(Long productId);
+	WxExchangeProduct getExchangeProduct(Integer productId);
 }

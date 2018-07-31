@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -24,59 +25,59 @@ import java.util.List;
 @RequestMapping("/jf")
 public class GRjfController {
 
-    @Resource
-    private JfMallSrv jfMallSrv;
+	@Resource
+	private JfMallSrv jfMallSrv;
 
-    @RequestMapping("/jfHome")
-    public ModelAndView jfHome(Model model) {
+	@RequestMapping("/jfHome")
+	public ModelAndView jfHome(Model model) {
 
-        List<WxExchangeProduct> products = jfMallSrv.queryExchangeProducts();
+		List<WxExchangeProduct> products = jfMallSrv.queryExchangeProducts();
+		model.addAttribute("productList", products);
 
-        if (products == null || products.size() == 0) {
-            for (int i = 0; i < 5; i++) {
-                WxExchangeProduct wxExchangeProduct = new WxExchangeProduct();
-                wxExchangeProduct.setId(i + 1);
-                wxExchangeProduct.setTitle("大米, 灵芝，牛奶" + i);
-                wxExchangeProduct.setDescription("优质的大米，美丽的灵芝，营养的牛奶，看看显示的儿果是怎么样的" + i);
-                wxExchangeProduct.setNeedScore(i * 10);
-                products.add(wxExchangeProduct);
-            }
-        }
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("/jfmall/jfHome");
 
-        model.addAttribute("productList", products);
+		return modelAndView;
+	}
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/jfmall/jfHome");
+	@RequestMapping("/jfDetail")
+	public ModelAndView jfDetail(Model model, @RequestParam Integer id) {
 
-        return modelAndView;
-    }
+		WxExchangeProduct product = jfMallSrv.getExchangeProduct(id);
+		model.addAttribute("product", product);
 
-    @RequestMapping("/jfExchange")
-    public ModelAndView jfExchange(Model model, String code, String state, String prodId) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("/jfmall/jfProductDetail");
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/jfmall/jfExchange");
+		return modelAndView;
+	}
 
-        // 参数检查
-        if (StringUtils.isBlank(code)) {
-            model.addAttribute("message", "<span style='color:red'>用户凭证失效，请重试</span>");
-            return modelAndView;
-        }
-        if (StringUtils.isBlank(state)) {
-            model.addAttribute("message", "<span style='color:red'>兑换商品不存在</span>");
-            return modelAndView;
-        }
+	@RequestMapping("/jfExchange")
+	public ModelAndView jfExchange(Model model, String code, String state, String prodId) {
 
-        // 积分况换商品
-        prodId = state.split("@")[1];
-        Result<Boolean> result = jfMallSrv.exchange(code, state, Long.parseLong(prodId));
-        if (result.isSuccess()) {
-            model.addAttribute("message", "恭喜您，积分兑换商品成功！");
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("/jfmall/jfExchange");
 
-        } else {
-            model.addAttribute("message", "<span style='color:red'>抱歉，积分兑换商品失败, " + result.getMsgInfo() + "</span>");
-        }
+		// 参数检查
+		if (StringUtils.isBlank(code)) {
+			model.addAttribute("message", "<span style='color:red'>用户凭证失效，请重试</span>");
+			return modelAndView;
+		}
+		if (StringUtils.isBlank(state)) {
+			model.addAttribute("message", "<span style='color:red'>兑换商品不存在</span>");
+			return modelAndView;
+		}
 
-        return modelAndView;
-    }
+		// 积分况换商品
+		prodId = state.split("@")[1];
+		Result<Boolean> result = jfMallSrv.exchange(code, state, Long.parseLong(prodId));
+		if (result.isSuccess()) {
+			model.addAttribute("message", "恭喜您，积分兑换商品成功！");
+
+		} else {
+			model.addAttribute("message", "<span style='color:red'>抱歉，积分兑换商品失败, " + result.getMsgInfo() + "</span>");
+		}
+
+		return modelAndView;
+	}
 }
