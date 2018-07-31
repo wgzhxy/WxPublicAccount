@@ -15,19 +15,17 @@
         <img style="width: 100%; height: 100%;" src="/img/timg.jpeg" alt="">
     </div>
 </div>
-<div class="weui-panel__hd">商品详情</div>
-<div class="weui-panel__bd" style="padding-left: 1em;">
-    <div class="weui-media-box__hd">
+<div class="weui-panel__bd">
+    <div class="weui-media-box__hd" style="margin-left: 1em;margin-top: 0.5em">
         <img class="weui-media-box__thumb" src="${product.prodPic?if_exists}" style="height: 50%;width: 50%" alt="">
     </div>
-    <div class="weui-media-box__bd">
+    <div class="weui-media-box__bd" style="margin-left: 1em">
         <h4 class="weui-media-box__title">${product.title?if_exists}</h4>
         <p class="weui-media-box__desc">${product.digest?if_exists}</p>
     </div>
-    <div class="weui-media-box__bd" style="padding: 0.5em 0.5em 1em 0em">
-        <h4 class="weui-media-box__title">商品价绍</h4>
-        <hr style="color: #eeeeee"/>
-        <div style="border-top-style: wave;margin-top: 1em;" class="weui-media-box__desc">
+    <div class="weui-media-box__bd">
+        <h4 class="weui-panel__hd">兑换商品说明</h4>
+        <div style="padding: 1em" class="weui-media-box__desc">
             ${product.description?if_exists}
         </div>
     </div>

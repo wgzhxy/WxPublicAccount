@@ -16,20 +16,61 @@
     </div>
 </div>
 <div class="weui-panel__bd">
-    <div style="margin-top: 15px; text-align: center;">
-        <div style="padding: 30px">
-            <p>${message}</p>
-        </div>
-        <div style="padding: 0px">
-            <a href="javascript:jumpToJfHome();" class="weui-btn weui-btn_mini weui-btn_plain-primary">返回积分商城</a>
+    <div class="weui-media-box__bd" style="padding: 1em">
+        <h4 class="weui-media-box__title">${p.title?if_exists}</h4>
+        <p class="weui-media-box__desc"><span style="background-color: #f7f7f7">库存: ${p.stock?if_exists}</span></p>
+        <p class="weui-media-box__desc"><span style="background-color: #f7f7f7">需要积分: ${p.needScore?if_exists}</span></p>
+        <p class="weui-media-box__desc">${p.digest?if_exists}</p>
+    </div>
+    <div class="weui-cells__title">用户积分</div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">当前积分</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" pattern="[0-9]*" value="${user.score?if_exists}">
         </div>
     </div>
-    <script>
-        function jumpToJfHome() {
-            window.location.href = appConfig.appDomain + '/jf/jfHome.html';
-            weui.loading('请稍等...');
-        }
-    </script>
+    <div class="weui-cells__title">邮寄地址</div>
+    <div class="weui-cell">
+        <div class="weui-cell__bd">
+            <textarea class="weui-textarea" placeholder="请输入邮寄地址" rows="2">${user.address?if_exists}</textarea>
+            <div class="weui-textarea-counter"><span>0</span>/100</div>
+        </div>
+    </div>
+    <div class="weui-btn-area">
+        <a class="weui-btn weui-btn_primary"
+           href="javascript:exChangeProd('${p.id?if_exists}', '${p.needScore?if_exists}');"
+           id="showTooltips">兑换</a>
+    </div>
 </div>
+<script>
+    function jumpToJfHome() {
+        window.location.href = appConfig.appDomain + '/jf/jfHome.html';
+        weui.loading('请稍等...');
+    }
+
+    function exChangeProd(prodId, score) {
+        if (prodId && prodId == '') {
+            weui.alert('兑换商品信息不正确');
+        }
+        weui.confirm('确认兑换吗？', {
+            title: '消息提示',
+            buttons: [{
+                label: '是',
+                type: 'primary',
+                onClick: function () {
+                    window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
+                        "appid=" + appConfig.appId + "&redirect_uri=http%3a%2f%2f" + appConfig.testDomain + "%2fjf%2fexchange.html&" +
+                        "response_type=code&scope=snsapi_userinfo&state=123456@" + prodId + "#wechat_redirect";
+                }
+            }, {
+                label: '否',
+                type: 'default',
+                onClick: function () {
+                    return;
+                }
+            }]
+        });
+    }
+</script>
 </body>
 </html>

@@ -18,49 +18,34 @@
 <div class="weui-panel__hd">兑换商品列表</div>
 <div class="weui-panel__bd">
     <#list productList as p>
-        <a href="/jf/jfDetail.html?id=${p.id?if_exists}" class="weui-media-box weui-media-box_appmsg">
-            <div class="weui-media-box__hd">
-                <img class="weui-media-box__thumb" src="${p.prodPic?if_exists}" alt="">
-            </div>
-            <div class="weui-media-box__bd">
-                <h4 class="weui-media-box__title">${p.title?if_exists}</h4>
-                <p class="weui-media-box__desc"><span style="background-color: #f7f7f7">库存: ${p.stock?if_exists}</span></p>
-                <p class="weui-media-box__desc"><span style="background-color: #f7f7f7">需要积分: ${p.needScore?if_exists}</span></p>
-                <p class="weui-media-box__desc">${p.digest?if_exists}</p>
-            </div>
-            <a style="margin-left: 15px;margin-top: 0px;" href="javascript:exChangeProd('${p.id?if_exists}', '${p.needScore?if_exists}');"
-               class="weui-btn weui-btn_mini weui-btn_default">
-                积分兑换
-            </a>
+    <a href="/jf/jfDetail.html?id=${p.id?if_exists}" class="weui-media-box weui-media-box_appmsg">
+        <div class="weui-media-box__hd">
+            <img class="weui-media-box__thumb" src="${p.prodPic?if_exists}" alt="">
+        </div>
+        <div class="weui-media-box__bd">
+            <h4 class="weui-media-box__title">${p.title?if_exists}</h4>
+            <p class="weui-media-box__desc"><span style="background-color: #f7f7f7">库存: ${p.stock?if_exists}</span></p>
+            <p class="weui-media-box__desc"><span style="background-color: #f7f7f7">需要积分: ${p.needScore?if_exists}</span></p>
+            <p class="weui-media-box__desc">${p.digest?if_exists}</p>
+        </div>
+        <a style="margin-left: 15px;margin-top: 0px;" href="javascript:exChangeProd('${p.id?if_exists}', '${p.needScore?if_exists}');"
+           class="weui-btn weui-btn_mini weui-btn_default">
+            积分兑换
         </a>
-    </#list>
-    <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg"></a>
-    <script type="text/javascript">
-        function exChangeProd(prodId, score) {
-            if (prodId && prodId == '') {
-                weui.alert('兑换商品信息不正确');
-            }
-
-            weui.confirm('会消耗你' + score + "积分，确认兑换吗？", {
-                title: '消息提示',
-                buttons: [{
-                    label: '是',
-                    type: 'primary',
-                    onClick: function () {
-                        window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-                            "appid=" + appConfig.appId + "&redirect_uri=http%3a%2f%2f" + appConfig.testDomain + "%2fjf%2fjfExchange.html&" +
-                            "response_type=code&scope=snsapi_userinfo&state=123456@" + prodId + "#wechat_redirect";
-                    }
-                }, {
-                    label: '否',
-                    type: 'default',
-                    onClick: function () {
-                        return;
-                    }
-                }]
-            });
+    </a>
+</
+#list>
+<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg"></a>
+<script type="text/javascript">
+    function exChangeProd(prodId, score) {
+        if (prodId && prodId == '') {
+            weui.alert('兑换商品信息不正确');
         }
-    </script>
+        window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
+            "appid=" + appConfig.appId + "&redirect_uri=http%3a%2f%2f" + appConfig.testDomain + "%2fjf%2fjfExchange.html&" +
+            "response_type=code&scope=snsapi_userinfo&state=123456@" + prodId + "#wechat_redirect";
+    }
+</script>
 </div>
 </body>
 </html>
