@@ -12,10 +12,10 @@
 </head>
 <div class="page__bd">
 
-    <div style="margin-left: auto;margin-right: auto; text-align: center;margin-top: 1em">
+    <div style="margin-left: auto;margin-right: auto; text-align: center;margin-top: 2em">
         <#if result?exists>
         <a class="weui-btn weui-btn_mini weui-btn_primary" href="javascript:jumpToMyProduct();">
-            ${messageInfo?if_exists}，去看看我的兑换商品！
+            ${messageInfo?if_exists}<br/>去看看我的兑换商品！
         </a>
         <#else>
         <a class="weui-btn weui-btn_mini weui-btn_primary" href="javascript:jumpToJfHome();">
@@ -35,8 +35,7 @@
         var url = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
             "appid=" + appConfig.appId + "&redirect_uri=http%3a%2f%2f" + appConfig.domain + "%2fuser%2fmyProducts.html&" +
             "response_type=code&scope=snsapi_userinfo&state=123456#wechat_redirect";
-
-        window.location.href = appConfig.appDomain + '/jf/jfHome.html';
+        window.location.href = url;
         weui.loading('请稍等...');
     }
 
