@@ -24,7 +24,7 @@
 <script>
     function goToPay() {
         var url = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-            "appid=" + appConfig.testAppId + "&redirect_uri=http%3a%2f%2f" + appConfig.testDomain + "%2fsuport%2fwx%2fpay.html&" +
+            "appid=" + appConfig.appId + "&redirect_uri=http%3a%2f%2f" + appConfig.domain + "%2fsuport%2fwx%2fpay.html&" +
             "response_type=code&scope=snsapi_userinfo&state=123456#wechat_redirect";
         window.location.href = url;
     }

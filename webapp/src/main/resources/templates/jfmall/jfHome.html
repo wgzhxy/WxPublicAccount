@@ -33,8 +33,7 @@
             积分兑换
         </a>
     </a>
-</
-#list>
+</#list>
 <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg"></a>
 <script type="text/javascript">
     function exChangeProd(prodId, score) {
@@ -42,7 +41,7 @@
             weui.alert('兑换商品信息不正确');
         }
         window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-            "appid=" + appConfig.appId + "&redirect_uri=http%3a%2f%2f" + appConfig.testDomain + "%2fjf%2fjfExchange.html&" +
+            "appid=" + appConfig.appId + "&redirect_uri=http%3a%2f%2f" + appConfig.domain + "%2fjf%2fjfExchange.html&" +
             "response_type=code&scope=snsapi_userinfo&state=123456@" + prodId + "#wechat_redirect";
     }
 </script>

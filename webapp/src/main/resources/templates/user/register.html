@@ -90,7 +90,7 @@
                         $.ajax({
                             type: 'get',
                             dataType: 'json',
-                            url: appConfig.appTestDomain + '/user/saveUser.do',
+                            url: appConfig.appDomain + '/user/saveUser.do',
                             data: {
                                 state: getQueryString("state"),
                                 code: getQueryString("code"),
@@ -103,9 +103,9 @@
                                 console.info("success : " + JSON.stringify(data));
                                 if (data && data.success == false) {
                                     weui.topTips(data.msgInfo);
-                                    window.location.href = appConfig.appTestDomain + "/user/newUserAward.html";
+                                    window.location.href = appConfig.appDomain + "/user/newUserAward.html";
                                 } else {
-                                    window.location.href = appConfig.appTestDomain + "/user/newUserAward.html";
+                                    window.location.href = appConfig.appDomain + "/user/newUserAward.html";
                                 }
                             },
                             timeout: 15000,
@@ -134,7 +134,7 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: appConfig.appTestDomain + '/user/verifyCode.do',
+                url: appConfig.appDomain + '/user/verifyCode.do',
                 data: {
                     mobile: $("#mobile").val(),
                     code: getQueryString("code"),
