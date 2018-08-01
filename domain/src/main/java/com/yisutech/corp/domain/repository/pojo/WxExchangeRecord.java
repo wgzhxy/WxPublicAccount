@@ -13,6 +13,8 @@ public class WxExchangeRecord {
 
     private Integer score;
 
+    private String expressAddress;
+
     private Date gmtCreate;
 
     public Integer getId() {
@@ -53,6 +55,14 @@ public class WxExchangeRecord {
 
     public void setScore(Integer score) {
         this.score = score;
+    }
+
+    public String getExpressAddress() {
+        return expressAddress;
+    }
+
+    public void setExpressAddress(String expressAddress) {
+        this.expressAddress = expressAddress;
     }
 
     public Date getGmtCreate() {

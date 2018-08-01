@@ -22,7 +22,7 @@ public interface JfMallSrv {
 	 * @param code 用户凭证
 	 * @return
 	 */
-	Result<Boolean> exchange(String code, String state, Long prodId);
+	Result<Boolean> exchange(String code, String state, MyExchangeRecord myExchangeRecord);
 
 	/**
 	 * 查询积分商城兑换商品

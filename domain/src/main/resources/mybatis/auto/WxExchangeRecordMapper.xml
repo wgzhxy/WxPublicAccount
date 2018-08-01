@@ -7,6 +7,7 @@
     <result column="open_id" jdbcType="VARCHAR" property="openId" />
     <result column="product_id" jdbcType="INTEGER" property="productId" />
     <result column="score" jdbcType="INTEGER" property="score" />
+    <result column="express_address" jdbcType="VARCHAR" property="expressAddress" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, union_id, open_id, product_id, score, gmt_create
+    id, union_id, open_id, product_id, score, express_address, gmt_create
   </sql>
   <select id="selectByExample" parameterType="com.yisutech.corp.domain.repository.pojo.WxExchangeRecordExample" resultMap="BaseResultMap">
     select
@@ -105,9 +106,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into wx_exchange_record (union_id, open_id, product_id, 
-      score, gmt_create)
+      score, express_address, gmt_create
+      )
     values (#{unionId,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, #{productId,jdbcType=INTEGER}, 
-      #{score,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP})
+      #{score,jdbcType=INTEGER}, #{expressAddress,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.yisutech.corp.domain.repository.pojo.WxExchangeRecord">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -127,6 +130,9 @@
       <if test="score != null">
         score,
       </if>
+      <if test="expressAddress != null">
+        express_address,
+      </if>
       <if test="gmtCreate != null">
         gmt_create,
       </if>
@@ -143,6 +149,9 @@
       </if>
       <if test="score != null">
         #{score,jdbcType=INTEGER},
+      </if>
+      <if test="expressAddress != null">
+        #{expressAddress,jdbcType=VARCHAR},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
@@ -173,6 +182,9 @@
       <if test="record.score != null">
         score = #{record.score,jdbcType=INTEGER},
       </if>
+      <if test="record.expressAddress != null">
+        express_address = #{record.expressAddress,jdbcType=VARCHAR},
+      </if>
       <if test="record.gmtCreate != null">
         gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
       </if>
@@ -188,6 +200,7 @@
       open_id = #{record.openId,jdbcType=VARCHAR},
       product_id = #{record.productId,jdbcType=INTEGER},
       score = #{record.score,jdbcType=INTEGER},
+      express_address = #{record.expressAddress,jdbcType=VARCHAR},
       gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -208,6 +221,9 @@
       <if test="score != null">
         score = #{score,jdbcType=INTEGER},
       </if>
+      <if test="expressAddress != null">
+        express_address = #{expressAddress,jdbcType=VARCHAR},
+      </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
@@ -220,6 +236,7 @@
       open_id = #{openId,jdbcType=VARCHAR},
       product_id = #{productId,jdbcType=INTEGER},
       score = #{score,jdbcType=INTEGER},
+      express_address = #{expressAddress,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

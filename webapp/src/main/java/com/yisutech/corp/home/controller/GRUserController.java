@@ -5,6 +5,7 @@ import com.yisutech.corp.home.service.jfmall.JfMallSrv;
 import com.yisutech.corp.home.service.jfmall.vo.MyExchangeRecord;
 import com.yisutech.corp.home.service.user.UserSrv;
 import com.yisutech.corp.home.service.wxcore.WxUserSrv;
+import com.yisutech.corp.home.tools.DateUtil;
 import com.yisutech.corp.home.tools.result.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,115 +33,119 @@ import java.util.List;
 @RequestMapping("/user")
 public class GRUserController {
 
-    @Resource
-    private UserSrv userSrv;
-    @Resource
-    private WxUserSrv wxUserSrv;
-    @Resource
-    private JfMallSrv jfMallSrv;
+	@Resource
+	private UserSrv userSrv;
+	@Resource
+	private JfMallSrv jfMallSrv;
 
-    private static Logger LOG = LoggerFactory.getLogger(GRUserController.class);
+	private static Logger LOG = LoggerFactory.getLogger(GRUserController.class);
 
-    @RequestMapping("/register")
-    public ModelAndView register(Model model) {
+	@RequestMapping("/register")
+	public ModelAndView register(Model model) {
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/user/register");
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("/user/register");
 
-        return modelAndView;
-    }
+		return modelAndView;
+	}
 
-    @RequestMapping("/myProducts")
-    public ModelAndView myProducts(Model model,
-                                   @RequestParam(required = false) String token,
-                                   @RequestParam(required = false) String code,
-                                   @RequestParam(required = false) String state) {
+	@RequestMapping("/myProducts")
+	public ModelAndView myProducts(Model model,
+	                               @RequestParam(required = false) String token,
+	                               @RequestParam(required = false) String code,
+	                               @RequestParam(required = false) String state) {
 
-        List<MyExchangeRecord> myExchangeRecords = jfMallSrv.queryExchangeRecords(code, state);
+		List<MyExchangeRecord> myExchangeRecords = jfMallSrv.queryExchangeRecords(code, state);
 
-        myExchangeRecords.forEach(myExchangeRecord -> {
-            if (StringUtils.isBlank(myExchangeRecord.getPicUrl())) {
-                myExchangeRecord.setPicUrl("/img/works/6.jpg");
-            }
-        });
-        model.addAttribute("myRecords", myExchangeRecords);
+		myExchangeRecords.forEach(myExchangeRecord -> {
+			if (StringUtils.isBlank(myExchangeRecord.getPicUrl())) {
+				myExchangeRecord.setPicUrl("/img/works/6.jpg");
+			}
+			if (DateUtil.getHours(myExchangeRecord.getGmtCreate()) > 11) {
+				myExchangeRecord.setExpressTime(DateUtil.getNextDay(myExchangeRecord.getGmtCreate()));
+			} else {
+				myExchangeRecord.setExpressTime(myExchangeRecord.getGmtCreate());
+			}
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/user/myProduct");
+		});
+		model.addAttribute("myRecords", myExchangeRecords);
 
-        return modelAndView;
-    }
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("/user/myProduct");
 
-    @RequestMapping("/userInfo")
-    public ModelAndView userInfo(Model model,
-                                 @RequestParam(required = false) String code,
-                                 @RequestParam(required = false) String state) {
+		return modelAndView;
+	}
 
-        WxUser wxUser = userSrv.getUserInfo(code);
-        if (wxUser != null) {
-            model.addAttribute("wxUser", wxUser);
-        }
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/user/userInfo");
+	@RequestMapping("/userInfo")
+	public ModelAndView userInfo(Model model,
+	                             @RequestParam(required = false) String code,
+	                             @RequestParam(required = false) String state) {
 
-        return modelAndView;
-    }
+		WxUser wxUser = userSrv.getUserInfo(code);
+		if (wxUser != null) {
+			model.addAttribute("wxUser", wxUser);
+		}
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("/user/userInfo");
 
-    @RequestMapping("/saveUser")
-    @ResponseBody
-    public Result<Boolean> saveUser(Model model,
-                                    @RequestParam(required = false) String code,
-                                    @RequestParam(required = false) String state,
-                                    @RequestParam(required = false) String name,
-                                    @RequestParam(required = false) String mobile,
-                                    @RequestParam(required = false) String verifyCode,
-                                    @RequestParam(required = false) String address) {
-        if (StringUtils.isBlank(code)) {
-            return new Result<>(false, "code_is_null", "页面没有授权");
-        }
-        if (StringUtils.isBlank(verifyCode)) {
-            return new Result<>(false, "verifyCode_is_error", "请输入正确的手机验证码");
-        }
-        if (StringUtils.isBlank(mobile)) {
-            return new Result<>(false, "mobile_is_null", "手机号为空");
-        }
-        return userSrv.userRegister(name, mobile, address, verifyCode, code, state);
-    }
+		return modelAndView;
+	}
 
-    @RequestMapping("/verifyCode")
-    @ResponseBody
-    public Result<Boolean> verifyCode(Model model,
-                                      @RequestParam(required = false) String code,
-                                      @RequestParam(required = false) String mobile) {
-        if (StringUtils.isBlank(code)) {
-            return new Result<>(false, "code_is_null", "手户凭证不能为空");
-        }
-        if (StringUtils.isBlank(mobile)) {
-            return new Result<>(false, "mobile_is_null", "手机号不能为空");
-        }
+	@RequestMapping("/saveUser")
+	@ResponseBody
+	public Result<Boolean> saveUser(Model model,
+	                                @RequestParam(required = false) String code,
+	                                @RequestParam(required = false) String state,
+	                                @RequestParam(required = false) String name,
+	                                @RequestParam(required = false) String mobile,
+	                                @RequestParam(required = false) String verifyCode,
+	                                @RequestParam(required = false) String address) {
+		if (StringUtils.isBlank(code)) {
+			return new Result<>(false, "code_is_null", "页面没有授权");
+		}
+		if (StringUtils.isBlank(verifyCode)) {
+			return new Result<>(false, "verifyCode_is_error", "请输入正确的手机验证码");
+		}
+		if (StringUtils.isBlank(mobile)) {
+			return new Result<>(false, "mobile_is_null", "手机号为空");
+		}
+		return userSrv.userRegister(name, mobile, address, verifyCode, code, state);
+	}
 
-        try {
-            String randCode = String.valueOf(Math.random() * 10000).substring(0, 4);
-            Result<Boolean> status = userSrv.sendVerifyCode(mobile, randCode);
+	@RequestMapping("/verifyCode")
+	@ResponseBody
+	public Result<Boolean> verifyCode(Model model,
+	                                  @RequestParam(required = false) String code,
+	                                  @RequestParam(required = false) String mobile) {
+		if (StringUtils.isBlank(code)) {
+			return new Result<>(false, "code_is_null", "手户凭证不能为空");
+		}
+		if (StringUtils.isBlank(mobile)) {
+			return new Result<>(false, "mobile_is_null", "手机号不能为空");
+		}
 
-            if (status != null && status.isSuccess()) {
-                return new Result<>(true);
+		try {
+			String randCode = String.valueOf(Math.random() * 10000).substring(0, 4);
+			Result<Boolean> status = userSrv.sendVerifyCode(mobile, randCode);
 
-            } else {
-                return new Result<>(false, status.getMsgCode(), status.getMsgInfo());
-            }
-        } catch (Throwable e) {
-            LOG.error("verifyCode_error", e);
-            return new Result<>(false, "system_error", "系统错误，联调管理员");
-        }
-    }
+			if (status != null && status.isSuccess()) {
+				return new Result<>(true);
 
-    @RequestMapping("/newUserAward")
-    public ModelAndView newUserAward(Model model,
-                                     @RequestParam(required = false) String code,
-                                     @RequestParam(required = false) String state) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/user/newUserAward");
-        return modelAndView;
-    }
+			} else {
+				return new Result<>(false, status.getMsgCode(), status.getMsgInfo());
+			}
+		} catch (Throwable e) {
+			LOG.error("verifyCode_error", e);
+			return new Result<>(false, "system_error", "系统错误，联调管理员");
+		}
+	}
+
+	@RequestMapping("/newUserAward")
+	public ModelAndView newUserAward(Model model,
+	                                 @RequestParam(required = false) String code,
+	                                 @RequestParam(required = false) String state) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("/user/newUserAward");
+		return modelAndView;
+	}
 }

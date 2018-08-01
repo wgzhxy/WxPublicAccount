@@ -10,15 +10,16 @@
     <script type="text/javascript" src="/config.js"></script>
 </head>
 <body>
-<#if wxUser?exists>
+<div class="page__bd">
+    <#if wxUser?exists>
     <div class="weui-form-preview">
         <div class="weui-form-preview__hd">
             <label class="weui-form-preview__label">姓名</label>
-            <em class="weui-form-preview__value" style="font-size: medium">${wxUser.name?if_exists}</em>
+            <span class="weui-form-preview__value" style="font-size: medium">${wxUser.name?if_exists}</span>
         </div>
         <div class="weui-form-preview__hd">
             <label class="weui-form-preview__label">昵称</label>
-            <em class="weui-form-preview__value" style="font-size: medium">${wxUser.nick?if_exists}</em>
+            <span class="weui-form-preview__value" style="font-size: medium">${wxUser.nick?if_exists}</span>
         </div>
         <div class="weui-form-preview__hd">
             <label class="weui-form-preview__label">我的积分</label>
@@ -30,19 +31,23 @@
         </div>
         <div class="weui-form-preview__hd">
             <label class="weui-form-preview__label">邮寄地址</label>
-            <em class="weui-form-preview__value" style="font-size: medium">${wxUser.address?if_exists}</em>
+            <span class="weui-form-preview__value" style="font-size: medium">${wxUser.address?if_exists}</span>
         </div>
     </div>
     <#else>
-        <div class="weui-form-preview__ft">
-            <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:jumpToRegist();">您还没注册会员，快去注册吧</a>
-        </div>
-</#if>
+    <div style="margin-left: auto;margin-right: auto; text-align: center;margin-top: 1em">
+        <a class="weui-btn weui-btn_mini weui-btn_primary" href="javascript:jumpToRegist();">
+            您还没注册会员，点击我去注册吧
+        </a>
+    </div>
+    </#if>
+</div>
 <script>
     function jumpToRegist() {
-        window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appConfig.appId +
-            "&redirect_uri=http%3a%2f%2f" + appConfig.appDomain + "%2fuser%2fregister.html&response_type=code" +
+        var url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appConfig.appId +
+            "&redirect_uri=http%3a%2f%2f" + appConfig.domain + "%2fuser%2fregister.html&response_type=code" +
             "&scope=snsapi_userinfo&state=123456#wechat_redirect";
+        window.location.href = url;
     }
 </script>
 </body>

@@ -4,6 +4,7 @@ import com.yisutech.corp.domain.repository.pojo.WxExchangeRecord;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 版权：Copyright by www.yisutech.com
@@ -18,4 +19,5 @@ public class MyExchangeRecord extends WxExchangeRecord implements Serializable {
 	String title;
 	String picUrl;
 	String description;
+	Date expressTime;
 }

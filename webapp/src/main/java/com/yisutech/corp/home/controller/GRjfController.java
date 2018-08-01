@@ -3,6 +3,7 @@ package com.yisutech.corp.home.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.yisutech.corp.domain.repository.pojo.WxExchangeProduct;
 import com.yisutech.corp.home.service.jfmall.JfMallSrv;
+import com.yisutech.corp.home.service.jfmall.vo.MyExchangeRecord;
 import com.yisutech.corp.home.service.user.UserSrv;
 import com.yisutech.corp.home.tools.result.Result;
 import org.apache.commons.lang3.StringUtils;
@@ -61,7 +62,7 @@ public class GRjfController {
 	public ModelAndView jfExchange(@RequestParam String state, @RequestParam String code) {
 
 		Integer id = 0;
-		if (StringUtils.isBlank(state)) {
+		if (StringUtils.isNotBlank(state)) {
 			id = Integer.parseInt(state.split("@")[1]);
 		}
 
@@ -74,25 +75,37 @@ public class GRjfController {
 	}
 
 	@RequestMapping("/exchange")
-	@ResponseBody
-	public Result<Boolean> exchange(@RequestParam String code, @RequestParam String state, @RequestParam String prodId) {
+	public ModelAndView exchange(@RequestParam String code, @RequestParam String state) {
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("/jfmall/jfExchangeResult");
 
 		// 参数检查
 		if (StringUtils.isBlank(code)) {
-			return new Result<>(false, "code_expire", "用户凭证失效，请重试");
+			modelAndView.addObject("messageInfo", "用户凭证失效，请重试");
+			return modelAndView;
 		}
 		if (StringUtils.isBlank(state)) {
-			return new Result<>(false, "product_not_exists", "兑换商品不存在");
+			modelAndView.addObject("messageInfo", "兑换商品不存在");
+			return modelAndView;
 		}
 
 		// 积分况换商品
-		prodId = state.split("@")[1];
-		Result<Boolean> result = jfMallSrv.exchange(code, state, Long.parseLong(prodId));
+		String[] params = state.split("@");
+
+		MyExchangeRecord myExchangeRecord = new MyExchangeRecord();
+		myExchangeRecord.setProductId(Integer.valueOf(params[1]));
+		myExchangeRecord.setExpressAddress(params[2]);
+
+		Result<Boolean> result = jfMallSrv.exchange(code, state, myExchangeRecord);
 		if (result.isSuccess()) {
-			return new Result<>(true, "", "恭喜您，积分兑换商品成功！");
+			modelAndView.addObject("messageInfo", "恭喜您，积分兑换商品成功！");
+			modelAndView.addObject("result", "0");
+			return modelAndView;
 
 		} else {
-			return new Result<>(false, "", "抱歉，积分兑换商品失败");
+			modelAndView.addObject("messageInfo", result.getMsgInfo());
 		}
+		return modelAndView;
 	}
 }

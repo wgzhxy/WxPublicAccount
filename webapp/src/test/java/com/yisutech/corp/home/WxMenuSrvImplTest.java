@@ -22,7 +22,7 @@ public class WxMenuSrvImplTest {
     @Test
     public void createMenu() throws Exception {
 
-        String testDomain = "yisutech.s1.natapp.cc";
+        String testDomain = "localyisu.s1.natapp.cc";
         String onlineDomain = "www.yisutech.com";
         String domain = testDomain;
 

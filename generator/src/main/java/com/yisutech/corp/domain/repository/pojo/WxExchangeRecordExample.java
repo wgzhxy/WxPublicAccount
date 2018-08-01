@@ -425,6 +425,76 @@ public class WxExchangeRecordExample {
             return (Criteria) this;
         }
 
+        public Criteria andExpressAddressIsNull() {
+            addCriterion("express_address is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressAddressIsNotNull() {
+            addCriterion("express_address is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressAddressEqualTo(String value) {
+            addCriterion("express_address =", value, "expressAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressAddressNotEqualTo(String value) {
+            addCriterion("express_address <>", value, "expressAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressAddressGreaterThan(String value) {
+            addCriterion("express_address >", value, "expressAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressAddressGreaterThanOrEqualTo(String value) {
+            addCriterion("express_address >=", value, "expressAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressAddressLessThan(String value) {
+            addCriterion("express_address <", value, "expressAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressAddressLessThanOrEqualTo(String value) {
+            addCriterion("express_address <=", value, "expressAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressAddressLike(String value) {
+            addCriterion("express_address like", value, "expressAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressAddressNotLike(String value) {
+            addCriterion("express_address not like", value, "expressAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressAddressIn(List<String> values) {
+            addCriterion("express_address in", values, "expressAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressAddressNotIn(List<String> values) {
+            addCriterion("express_address not in", values, "expressAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressAddressBetween(String value1, String value2) {
+            addCriterion("express_address between", value1, value2, "expressAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpressAddressNotBetween(String value1, String value2) {
+            addCriterion("express_address not between", value1, value2, "expressAddress");
+            return (Criteria) this;
+        }
+
         public Criteria andGmtCreateIsNull() {
             addCriterion("gmt_create is null");
             return (Criteria) this;

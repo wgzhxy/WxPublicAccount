@@ -41,10 +41,10 @@ public class JfMallSrvImpl implements JfMallSrv {
 
 	@Transactional
 	@Override
-	public Result<Boolean> exchange(String code, String state, Long prodId) {
+	public Result<Boolean> exchange(String code, String state, MyExchangeRecord myExchangeRecord) {
 
 		// 1. 参数检查
-		if (StringUtils.isBlank(code) || prodId == null || prodId == 0) {
+		if (StringUtils.isBlank(code) || myExchangeRecord.getProductId() == null || myExchangeRecord.getProductId() == 0) {
 			return new Result<>(false, "params_is_error", "参数不正确");
 		}
 
@@ -65,7 +65,7 @@ public class JfMallSrvImpl implements JfMallSrv {
 		}
 
 		// 3. 查询兑换产品
-		WxExchangeProduct wxExchangeProduct = wxExchangeProductMapper.selectByPrimaryKey(prodId.intValue());
+		WxExchangeProduct wxExchangeProduct = wxExchangeProductMapper.selectByPrimaryKey(myExchangeRecord.getProductId().intValue());
 		if (wxExchangeProduct == null) {
 			return new Result<>(false, "product_stock_not_enough", "商品不存在");
 		}
@@ -91,7 +91,8 @@ public class JfMallSrvImpl implements JfMallSrv {
 				record.setGmtCreate(DateUtil.getNowTime());
 				record.setOpenId(wxUser.getOpenId());
 				record.setUnionId(wxUser.getUnionId());
-				record.setProductId(wxExchangeProduct.getId());
+				record.setProductId(myExchangeRecord.getProductId());
+				record.setExpressAddress(myExchangeRecord.getExpressAddress());
 				record.setScore(wxExchangeProduct.getNeedScore());
 				wxExchangeRecordMapper.insert(record);
 			} else {
@@ -133,6 +134,7 @@ public class JfMallSrvImpl implements JfMallSrv {
 
 		// 2. 查询兑换记录
 		WxExchangeRecordExample example = new WxExchangeRecordExample();
+		example.setOrderByClause(" gmt_create desc");
 		example.createCriteria().andOpenIdEqualTo(wxUserInfo.getOpenId());
 		List<WxExchangeRecord> exchangeRecords = wxExchangeRecordMapper.selectByExample(example);
 		if (exchangeRecords == null || exchangeRecords.size() == 0) {
