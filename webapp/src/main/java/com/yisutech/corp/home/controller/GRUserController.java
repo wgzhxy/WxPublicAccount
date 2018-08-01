@@ -1,10 +1,10 @@
 package com.yisutech.corp.home.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yisutech.corp.domain.repository.pojo.WxUser;
 import com.yisutech.corp.home.service.jfmall.JfMallSrv;
 import com.yisutech.corp.home.service.jfmall.vo.MyExchangeRecord;
 import com.yisutech.corp.home.service.user.UserSrv;
-import com.yisutech.corp.home.service.wxcore.WxUserSrv;
 import com.yisutech.corp.home.tools.DateUtil;
 import com.yisutech.corp.home.tools.result.Result;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,10 +40,14 @@ public class GRUserController {
 	private static Logger LOG = LoggerFactory.getLogger(GRUserController.class);
 
 	@RequestMapping("/register")
-	public ModelAndView register(Model model) {
+	public ModelAndView register(@RequestParam(required = false) String code,
+	                             @RequestParam(required = false) String state) {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("/user/register");
+
+		WxUser wxUser = userSrv.getUserInfo(code);
+		modelAndView.addObject("wxUser", wxUser);
 
 		return modelAndView;
 	}
@@ -92,24 +95,42 @@ public class GRUserController {
 	}
 
 	@RequestMapping("/saveUser")
-	@ResponseBody
-	public Result<Boolean> saveUser(Model model,
-	                                @RequestParam(required = false) String code,
-	                                @RequestParam(required = false) String state,
-	                                @RequestParam(required = false) String name,
-	                                @RequestParam(required = false) String mobile,
-	                                @RequestParam(required = false) String verifyCode,
-	                                @RequestParam(required = false) String address) {
+	public ModelAndView saveUser(@RequestParam(required = false) String code,
+	                             @RequestParam(required = false) String state) {
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("/user/registerResult");
+
+		String[] params = state.split("@");
+		JSONObject jsonParams = JSONObject.parseObject(params[1]);
+
+		String name = jsonParams.getString("name");
+		String mobile = jsonParams.getString("mobile");
+		String verifyCode = jsonParams.getString("verifyCode");
+		String address = jsonParams.getString("address");
+
 		if (StringUtils.isBlank(code)) {
-			return new Result<>(false, "code_is_null", "页面没有授权");
+			modelAndView.addObject("messageInfo", "页面没有授权");
+			return modelAndView;
 		}
 		if (StringUtils.isBlank(verifyCode)) {
-			return new Result<>(false, "verifyCode_is_error", "请输入正确的手机验证码");
+			modelAndView.addObject("messageInfo", "请输入正确的手机验证码");
+			return modelAndView;
 		}
 		if (StringUtils.isBlank(mobile)) {
-			return new Result<>(false, "mobile_is_null", "手机号为空");
+			modelAndView.addObject("messageInfo", "手机号为空");
+			return modelAndView;
 		}
-		return userSrv.userRegister(name, mobile, address, verifyCode, code, state);
+		Result<Boolean> result = userSrv.userRegister(name, mobile, address, verifyCode, code, params[0]);
+		if (result.getModel()) {
+			modelAndView.addObject("messageInfo", result.getMsgInfo());
+			modelAndView.addObject("result", "0");
+			return modelAndView;
+
+		} else {
+			modelAndView.addObject("messageInfo", result.getMsgInfo());
+			return modelAndView;
+		}
 	}
 
 	@RequestMapping("/verifyCode")

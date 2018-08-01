@@ -13,25 +13,25 @@ import com.yisutech.corp.home.tools.result.Result;
  **/
 public interface UserSrv {
 
-    /**
-     * 新用户注册
-     *
-     * @param code
-     * @param mobile
-     * @param state
-     */
-    Result<Boolean> userRegister(String name, String mobile, String address, String verifyCode, String code, String state);
+	/**
+	 * 新用户注册
+	 *
+	 * @param code
+	 * @param mobile
+	 * @param state
+	 */
+	Result<Boolean> userRegister(String name, String mobile, String address, String verifyCode, String code, String state);
 
-    /**
-     * @param code
-     * @return
-     */
-    WxUser getUserInfo(String code);
+	/**
+	 * @param code
+	 * @return
+	 */
+	WxUser getUserInfo(String code);
 
-    /**
-     * 发送验证码
-     *
-     * @param mobile
-     */
-    Result<Boolean> sendVerifyCode(String mobile, String code);
+	/**
+	 * 发送验证码
+	 *
+	 * @param mobile
+	 */
+	Result<Boolean> sendVerifyCode(String mobile, String code);
 }

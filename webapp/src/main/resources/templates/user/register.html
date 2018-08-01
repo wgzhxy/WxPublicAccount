@@ -17,7 +17,8 @@
         <div class="weui-cell">
             <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
             <div class="weui-cell__bd">
-                <input id="name" class="weui-input" type="text" pattern="[0-9]*" placeholder="请输入姓名"/>
+                <input id="name" class="weui-input" type="text" pattern="[0-9]*" value="<#if wxUser?exists>${wxUser.name}</#if>"
+                       placeholder="请输入姓名"/>
             </div>
         </div>
         <div class="weui-cell weui-cell_vcode">
@@ -25,7 +26,7 @@
                 <label class="weui-label">手机号<span style="color: red"> * </span> </label>
             </div>
             <div class="weui-cell__bd">
-                <input id="mobile" class="weui-input" type="tel" placeholder="请输入手机号">
+                <input id="mobile" class="weui-input" type="tel" value="<#if wxUser?exists>${wxUser.mobile}</#if>" placeholder="请输入手机号">
             </div>
             <div class="weui-cell__ft">
                 <a id="getVerifyCode" href="#" class="weui-vcode-btn">获取验证码</a>
@@ -43,10 +44,11 @@
         <div class="weui-cell">
             <div class="weui-cell__hd"><label class="weui-label">邮寄地址<span style="color: red"> * </span></label></div>
             <div class="weui-cell__bd">
-                <textarea style="vertical-align: middle" id="address" class="weui-textarea" placeholder="请输入详细地址" rows="2"></textarea>
+                <textarea style="vertical-align: middle" id="address" class="weui-textarea" placeholder="请输入详细地址" rows="2"><#if wxUser?exists>${wxUser.address}</#if></textarea>
                 <div class="weui-textarea-counter"><span>0</span>/100</div>
             </div>
         </div>
+        <input id="userId" type="hidden" value="<#if wxUser?exists>${wxUser.id}</#if>">
     </div>
 
     <label for="weuiAgree" class="weui-agree">
@@ -87,35 +89,17 @@
                     label: '是',
                     type: 'primary',
                     onClick: function () {
-                        $.ajax({
-                            type: 'get',
-                            dataType: 'json',
-                            url: appConfig.appDomain + '/user/saveUser.do',
-                            data: {
-                                state: getQueryString("state"),
-                                code: getQueryString("code"),
-                                name: $("#name").val(),
-                                mobile: $("#mobile").val(),
-                                verifyCode: $("#verifyCode").val(),
-                                address: $("#address").val()
-                            },
-                            success: function (data) {
-                                console.info("success : " + JSON.stringify(data));
-                                if (data && data.success == false) {
-                                    weui.topTips(data.msgInfo);
-                                    window.location.href = appConfig.appDomain + "/user/newUserAward.html";
-                                } else {
-                                    window.location.href = appConfig.appDomain + "/user/newUserAward.html";
-                                }
-                            },
-                            timeout: 15000,
-                            error: function (data) {
-                                console.info("error : " + data);
-                                if (data) {
-                                    weui.topTips(data.msgInfo);
-                                }
-                            }
-                        });
+                        var data = {
+                            name: $("#name").val(),
+                            mobile: $("#mobile").val(),
+                            verifyCode: $("#verifyCode").val(),
+                            address: $("#address").val()
+                        };
+                        var url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appConfig.appId +
+                            "&redirect_uri=http%3a%2f%2f" + appConfig.domain + "%2fuser%2fsaveUser.do&response_type=code" +
+                            "&scope=snsapi_userinfo&state=123456@" + encodeURI(JSON.stringify(data)) + "#wechat_redirect";
+                        window.location.href = url;
+                        weui.load("加载中...");
                     }
                 }, {
                     label: '否',

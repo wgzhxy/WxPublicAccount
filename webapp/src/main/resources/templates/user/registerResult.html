@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>注册结果</title>
+    <link rel="stylesheet" href="/js/jquery.min.js"/>
+    <!-- 引入 WeUI -->
+    <link rel="stylesheet" href="//res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css"/>
+    <script type="text/javascript" src="//res.wx.qq.com/open/libs/weuijs/1.1.3/weui.min.js"></script>
+    <script type="text/javascript" src="/config.js"></script>
+</head>
+<div class="page__bd">
+
+    <div style="margin-left: auto;margin-right: auto; text-align: center;margin-top: 2em">
+        <#if result?exists>
+        <a class="weui-btn weui-btn_mini weui-btn_primary" href="#">
+            ${messageInfo?if_exists}<br/>
+        </a>
+        <#else>
+        <a class="weui-btn weui-btn_mini weui-btn_primary" href="#">
+            ${messageInfo?if_exists}
+        </a>
+    </#if>
+</div>
+</div>
+<body style="background-color: white">
+<script>
+    function jumpToJfHome() {
+        window.location.href = appConfig.appDomain + '/jf/jfHome.html';
+        weui.loading('请稍等...');
+    }
+
+    function jumpToMyProduct() {
+        var url = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
+            "appid=" + appConfig.appId + "&redirect_uri=http%3a%2f%2f" + appConfig.domain + "%2fuser%2fmyProducts.html&" +
+            "response_type=code&scope=snsapi_userinfo&state=123456#wechat_redirect";
+        window.location.href = url;
+        weui.loading('请稍等...');
+    }
+
+</script>
+</body>
+</html>

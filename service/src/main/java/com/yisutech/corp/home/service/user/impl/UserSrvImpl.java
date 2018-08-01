@@ -34,172 +34,192 @@ import java.util.Map;
 @Service
 public class UserSrvImpl implements UserSrv {
 
-    @Resource
-    private Config config;
-    @Resource
-    private WxUserSrv wxUserSrv;
-    @Resource
-    private WxUserMapper wxUserMapper;
-    @Resource
-    private SendMessageSrv sendMessageSrv;
-    @Resource
-    private WxVefifyCodeMapper wxVefifyCodeMapper;
+	@Resource
+	private Config config;
+	@Resource
+	private WxUserSrv wxUserSrv;
+	@Resource
+	private WxUserMapper wxUserMapper;
+	@Resource
+	private SendMessageSrv sendMessageSrv;
+	@Resource
+	private WxVefifyCodeMapper wxVefifyCodeMapper;
 
-    @Override
-    public Result<Boolean> userRegister(String name, String mobile, String address, String verifyCode, String code, String state) {
+	@Override
+	public Result<Boolean> userRegister(String name, String mobile, String address, String verifyCode,
+	                                    String code, String state) {
+		// 手机号
+		if (!config.WxOpenState.equals(state)) {
+			return new Result<>(false, "params_error", "state is error");
+		}
 
-        // 手机号
-        if (!config.WxOpenState.equals(state)) {
-            return new Result<>(false, "params_error", "state is error");
-        }
+		// 验证码是否有效
+		Date currentDate = Calendar.getInstance().getTime();
 
-        // 验证码是否有效
-        Date currentDate = Calendar.getInstance().getTime();
+		WxVefifyCodeExample verifExample = new WxVefifyCodeExample();
+		verifExample.setOrderByClause(" id desc");
+		verifExample.createCriteria().andAppIdEqualTo(config.WxAppId)
+				.andMobleEqualTo(mobile)
+				.andValidTimeStampLessThanOrEqualTo(currentDate)
+				.andExpireTimeStampGreaterThanOrEqualTo(currentDate);
 
-        WxVefifyCodeExample verifExample = new WxVefifyCodeExample();
-        verifExample.setOrderByClause(" id desc");
-        verifExample.createCriteria().andAppIdEqualTo(config.WxAppId)
-                .andMobleEqualTo(mobile)
-                .andValidTimeStampLessThanOrEqualTo(currentDate)
-                .andExpireTimeStampGreaterThanOrEqualTo(currentDate);
+		List<WxVefifyCode> wxVefifyCodes = wxVefifyCodeMapper.selectByExample(verifExample);
+		if (wxVefifyCodes == null || wxVefifyCodes.size() == 0) {
+			return new Result<>(false, "mobile_code_error", "手机验证码错误");
+		}
 
-        List<WxVefifyCode> wxVefifyCodes = wxVefifyCodeMapper.selectByExample(verifExample);
-        if (wxVefifyCodes == null || wxVefifyCodes.size() == 0) {
-            return new Result<>(false, "mobile_code_error", "手机验证码错误");
-        }
+		if (!wxVefifyCodes.get(0).getVefifyCode().equals(verifyCode)) {
+			return new Result<>(false, "mobile_code_error", "手机验证码错误");
+		}
 
-        if (!wxVefifyCodes.get(0).getVefifyCode().equals(verifyCode)) {
-            return new Result<>(false, "mobile_code_error", "手机验证码错误");
-        }
+		// 获取accessToken, refreshToken
+		WxUserInfo wxUserInfo = wxUserSrv.getOauth2Token(code, state);
+		if (wxUserInfo == null || StringUtils.isBlank(wxUserInfo.getOpenId())) {
+			return new Result<>(false, "getOauth2Token", "凭证失效");
+		}
 
-        // 获取accessToken, refreshToken
-        WxUserInfo wxUserInfo = wxUserSrv.getOauth2Token(code, state);
-        if (wxUserInfo == null || StringUtils.isBlank(wxUserInfo.getOpenId())) {
-            return new Result<>(false, "getOauth2Token", "凭证失效");
-        }
+		// 获取微信用户信息
+		String lang = "zh_CN";
+		WxUserInfo userDetailInfo = wxUserSrv.getUserInfo(wxUserInfo.getAccessToken(), config.WxAppId, lang);
 
-        // 获取微信用户信息
-        String lang = "zh_CN";
-        WxUserInfo userDetailInfo = wxUserSrv.getUserInfo(wxUserInfo.getAccessToken(), config.WxAppId, lang);
+		// 手机号是否已经注册
+		WxUserExample example = new WxUserExample();
+		example.createCriteria().andOpenIdEqualTo(userDetailInfo.getOpenId());
+		List<WxUser> wxUsers = wxUserMapper.selectByExample(example);
 
-        // 手机号是否已经注册
-        WxUserExample example = new WxUserExample();
-        example.createCriteria().andOpenIdEqualTo(userDetailInfo.getOpenId());
-        List<WxUser> wxUsers = wxUserMapper.selectByExample(example);
+		Result result = new Result<>();
+		// 保存用户信息
+		WxUser wxUser;
+		if (wxUsers != null && wxUsers.size() > 0) { // 更新用户信息
+			wxUser = wxUsers.get(0);
+			wxUser.setAvartorUrl(userDetailInfo.getHeadImgUrl());
+			wxUser.setOpenId(userDetailInfo.getOpenId());
+			wxUser.setUnionId(userDetailInfo.getUnionId());
+			wxUser.setMobile(mobile);
+			wxUser.setAddress(address);
+			wxUser.setName(name);
+			wxUser.setNick(userDetailInfo.getNickname());
+			wxUser.setGmtModify(DateUtil.getNowTime());
 
-        // 保存用户信息
-        WxUser wxUser;
-        if (wxUsers != null && wxUsers.size() > 0) { // 更新用户信息
-            wxUser = wxUsers.get(0);
-            wxUser.setAvartorUrl(userDetailInfo.getHeadImgUrl());
-            wxUser.setOpenId(userDetailInfo.getOpenId());
-            wxUser.setUnionId(userDetailInfo.getUnionId());
-            wxUser.setMobile(mobile);
-            wxUser.setAddress(address);
-            wxUser.setName(name);
-            wxUser.setNick(userDetailInfo.getNickname());
-            wxUser.setGmtModify(DateUtil.getNowTime());
-            wxUserMapper.updateByPrimaryKey(wxUser);
+			int update = wxUserMapper.updateByPrimaryKey(wxUser);
 
-        } else { // 写入用户信息
-            wxUser = new WxUser();
-            wxUser.setUnionId(userDetailInfo.getUnionId());
-            wxUser.setOpenId(userDetailInfo.getOpenId());
-            wxUser.setMobile(mobile);
-            wxUser.setAvartorUrl(userDetailInfo.getHeadImgUrl());
-            wxUser.setApp(config.WxAppId);
-            wxUser.setSecurity(config.WxAppSecret);
-            wxUser.setNick(userDetailInfo.getNickname());
-            wxUser.setCity(userDetailInfo.getCity());
-            wxUser.setAddress(address);
-            wxUser.setName(name);
-            wxUser.setProvince(userDetailInfo.getProvince());
-            wxUser.setCountry(userDetailInfo.getCountry());
-            wxUser.setSex(userDetailInfo.getSex());
-            wxUser.setScore(0);
-            wxUser.setGmtModify(DateUtil.getNowTime());
-            wxUser.setGmtCreate(DateUtil.getNowTime());
-            wxUserMapper.insert(wxUser);
-        }
+			if (update > 0) {
+				result.setModel(true);
+				result.setMsgInfo("用户信息更新成功");
+				return result;
 
-        return new Result<>(true);
-    }
+			} else {
+				return new Result<>(false, "update_fail", "用户信息更新失败，请再重试");
+			}
 
-    @Override
-    public WxUser getUserInfo(String code) {
 
-        if (StringUtils.isBlank(code)) {
-            return null;
-        }
-        // 获取accessToken, refreshToken
-        WxUserInfo wxUserInfo = wxUserSrv.getOauth2Token(code, config.WxOpenState);
-        if (wxUserInfo == null || StringUtils.isBlank(wxUserInfo.getOpenId())) {
-            return null;
-        }
+		} else { // 写入用户信息
+			wxUser = new WxUser();
+			wxUser.setUnionId(userDetailInfo.getUnionId());
+			wxUser.setOpenId(userDetailInfo.getOpenId());
+			wxUser.setMobile(mobile);
+			wxUser.setAvartorUrl(userDetailInfo.getHeadImgUrl());
+			wxUser.setApp(config.WxAppId);
+			wxUser.setSecurity(config.WxAppSecret);
+			wxUser.setNick(userDetailInfo.getNickname());
+			wxUser.setCity(userDetailInfo.getCity());
+			wxUser.setAddress(address);
+			wxUser.setName(name);
+			wxUser.setProvince(userDetailInfo.getProvince());
+			wxUser.setCountry(userDetailInfo.getCountry());
+			wxUser.setSex(userDetailInfo.getSex());
+			wxUser.setScore(0);
+			wxUser.setGmtModify(DateUtil.getNowTime());
+			wxUser.setGmtCreate(DateUtil.getNowTime());
 
-        // 查询用户信息
-        WxUserExample example = new WxUserExample();
-        example.createCriteria().andOpenIdEqualTo(wxUserInfo.getOpenId());
-        List<WxUser> wxUsers = wxUserMapper.selectByExample(example);
+			int update = wxUserMapper.insert(wxUser);
 
-        if (wxUsers == null || wxUsers.size() == 0) {
-            return null;
-        }
+			if (update > 0) {
+				result.setModel(true);
+				result.setMsgInfo("用户注册成功");
+				return result;
 
-        // 对象转换
-        return wxUsers.get(0);
-    }
+			} else {
+				return new Result<>(false, "update_fail", "用户注册失败，请再重试");
+			}
+		}
+	}
 
-    @Override
-    public Result<Boolean> sendVerifyCode(String mobile, String code) {
+	@Override
+	public WxUser getUserInfo(String code) {
 
-        String outId = "";
-        String mobiles = mobile;
-        String corpTag = config.mobile_sign_name;
-        String templateCode = config.mobile_tmeplateCode;
+		if (StringUtils.isBlank(code)) {
+			return null;
+		}
+		// 获取accessToken, refreshToken
+		WxUserInfo wxUserInfo = wxUserSrv.getOauth2Token(code, config.WxOpenState);
+		if (wxUserInfo == null || StringUtils.isBlank(wxUserInfo.getOpenId())) {
+			return null;
+		}
 
-        Map<String, Object> params = Maps.newHashMap();
+		// 查询用户信息
+		WxUserExample example = new WxUserExample();
+		example.createCriteria().andOpenIdEqualTo(wxUserInfo.getOpenId());
+		List<WxUser> wxUsers = wxUserMapper.selectByExample(example);
 
-        // 验证码是否已经过期
-        Date currentDate = Calendar.getInstance().getTime();
+		if (wxUsers == null || wxUsers.size() == 0) {
+			return null;
+		}
 
-        WxVefifyCodeExample verifExample = new WxVefifyCodeExample();
-        verifExample.setOrderByClause(" id desc");
+		// 对象转换
+		return wxUsers.get(0);
+	}
 
-        verifExample.createCriteria().andAppIdEqualTo(config.WxAppId)
-                .andMobleEqualTo(mobile)
-                .andValidTimeStampLessThanOrEqualTo(currentDate)
-                .andExpireTimeStampGreaterThanOrEqualTo(currentDate);
-        List<WxVefifyCode> wxVefifyCodes = wxVefifyCodeMapper.selectByExample(verifExample);
+	@Override
+	public Result<Boolean> sendVerifyCode(String mobile, String code) {
 
-        if (wxVefifyCodes != null && wxVefifyCodes.size() > 0) {
-            code = wxVefifyCodes.get(0).getVefifyCode();
-        }
-        params.putIfAbsent("code", code);
+		String outId = "";
+		String mobiles = mobile;
+		String corpTag = config.mobile_sign_name;
+		String templateCode = config.mobile_tmeplateCode;
 
-        Result<Boolean> send = sendMessageSrv.sendSms(corpTag, mobiles, templateCode, params, outId);
-        if (send != null && send.isSuccess()) {
+		Map<String, Object> params = Maps.newHashMap();
 
-            WxVefifyCode wxVefifyCode = new WxVefifyCode();
-            wxVefifyCode.setAppId(config.WxAppId);
-            wxVefifyCode.setGmtCreate(DateUtil.getNowTime());
-            wxVefifyCode.setGmtModify(DateUtil.getNowTime());
-            wxVefifyCode.setMoble(mobile);
-            wxVefifyCode.setVefifyCode(code);
-            wxVefifyCode.setValidTimeStamp(Calendar.getInstance().getTime());
-            wxVefifyCode.setExpireTimeStamp(new Date(System.currentTimeMillis() + 300000));
+		// 验证码是否已经过期
+		Date currentDate = Calendar.getInstance().getTime();
 
-            int update = wxVefifyCodeMapper.insert(wxVefifyCode);
-            if(update > 0) {
-                return new Result<>(true);
+		WxVefifyCodeExample verifExample = new WxVefifyCodeExample();
+		verifExample.setOrderByClause(" id desc");
 
-            } else {
-                return new Result<>(false, "save_verify_code", "手机验证码保证失败");
-            }
+		verifExample.createCriteria().andAppIdEqualTo(config.WxAppId)
+				.andMobleEqualTo(mobile)
+				.andValidTimeStampLessThanOrEqualTo(currentDate)
+				.andExpireTimeStampGreaterThanOrEqualTo(currentDate);
+		List<WxVefifyCode> wxVefifyCodes = wxVefifyCodeMapper.selectByExample(verifExample);
 
-        } else {
-            return new Result<>(false, send.getMsgCode(), send.getMsgInfo());
-        }
+		if (wxVefifyCodes != null && wxVefifyCodes.size() > 0) {
+			code = wxVefifyCodes.get(0).getVefifyCode();
+		}
+		params.putIfAbsent("code", code);
 
-    }
+		Result<Boolean> send = sendMessageSrv.sendSms(corpTag, mobiles, templateCode, params, outId);
+		if (send != null && send.isSuccess()) {
+
+			WxVefifyCode wxVefifyCode = new WxVefifyCode();
+			wxVefifyCode.setAppId(config.WxAppId);
+			wxVefifyCode.setGmtCreate(DateUtil.getNowTime());
+			wxVefifyCode.setGmtModify(DateUtil.getNowTime());
+			wxVefifyCode.setMoble(mobile);
+			wxVefifyCode.setVefifyCode(code);
+			wxVefifyCode.setValidTimeStamp(Calendar.getInstance().getTime());
+			wxVefifyCode.setExpireTimeStamp(new Date(System.currentTimeMillis() + 300000));
+
+			int update = wxVefifyCodeMapper.insert(wxVefifyCode);
+			if (update > 0) {
+				return new Result<>(true);
+
+			} else {
+				return new Result<>(false, "save_verify_code", "手机验证码保证失败");
+			}
+
+		} else {
+			return new Result<>(false, send.getMsgCode(), send.getMsgInfo());
+		}
+
+	}
 }
