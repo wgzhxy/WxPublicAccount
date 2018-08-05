@@ -92,8 +92,12 @@ public class JfMallSrvImpl implements JfMallSrv {
 				record.setOpenId(wxUser.getOpenId());
 				record.setUnionId(wxUser.getUnionId());
 				record.setProductId(myExchangeRecord.getProductId());
+				record.setProductName(myExchangeRecord.getTitle());
 				record.setExpressAddress(myExchangeRecord.getExpressAddress());
 				record.setScore(wxExchangeProduct.getNeedScore());
+				record.setUserId(wxUser.getId());
+				record.setUserName(wxUser.getName());
+				record.setUserNick(wxUser.getNick());
 				wxExchangeRecordMapper.insert(record);
 			} else {
 				throw new RuntimeException("exchange fail");

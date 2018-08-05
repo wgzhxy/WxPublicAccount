@@ -9,7 +9,15 @@ public class WxExchangeRecord {
 
     private String openId;
 
+    private Integer userId;
+
+    private String userName;
+
+    private String userNick;
+
     private Integer productId;
+
+    private String productName;
 
     private Integer score;
 
@@ -41,12 +49,44 @@ public class WxExchangeRecord {
         this.openId = openId;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserNick() {
+        return userNick;
+    }
+
+    public void setUserNick(String userNick) {
+        this.userNick = userNick;
+    }
+
     public Integer getProductId() {
         return productId;
     }
 
     public void setProductId(Integer productId) {
         this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public Integer getScore() {
