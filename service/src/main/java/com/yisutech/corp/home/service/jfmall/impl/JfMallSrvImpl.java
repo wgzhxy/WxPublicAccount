@@ -91,8 +91,8 @@ public class JfMallSrvImpl implements JfMallSrv {
 				record.setGmtCreate(DateUtil.getNowTime());
 				record.setOpenId(wxUser.getOpenId());
 				record.setUnionId(wxUser.getUnionId());
-				record.setProductId(myExchangeRecord.getProductId());
-				record.setProductName(myExchangeRecord.getTitle());
+				record.setProductId(wxExchangeProduct.getId());
+				record.setProductName(wxExchangeProduct.getTitle());
 				record.setExpressAddress(myExchangeRecord.getExpressAddress());
 				record.setScore(wxExchangeProduct.getNeedScore());
 				record.setUserId(wxUser.getId());
