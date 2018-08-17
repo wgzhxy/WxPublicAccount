@@ -88,7 +88,7 @@ public class EventProcessController {
 		return "";
 	}
 
-	@RequestMapping("/hh/parseToken")
+	@RequestMapping("/huhu/parseToken")
 	public void huhuParseToken(HttpServletRequest req, HttpServletResponse resp,
 	                           @RequestParam(required = false) String signature,
 	                           @RequestParam(required = false) String timestamp,
