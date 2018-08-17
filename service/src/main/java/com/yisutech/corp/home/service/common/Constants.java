@@ -10,7 +10,17 @@ package com.yisutech.corp.home.service.common;
  **/
 public interface Constants {
 
-    enum OrderSts {
-        ready, payed, fail
-    }
+	String CHARSET_UTF_8 = "utf-8";
+
+	enum OrderSts {
+		ready, payed, fail
+	}
+
+	enum MsgType {
+		text, image, voice, video, music, news, location, link, event;
+	}
+
+	enum EventType {
+		subscribe, unsubscribe, SCAN, LOCATION, CLICK, VIEW;
+	}
 }
