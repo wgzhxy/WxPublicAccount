@@ -181,7 +181,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap requires jQuery'
 
     $el[val](data[state] || this.options[state])
 
-    // push to event loop to allow forms to submit
+    // push to wx_event loop to allow forms to submit
     setTimeout($.proxy(function () {
       if (state == 'loadingText') {
         this.isLoading = true
