@@ -1265,52 +1265,62 @@ public class WxUserExample {
             return (Criteria) this;
         }
 
-        public Criteria andUsherIdEqualTo(Integer value) {
+        public Criteria andUsherIdEqualTo(String value) {
             addCriterion("usher_id =", value, "usherId");
             return (Criteria) this;
         }
 
-        public Criteria andUsherIdNotEqualTo(Integer value) {
+        public Criteria andUsherIdNotEqualTo(String value) {
             addCriterion("usher_id <>", value, "usherId");
             return (Criteria) this;
         }
 
-        public Criteria andUsherIdGreaterThan(Integer value) {
+        public Criteria andUsherIdGreaterThan(String value) {
             addCriterion("usher_id >", value, "usherId");
             return (Criteria) this;
         }
 
-        public Criteria andUsherIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andUsherIdGreaterThanOrEqualTo(String value) {
             addCriterion("usher_id >=", value, "usherId");
             return (Criteria) this;
         }
 
-        public Criteria andUsherIdLessThan(Integer value) {
+        public Criteria andUsherIdLessThan(String value) {
             addCriterion("usher_id <", value, "usherId");
             return (Criteria) this;
         }
 
-        public Criteria andUsherIdLessThanOrEqualTo(Integer value) {
+        public Criteria andUsherIdLessThanOrEqualTo(String value) {
             addCriterion("usher_id <=", value, "usherId");
             return (Criteria) this;
         }
 
-        public Criteria andUsherIdIn(List<Integer> values) {
+        public Criteria andUsherIdLike(String value) {
+            addCriterion("usher_id like", value, "usherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsherIdNotLike(String value) {
+            addCriterion("usher_id not like", value, "usherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsherIdIn(List<String> values) {
             addCriterion("usher_id in", values, "usherId");
             return (Criteria) this;
         }
 
-        public Criteria andUsherIdNotIn(List<Integer> values) {
+        public Criteria andUsherIdNotIn(List<String> values) {
             addCriterion("usher_id not in", values, "usherId");
             return (Criteria) this;
         }
 
-        public Criteria andUsherIdBetween(Integer value1, Integer value2) {
+        public Criteria andUsherIdBetween(String value1, String value2) {
             addCriterion("usher_id between", value1, value2, "usherId");
             return (Criteria) this;
         }
 
-        public Criteria andUsherIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andUsherIdNotBetween(String value1, String value2) {
             addCriterion("usher_id not between", value1, value2, "usherId");
             return (Criteria) this;
         }
