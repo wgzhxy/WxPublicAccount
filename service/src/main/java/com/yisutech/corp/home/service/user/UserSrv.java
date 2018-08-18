@@ -20,7 +20,7 @@ public interface UserSrv {
 	 * @param mobile
 	 * @param state
 	 */
-	Result<Boolean> userRegister(String name, String mobile, String address, String verifyCode, String code, String state);
+	Result<Boolean> userRegister(String name, String mobile, String address, String verifyCode, String usherId, String code, String state);
 
 	/**
 	 * @param code

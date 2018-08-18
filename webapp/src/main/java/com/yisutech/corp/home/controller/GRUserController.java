@@ -108,6 +108,7 @@ public class GRUserController {
 		String mobile = jsonParams.getString("mobile");
 		String verifyCode = jsonParams.getString("verifyCode");
 		String address = jsonParams.getString("address");
+		String usherId = jsonParams.getString("usherId");
 
 		if (StringUtils.isBlank(code)) {
 			modelAndView.addObject("messageInfo", "页面没有授权");
@@ -121,7 +122,7 @@ public class GRUserController {
 			modelAndView.addObject("messageInfo", "手机号为空");
 			return modelAndView;
 		}
-		Result<Boolean> result = userSrv.userRegister(name, mobile, address, verifyCode, code, params[0]);
+		Result<Boolean> result = userSrv.userRegister(name, mobile, address, verifyCode, usherId, code, params[0]);
 		if (result.getModel()) {
 			modelAndView.addObject("messageInfo", result.getMsgInfo());
 			modelAndView.addObject("result", "0");

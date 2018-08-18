@@ -46,7 +46,7 @@ public class UserSrvImpl implements UserSrv {
 	private WxVefifyCodeMapper wxVefifyCodeMapper;
 
 	@Override
-	public Result<Boolean> userRegister(String name, String mobile, String address, String verifyCode,
+	public Result<Boolean> userRegister(String name, String mobile, String address, String verifyCode, String usherId,
 	                                    String code, String state) {
 		// 手机号
 		if (!config.WxOpenState.equals(state)) {
@@ -98,6 +98,7 @@ public class UserSrvImpl implements UserSrv {
 			wxUser.setMobile(mobile);
 			wxUser.setAddress(address);
 			wxUser.setName(name);
+			wxUser.setUsherId(usherId);
 			wxUser.setNick(userDetailInfo.getNickname());
 			wxUser.setGmtModify(DateUtil.getNowTime());
 

@@ -19,7 +19,7 @@
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="usher_id" jdbcType="INTEGER" property="usherId" />
+    <result column="usher_id" jdbcType="VARCHAR" property="usherId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -128,7 +128,7 @@
       #{city,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
       #{country,jdbcType=VARCHAR}, #{app,jdbcType=VARCHAR}, #{security,jdbcType=VARCHAR}, 
       #{score,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{gmtModify,jdbcType=TIMESTAMP}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{usherId,jdbcType=INTEGER})
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{usherId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yisutech.corp.domain.repository.pojo.WxUser">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -238,7 +238,7 @@
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
       <if test="usherId != null">
-        #{usherId,jdbcType=INTEGER},
+        #{usherId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -303,7 +303,7 @@
         gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.usherId != null">
-        usher_id = #{record.usherId,jdbcType=INTEGER},
+        usher_id = #{record.usherId,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -329,7 +329,7 @@
       mobile = #{record.mobile,jdbcType=VARCHAR},
       gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
       gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
-      usher_id = #{record.usherId,jdbcType=INTEGER}
+      usher_id = #{record.usherId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -386,7 +386,7 @@
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
       <if test="usherId != null">
-        usher_id = #{usherId,jdbcType=INTEGER},
+        usher_id = #{usherId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -409,7 +409,7 @@
       mobile = #{mobile,jdbcType=VARCHAR},
       gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      usher_id = #{usherId,jdbcType=INTEGER}
+      usher_id = #{usherId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
