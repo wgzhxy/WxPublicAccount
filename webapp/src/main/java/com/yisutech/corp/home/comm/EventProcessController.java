@@ -128,15 +128,7 @@ public class EventProcessController {
 					logger.error("parseToken_error", e);
 				}
 			}
-			/*
-			reply = "<xml><ToUserName><![CDATA[o4aIM1OAI_cPBcMXPFJe0_H5mdo0]]></ToUserName>\n" +
-					"<FromUserName><![CDATA[gh_9cfa7c2f764a]]></FromUserName>\n" +
-					"<CreateTime>1534418672</CreateTime>\n" +
-					"<MsgType><![CDATA[text]]></MsgType>\n" +
-					"<Content><![CDATA[｡◕‿◕｡]]></Content>\n" +
-					"<MsgId>6590278015093353430</MsgId>\n" +
-					"</xml>";
-			*/
+
 			resp.setCharacterEncoding(Constants.CHARSET_UTF_8);
 			resp.getOutputStream().write(reply.getBytes(Constants.CHARSET_UTF_8));
 			resp.flushBuffer();

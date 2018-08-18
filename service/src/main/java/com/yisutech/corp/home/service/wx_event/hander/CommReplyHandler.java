@@ -29,7 +29,6 @@ public class CommReplyHandler implements EventHandler {
 	public String process(Message message) {
 
 		switch (message.getMsgType()) {
-			case text:
 			case image:
 			case news:
 			case video:
@@ -56,10 +55,8 @@ public class CommReplyHandler implements EventHandler {
 
 	@Override
 	public List<String> getMappingEvent() {
-		return Lists.newArrayList(text.name(),
-				image.name(), news.name(),
-				video.name(), voice.name(),
-				music.name(), link.name(),
-				location.name());
+		return Lists.newArrayList(image.name(),
+				news.name(), video.name(), voice.name(),
+				music.name(), link.name(), location.name());
 	}
 }

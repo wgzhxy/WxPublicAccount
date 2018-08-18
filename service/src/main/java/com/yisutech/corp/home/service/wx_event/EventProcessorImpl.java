@@ -56,6 +56,8 @@ public class EventProcessorImpl implements MessageProcessor {
 		MsgType msgType = MsgType.valueOf(msgTypeName);
 		switch (msgType) {
 			case text:
+				replyContent = messageProcessorMap.get(msgType.name()).process(toMessage(xmlMap, msgTypeName));
+				break;
 			case image:
 			case voice:
 			case video:

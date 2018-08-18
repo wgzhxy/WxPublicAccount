@@ -122,8 +122,6 @@ public class HttpUtils {
     public static String postReq(String url, String body, ContentType contentType, Charset charset) {
         CloseableHttpResponse response = null;
         try {
-            String mineType = "text/plain";
-
             HttpPost httpPost = new HttpPost(url);
             httpPost.setEntity(new StringEntity(body, contentType));
 
