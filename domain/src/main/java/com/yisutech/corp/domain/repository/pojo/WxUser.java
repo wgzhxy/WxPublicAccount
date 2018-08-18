@@ -37,7 +37,7 @@ public class WxUser {
 
     private Date gmtCreate;
 
-    private String usherId;
+    private Integer usherId;
 
     public Integer getId() {
         return id;
@@ -175,11 +175,11 @@ public class WxUser {
         this.gmtCreate = gmtCreate;
     }
 
-    public String getUsherId() {
+    public Integer getUsherId() {
         return usherId;
     }
 
-    public void setUsherId(String usherId) {
+    public void setUsherId(Integer usherId) {
         this.usherId = usherId;
     }
 }

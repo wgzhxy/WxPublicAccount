@@ -42,6 +42,13 @@
             </div>
         </div>
         <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">推荐人</label></div>
+            <div class="weui-cell__bd">
+                <input id="usherId" class="weui-input" type="text" pattern="[0-9]*" value="<#if wxUser?exists>${wxUser.usherId}</#if>"
+                       placeholder="请输入推荐人"/>
+            </div>
+        </div>
+        <div class="weui-cell">
             <div class="weui-cell__hd"><label class="weui-label">邮寄地址<span style="color: red"> * </span></label></div>
             <div class="weui-cell__bd">
                 <textarea style="vertical-align: middle" id="address" class="weui-textarea" placeholder="请输入详细地址" rows="2"><#if wxUser?exists>${wxUser.address}</#if></textarea>
@@ -93,7 +100,8 @@
                             name: $("#name").val(),
                             mobile: $("#mobile").val(),
                             verifyCode: $("#verifyCode").val(),
-                            address: $("#address").val()
+                            address: $("#address").val(),
+                            usherId: $("#usherId").val()
                         };
                         var url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appConfig.appId +
                             "&redirect_uri=http%3a%2f%2f" + appConfig.domain + "%2fuser%2fsaveUser.do&response_type=code" +
