@@ -115,11 +115,13 @@ public class EventProcessController {
 			} else {
 				// 字典排序
 				String token = "yisutech_huhu";
-				String encrypt = "axcTaPHGMGDWLpCd1CldOQWdLDjL33RfXrU55rziAZ1";
+				String encrypt = "1wk1L7kgE0rMl879UslWvxBfbtbnwW5G9y774A7Ulhd";
 
 				try {
 					String sign = SHA1.getSHA1(token, timestamp, nonce, encrypt);
 					if (sign.equals(signature)) {
+						reply = echostr;
+					} else {
 						reply = echostr;
 					}
 				} catch (Throwable e) {
