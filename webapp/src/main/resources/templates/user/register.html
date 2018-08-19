@@ -17,7 +17,7 @@
         <div class="weui-cell">
             <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
             <div class="weui-cell__bd">
-                <input id="name" class="weui-input" type="text" pattern="[0-9]*" value="<#if wxUser?exists>${wxUser.name}</#if>"
+                <input id="name" class="weui-input" type="text" value="<#if wxUser?exists>${wxUser.name}</#if>"
                        placeholder="请输入姓名"/>
             </div>
         </div>
@@ -44,9 +44,7 @@
         <div class="weui-cell">
             <div class="weui-cell__hd"><label class="weui-label">推荐人</label></div>
             <div class="weui-cell__bd">
-                <input id="usherId" class="weui-input" type="text" pattern="[0-9]*"
-                       value="<#if wxUser?exists>${wxUser.usherId?if_exists}</#if>"
-                       placeholder="请输入推荐人"/>
+                <input id="usherId" class="weui-input" type="text" value="<#if wxUser?exists>${wxUser.usherId?if_exists}</#if>" placeholder="请输入推荐人"/>
             </div>
         </div>
         <div class="weui-cell">
