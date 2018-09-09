@@ -6,8 +6,6 @@
 
 ## 部署
 
-远程主机: 116.62.101.237  root/wgzhxy119@
-
 目录: /root/app/publicAccount
 
 - 下载远程目录文件: 
