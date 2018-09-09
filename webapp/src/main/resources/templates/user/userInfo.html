@@ -12,38 +12,51 @@
 <body>
 <div class="page__bd">
     <#if wxUser?exists>
-    <div class="weui-form-preview">
-        <div class="weui-form-preview__hd">
-            <label class="weui-form-preview__label">姓名</label>
-            <span class="weui-form-preview__value" style="font-size: medium">${wxUser.name?if_exists}</span>
+        <div class="weui-cells__title">我的信息</div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="name" class="weui-label">姓名</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" readonly id="name" value="${wxUser.name?if_exists}">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="nick" class="weui-label">昵称</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" readonly id="nick" value="${wxUser.nick?if_exists}">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="score" class="weui-label">我的积分</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" readonly id="score" value="${wxUser.score?if_exists}" placeholder="">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="telephonne" class="weui-label">手机号</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="tel" readonly id="telephonne" value="${wxUser.mobile?if_exists}" placeholder="">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="usherId" class="weui-label">推荐人</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" readonly id="usherId" value="${wxUser.usherId?if_exists}" placeholder="">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="address" class="weui-label">邮寄地址</label></div>
+                <div class="weui-cell__bd">
+                    <textarea rows="3" cols="25" readonly id="address" placeholder="">${wxUser.address?if_exists}</textarea>
+                </div>
+            </div>
         </div>
-        <div class="weui-form-preview__hd">
-            <label class="weui-form-preview__label">昵称</label>
-            <span class="weui-form-preview__value" style="font-size: medium">${wxUser.nick?if_exists}</span>
-        </div>
-        <div class="weui-form-preview__hd">
-            <label class="weui-form-preview__label">我的积分</label>
-            <em class="weui-form-preview__value" style="font-size: medium">${wxUser.score?if_exists}</em>
-        </div>
-        <div class="weui-form-preview__hd">
-            <label class="weui-form-preview__label">手机号</label>
-            <em class="weui-form-preview__value" style="font-size: medium">${wxUser.mobile?if_exists}</em>
-        </div>
-        <div class="weui-form-preview__hd">
-            <label class="weui-form-preview__label">推荐人</label>
-            <em class="weui-form-preview__value" style="font-size: medium">${wxUser.usherId?if_exists}</em>
-        </div>
-        <div class="weui-form-preview__hd">
-            <label class="weui-form-preview__label">邮寄地址</label>
-            <span class="weui-form-preview__value" style="font-size: medium">${wxUser.address?if_exists}</span>
-        </div>
-    </div>
     <#else>
-    <div style="margin-left: auto;margin-right: auto; text-align: center;margin-top: 1em">
-        <a class="weui-btn weui-btn_mini weui-btn_primary" href="javascript:jumpToRegist();">
-            您还没注册会员，点击我去注册吧
-        </a>
-    </div>
+        <div style="margin-left: auto;margin-right: auto; text-align: center;margin-top: 1em">
+            <a class="weui-btn weui-btn_mini weui-btn_primary" href="javascript:jumpToRegist();">
+                您还没注册会员，点击我去注册吧
+            </a>
+        </div>
     </#if>
 </div>
 <script>

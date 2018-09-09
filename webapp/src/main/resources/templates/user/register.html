@@ -131,10 +131,10 @@
                     code: getQueryString("code"),
                 },
                 success: function (data) {
-                    if (data && data.success == false) {
-                        weui.topTips(data.msgInfo);
-                    } else {
+                    if (data && data.success) {
                         weui.topTips('发送成功', 1000);
+                    } else {
+                        weui.topTips(data.msgInfo);
                     }
                 },
                 timeout: 15000,
