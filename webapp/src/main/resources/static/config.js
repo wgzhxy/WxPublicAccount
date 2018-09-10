@@ -8,11 +8,11 @@ var appConfig = {
     testAppId:'wxc4d8005e75ad417f'
     */
     // 测试环境
-    /**
+    /*
      appDomain: 'http://localyisu.s1.natapp.cc',
      domain: 'localyisu.s1.natapp.cc',
      appId: 'wxc4d8005e75ad417f',
-     **/
+   */
     // 正式环境
     appDomain: 'http://www.yisutech.com',
     domain: 'www.yisutech.com',
