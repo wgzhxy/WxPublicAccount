@@ -196,9 +196,10 @@ public class UserSrvImpl implements UserSrv {
 		if (wxVefifyCodes != null && wxVefifyCodes.size() > 0) {
 			code = wxVefifyCodes.get(0).getVefifyCode();
 		}
-		params.putIfAbsent("code", code);
 
+		params.putIfAbsent("code", code);
 		Result<Boolean> send = sendMessageSrv.sendSms(corpTag, mobiles, templateCode, params, outId);
+
 		if (send != null && send.isSuccess()) {
 
 			WxVefifyCode wxVefifyCode = new WxVefifyCode();
@@ -214,13 +215,8 @@ public class UserSrvImpl implements UserSrv {
 			if (update > 0) {
 				return new Result<>(true);
 
-			} else {
-				return new Result<>(false, "save_verify_code", "手机验证码保证失败");
 			}
-
-		} else {
-			return new Result<>(false, send.getMsgCode(), send.getMsgInfo());
 		}
-
+		return new Result<>(false, send.getMsgCode(), "手机验证码保证失败");
 	}
 }
