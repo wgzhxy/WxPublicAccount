@@ -126,6 +126,7 @@ public class UserSrvImpl implements UserSrv {
 			wxUser.setCity(userDetailInfo.getCity());
 			wxUser.setAddress(address);
 			wxUser.setName(name);
+			wxUser.setUsherId(usherId);
 			wxUser.setProvince(userDetailInfo.getProvince());
 			wxUser.setCountry(userDetailInfo.getCountry());
 			wxUser.setSex(userDetailInfo.getSex());
