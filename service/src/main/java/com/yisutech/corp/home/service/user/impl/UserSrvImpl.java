@@ -217,6 +217,10 @@ public class UserSrvImpl implements UserSrv {
 
 			}
 		}
-		return new Result<>(false, send.getMsgCode(), "手机验证码保证失败");
+		String msgInfo = "";
+		if(StringUtils.isNotBlank(send.getMsgInfo())) {
+			msgInfo = send.getMsgInfo();
+		}
+		return new Result<>(false, send.getMsgCode(), msgInfo);
 	}
 }
