@@ -29,7 +29,7 @@
         <module>service</module>
         <module>webapp</module>
         <module>tools</module>
-        <module>thirdparty</module>
+        <module>third-party</module>
     </modules>
 
     <dependencies>
