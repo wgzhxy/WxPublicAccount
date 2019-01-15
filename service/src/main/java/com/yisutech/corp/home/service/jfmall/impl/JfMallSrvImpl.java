@@ -51,7 +51,7 @@ public class JfMallSrvImpl implements JfMallSrv {
 		// 2. 查用户信息
 		WxUserInfo wxUserInfo = wxUserSrv.getOauth2Token(code, state);
 		if (wxUserInfo == null || StringUtils.isBlank(wxUserInfo.getOpenId())) {
-			return new Result<>(false, "user_info_error", "找不到用户信息");
+			return new Result<>(false, "user_info_error", "您还没有注册会员");
 		}
 		WxUserExample example = new WxUserExample();
 		example.createCriteria().andOpenIdEqualTo(wxUserInfo.getOpenId());

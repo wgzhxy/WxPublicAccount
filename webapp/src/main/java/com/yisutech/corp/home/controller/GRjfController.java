@@ -7,6 +7,8 @@ import com.yisutech.corp.home.service.jfmall.vo.MyExchangeRecord;
 import com.yisutech.corp.home.service.user.UserSrv;
 import com.yisutech.corp.home.tools.result.Result;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,83 +31,91 @@ import java.util.List;
 @RequestMapping("/jf")
 public class GRjfController {
 
-	@Resource
-	private JfMallSrv jfMallSrv;
-	@Resource
-	private UserSrv userSrv;
+    @Resource
+    private JfMallSrv jfMallSrv;
+    @Resource
+    private UserSrv userSrv;
 
-	@RequestMapping("/jfHome")
-	public ModelAndView jfHome(Model model) {
+    private static Logger LOG = LoggerFactory.getLogger(GRjfController.class);
 
-		List<WxExchangeProduct> products = jfMallSrv.queryExchangeProducts();
-		model.addAttribute("productList", products);
+    @RequestMapping("/jfHome")
+    public ModelAndView jfHome(Model model) {
 
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("/jfmall/jfHome");
+        List<WxExchangeProduct> products = jfMallSrv.queryExchangeProducts();
+        model.addAttribute("productList", products);
 
-		return modelAndView;
-	}
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/jfmall/jfHome");
 
-	@RequestMapping("/jfDetail")
-	public ModelAndView jfDetail(Model model, @RequestParam Integer id) {
+        return modelAndView;
+    }
 
-		WxExchangeProduct product = jfMallSrv.getExchangeProduct(id);
-		model.addAttribute("product", product);
+    @RequestMapping("/jfDetail")
+    public ModelAndView jfDetail(Model model, @RequestParam Integer id) {
 
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("/jfmall/jfProductDetail");
+        WxExchangeProduct product = jfMallSrv.getExchangeProduct(id);
+        model.addAttribute("product", product);
 
-		return modelAndView;
-	}
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/jfmall/jfProductDetail");
 
-	@RequestMapping("/jfExchange")
-	public ModelAndView jfExchange(@RequestParam(required = false) String state, @RequestParam(required = false) String code) {
+        return modelAndView;
+    }
 
-		Integer id = 0;
-		if (StringUtils.isNotBlank(state)) {
-			id = Integer.parseInt(state.split("@")[1]);
-		}
+    @RequestMapping("/jfExchange")
+    public ModelAndView jfExchange(@RequestParam(required = false) String state, @RequestParam(required = false) String code) {
 
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("p", jfMallSrv.getExchangeProduct(id));
-		modelAndView.addObject("user", userSrv.getUserInfo(code));
+        ModelAndView modelAndView = new ModelAndView();
+        try {
+            Integer id = 0;
+            if (StringUtils.isNotBlank(state)) {
+                id = Integer.parseInt(state.split("@")[1]);
+            }
 
-		modelAndView.setViewName("/jfmall/jfExchange");
-		return modelAndView;
-	}
+            modelAndView.addObject("p", jfMallSrv.getExchangeProduct(id));
+            modelAndView.addObject("user", userSrv.getUserInfo(code));
+            modelAndView.setViewName("/jfmall/jfExchange");
 
-	@RequestMapping("/exchange")
-	public ModelAndView exchange(@RequestParam(required = false) String code, @RequestParam(required = false) String state) {
+        } catch (Throwable e) {
+            LOG.error("exchange_error|{}|{}", code, state, e);
+        }
+        return modelAndView;
+    }
 
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("/jfmall/jfExchangeResult");
+    @RequestMapping("/exchange")
+    public ModelAndView exchange(@RequestParam(required = false) String code, @RequestParam(required = false) String state) {
 
-		// 参数检查
-		if (StringUtils.isBlank(code)) {
-			modelAndView.addObject("messageInfo", "用户凭证失效，请重试");
-			return modelAndView;
-		}
-		if (StringUtils.isBlank(state)) {
-			modelAndView.addObject("messageInfo", "兑换商品不存在");
-			return modelAndView;
-		}
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/jfmall/jfExchangeResult");
 
-		// 积分况换商品
-		String[] params = state.split("@");
+        // 参数检查
+        if (StringUtils.isBlank(code)) {
+            modelAndView.addObject("messageInfo", "用户凭证失效，请重试");
+            return modelAndView;
+        }
 
-		MyExchangeRecord myExchangeRecord = new MyExchangeRecord();
-		myExchangeRecord.setProductId(Integer.valueOf(params[1]));
-		myExchangeRecord.setExpressAddress(params[2]);
+        if (StringUtils.isBlank(state)) {
+            modelAndView.addObject("messageInfo", "兑换商品不存在");
+            return modelAndView;
+        }
 
-		Result<Boolean> result = jfMallSrv.exchange(code, state, myExchangeRecord);
-		if (result.isSuccess()) {
-			modelAndView.addObject("messageInfo", "恭喜您，积分兑换商品成功！");
-			modelAndView.addObject("result", "0");
-			return modelAndView;
+        try {
+            // 积分况换商品
+            String[] params = state.split("@");
+            MyExchangeRecord myExchangeRecord = new MyExchangeRecord();
+            myExchangeRecord.setProductId(Integer.valueOf(params[1]));
+            myExchangeRecord.setExpressAddress(params[2]);
 
-		} else {
-			modelAndView.addObject("messageInfo", result.getMsgInfo());
-		}
-		return modelAndView;
-	}
+            Result<Boolean> result = jfMallSrv.exchange(code, state, myExchangeRecord);
+            if (result.isSuccess()) {
+                modelAndView.addObject("messageInfo", "恭喜您，积分兑换商品成功！");
+                modelAndView.addObject("result", "0");
+            } else {
+                modelAndView.addObject("messageInfo", result.getMsgInfo());
+            }
+        } catch (Throwable e) {
+            LOG.error("exchange_error|{}|{}", code, state, e);
+        }
+        return modelAndView;
+    }
 }
