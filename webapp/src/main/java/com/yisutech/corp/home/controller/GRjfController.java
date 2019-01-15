@@ -59,7 +59,7 @@ public class GRjfController {
 	}
 
 	@RequestMapping("/jfExchange")
-	public ModelAndView jfExchange(@RequestParam String state, @RequestParam String code) {
+	public ModelAndView jfExchange(@RequestParam(required = false) String state, @RequestParam(required = false) String code) {
 
 		Integer id = 0;
 		if (StringUtils.isNotBlank(state)) {
@@ -75,7 +75,7 @@ public class GRjfController {
 	}
 
 	@RequestMapping("/exchange")
-	public ModelAndView exchange(@RequestParam String code, @RequestParam String state) {
+	public ModelAndView exchange(@RequestParam(required = false) String code, @RequestParam(required = false) String state) {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("/jfmall/jfExchangeResult");

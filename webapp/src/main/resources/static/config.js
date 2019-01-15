@@ -14,7 +14,7 @@ var appConfig = {
      appId: 'wxc4d8005e75ad417f',
    */
     // 正式环境
-    appDomain: 'http://www.yisutech.com',
-    domain: 'www.yisutech.com',
-    appId: 'wxc91633dd26821ab6',
+    appDomain: 'http://yisutech.s1.natapp.cc',
+    domain: 'yisutech.s1.natapp.cc',
+    appId: 'wxc4d8005e75ad417f',
 };
